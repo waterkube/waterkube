@@ -15,6 +15,10 @@ func main() {
 				Usage: "Artifact commands",
 				Commands: []*cli.Command{
 					{
+						Name:  "combine",
+						Usage: "Combine the artifacts",
+					},
+					{
 						Name:  "sell",
 						Usage: "Sell an artifact",
 					},
