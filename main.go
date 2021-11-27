@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/petaki/support-go/cli"
 	"github.com/petaki/waterkube/internal/cmd"
 )
@@ -14,6 +15,10 @@ func main() {
 				Name:  "artifact",
 				Usage: "Artifact commands",
 				Commands: []*cli.Command{
+					{
+						Name:  "combine",
+						Usage: "Combine the artifacts",
+					},
 					{
 						Name:  "sell",
 						Usage: "Sell an artifact",
