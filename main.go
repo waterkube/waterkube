@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/petaki/support-go/cli"
 	"github.com/petaki/waterkube/internal/cmd"
 )
