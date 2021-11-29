@@ -1,0 +1,34 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "yarn run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "production": "mix --production",
+        "prod": "yarn run production",
+        "lint": "yarn eslint --ext .js,.vue ./resources/js"
+    },
+    "devDependencies": {
+        "@babel/eslint-parser": "^7.15",
+        "@heroicons/vue": "^1.0",
+        "@inertiajs/inertia": "^0.10",
+        "@inertiajs/inertia-vue3": "^0.5",
+        "@inertiajs/progress": "^0.2",
+        "@vue/compiler-sfc": "^3.1",
+        "apexcharts": "^3.28",
+        "autoprefixer": "^10.3",
+        "eslint": "^7.7",
+        "eslint-config-airbnb-base": "^14.2",
+        "eslint-plugin-import": "^2.22",
+        "eslint-plugin-vue": "^7.14",
+        "laravel-mix": "^6.0",
+        "lodash": "^4.17",
+        "postcss": "^8.3",
+        "resolve-url-loader": "^4.0",
+        "tailwindcss": "^2.2",
+        "vue": "^3.0",
+        "vue-loader": "^16.4"
+    }
+}
