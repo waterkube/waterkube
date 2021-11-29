@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/petaki/support-go/cli"
+	"github.com/petaki/waterkube/internal/web"
 )
 
 // WebServe command.
@@ -23,7 +23,7 @@ func WebServe(group *cli.Group, command *cli.Command, arguments []string) int {
 	redisPool := newRedisPool(*redisURL)
 	defer redisPool.Close()
 
-	fmt.Println(*debug, *addr, *url, *redisKeyPrefix)
+	web.Serve(*debug, *addr, *url, *redisKeyPrefix, redisPool)
 
 	return cli.Success
 }
