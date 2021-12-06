@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/justinas/alice"
-	"github.com/petaki/waterkube/static"
+	"github.com/waterkube/waterkube/static"
 )
 
 func (a *app) routes() http.Handler {

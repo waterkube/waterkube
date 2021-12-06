@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/petaki/support-go/cli"
-	"github.com/petaki/waterkube/internal/web"
+	"github.com/waterkube/waterkube/internal/web"
 )
 
 // WebServe command.
