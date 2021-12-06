@@ -12,8 +12,8 @@ import (
 	"github.com/petaki/inertia-go"
 	"github.com/petaki/support-go/cli"
 	"github.com/petaki/support-go/mix"
-	"github.com/petaki/waterkube/resources/views"
-	"github.com/petaki/waterkube/static"
+	"github.com/waterkube/waterkube/resources/views"
+	"github.com/waterkube/waterkube/static"
 )
 
 // Serve function.
