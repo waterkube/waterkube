@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const glob = require('glob');
 
 /*
  |--------------------------------------------------------------------------
@@ -10,6 +11,10 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+
+glob.sync('resources/images/**/!(favicon.ico)').map(
+    file => mix.copy(file, 'static/images')
+);
 
 mix.options({ processCssUrls: false })
     .js('resources/js/app.js', 'static/js')

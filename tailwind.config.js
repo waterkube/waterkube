@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
     mode: 'jit',
@@ -13,7 +14,9 @@ module.exports = {
             sans: ['Sarabun', ...defaultTheme.fontFamily.sans]
         },
         extend: {
-            colors: {}
+            colors: {
+                blueGray: colors.blueGray
+            }
         }
     },
     variants: {
