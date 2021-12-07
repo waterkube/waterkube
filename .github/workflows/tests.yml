@@ -13,7 +13,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-            node-version: 14.x
+          node-version: 14.x
 
       - name: Install Yarn
         run: npm install -g yarn
@@ -25,10 +25,10 @@ jobs:
       - uses: actions/cache@v2
         id: yarn-cache
         with:
-            path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-            restore-keys: |
-                ${{ runner.os }}-yarn-
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Install UI dependencies
         run: yarn install
