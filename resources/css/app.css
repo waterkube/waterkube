@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        background-image: url('../images/bg.png');
+        @apply bg-blueGray-900 bg-top bg-no-repeat
+    }
+}

@@ -1,4 +1,11 @@
 <template>
-    <inertia-head title="Home" />
-    <h1>{{ $page.props.title }}</h1>
+    <inertia-head title="Deep Sea" />
 </template>
+
+<script>
+import Layout from '../../common/Layout.vue';
+
+export default {
+    layout: Layout
+};
+</script>
