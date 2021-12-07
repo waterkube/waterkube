@@ -16,7 +16,7 @@ module.exports = {
         extend: {
             colors: {
                 blueGray: colors.blueGray,
-                lightBlue: colors.lightBlue
+                sky: colors.sky
             }
         }
     },
