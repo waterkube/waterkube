@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 // GridType type.
 type GridType string
 
@@ -23,12 +21,6 @@ const (
 
 	// Undiscovered status.
 	Undiscovered GridStatus = "undiscovered"
-
-	// ExplorationInProgress status.
-	ExplorationInProgress GridStatus = "exploration_in_progress"
-
-	// ExplorationTime duration.
-	ExplorationTime = 10 * time.Second
 
 	// Discovered status.
 	Discovered GridStatus = "discovered"
