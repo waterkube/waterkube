@@ -1,17 +1,16 @@
 package artifact
 
+// Reward type.
+type Reward struct {
+	Price int
+}
+
 // ShallowReward list.
-var ShallowReward = []*Reward{
+var ShallowReward = map[string]*Reward{
 	// TODO
 }
 
 // DeepReward list.
-var DeepReward = []*Unique{
+var DeepReward = map[string]*Unique{
 	// TODO
-}
-
-// Reward type.
-type Reward struct {
-	Name  string
-	Price int
 }

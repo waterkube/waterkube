@@ -1,17 +1,16 @@
 package artifact
 
+// Unique type.
+type Unique struct {
+	Price int
+}
+
 // ShallowUnique list.
-var ShallowUnique = []*Unique{
+var ShallowUnique = map[string]*Unique{
 	// TODO
 }
 
 // DeepUnique list.
-var DeepUnique = []*Unique{
+var DeepUnique = map[string]*Unique{
 	// TODO
-}
-
-// Unique type.
-type Unique struct {
-	Name  string
-	Price int
 }
