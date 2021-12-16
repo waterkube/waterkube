@@ -31,6 +31,10 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 		errorLog:       cli.ErrorLog,
 		mixManager:     mixManager,
 		inertiaManager: inertiaManager,
+		commandRepository: &models.RedisCommandRepository{
+			RedisPool:      redisPool,
+			RedisKeyPrefix: redisKeyPrefix,
+		},
 		explorationRepository: &models.RedisExplorationRepository{
 			RedisPool:      redisPool,
 			RedisKeyPrefix: redisKeyPrefix,
