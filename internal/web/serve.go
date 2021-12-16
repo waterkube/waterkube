@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"github.com/waterkube/waterkube/internal/models"
 	"net/http"
 	"os"
 	"os/signal"
@@ -30,6 +31,18 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 		errorLog:       cli.ErrorLog,
 		mixManager:     mixManager,
 		inertiaManager: inertiaManager,
+		explorationRepository: &models.RedisExplorationRepository{
+			RedisPool:      redisPool,
+			RedisKeyPrefix: redisKeyPrefix,
+		},
+		gridRepository: &models.RedisGridRepository{
+			RedisPool:      redisPool,
+			RedisKeyPrefix: redisKeyPrefix,
+		},
+		playerRepository: &models.RedisPlayerRepository{
+			RedisPool:      redisPool,
+			RedisKeyPrefix: redisKeyPrefix,
+		},
 	}
 
 	srv := &http.Server{

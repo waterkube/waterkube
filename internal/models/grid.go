@@ -33,3 +33,7 @@ type Grid struct {
 	Status   GridStatus `json:"status" redis:"status"`
 	Artifact string     `json:"artifact" redis:"artifact"`
 }
+
+// GridRepository type.
+type GridRepository interface {
+}

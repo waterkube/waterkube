@@ -6,3 +6,7 @@ type Player struct {
 	DiverCount     int `json:"diver_count" redis:"diver_count"`
 	SubmarineCount int `json:"submarine_count" redis:"submarine_count"`
 }
+
+// PlayerRepository type.
+type PlayerRepository interface {
+}

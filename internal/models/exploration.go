@@ -12,3 +12,7 @@ type Exploration struct {
 	Grid     string   `json:"grid" redis:"grid"`
 	GridType GridType `json:"grid_type" redis:"grid_type"`
 }
+
+// ExplorationRepository type.
+type ExplorationRepository interface {
+}
