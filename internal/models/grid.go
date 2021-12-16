@@ -24,6 +24,9 @@ const (
 
 	// Discovered status.
 	Discovered GridStatus = "discovered"
+
+	// Sold status.
+	Sold GridStatus = "sold"
 )
 
 // Grid type.
