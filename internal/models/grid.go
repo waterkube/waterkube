@@ -24,6 +24,9 @@ const (
 
 	// Discovered status.
 	Discovered GridStatus = "discovered"
+
+	// Sold status.
+	Sold GridStatus = "sold"
 )
 
 // Grid type.
@@ -32,4 +35,8 @@ type Grid struct {
 	Type     GridType   `json:"type" redis:"type"`
 	Status   GridStatus `json:"status" redis:"status"`
 	Artifact string     `json:"artifact" redis:"artifact"`
+}
+
+// GridRepository type.
+type GridRepository interface {
 }
