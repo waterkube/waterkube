@@ -6,6 +6,7 @@ type Command struct {
 	GroupName string    `json:"group_name" redis:"group_name"`
 	Name      string    `json:"name" redis:"name"`
 	Arguments []string  `json:"arguments" redis:"arguments"`
+	Output    string    `json:"output" redis:"output"`
 	CreatedAt Timestamp `json:"created_at" redis:"created_at"`
 }
 
