@@ -5,6 +5,6 @@
 @layer base {
     body {
         background-image: url('../images/bg.png');
-        @apply bg-blueGray-900 bg-top bg-no-repeat
+        @apply bg-slate-900 bg-top bg-no-repeat
     }
 }
