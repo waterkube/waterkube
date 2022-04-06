@@ -3,6 +3,9 @@ package models
 // GridType type.
 type GridType string
 
+// GridArtifactType type.
+type GridArtifactType string
+
 // GridStatus type.
 type GridStatus string
 
@@ -19,6 +22,15 @@ const (
 	// DeepCount number.
 	DeepCount = 40
 
+	// Unique artifact type.
+	Unique GridArtifactType = "unique"
+
+	// Legendary artifact type.
+	Legendary GridArtifactType = "legendary"
+
+	// Combinable artifact type.
+	Combinable GridArtifactType = "combinable"
+
 	// Undiscovered status.
 	Undiscovered GridStatus = "undiscovered"
 
@@ -31,10 +43,11 @@ const (
 
 // Grid type.
 type Grid struct {
-	Name     string     `json:"name" redis:"name"`
-	Type     GridType   `json:"type" redis:"type"`
-	Status   GridStatus `json:"status" redis:"status"`
-	Artifact string     `json:"artifact" redis:"artifact"`
+	Name         string           `json:"name" redis:"name"`
+	Type         GridType         `json:"type" redis:"type"`
+	Artifact     string           `json:"artifact" redis:"artifact"`
+	ArtifactType GridArtifactType `json:"artifact_type" redis:"artifact_type"`
+	Status       GridStatus       `json:"status" redis:"status"`
 }
 
 // GridRepository type.
