@@ -1,5 +1,5 @@
 <template>
-    <inertia-head title="Deep Sea" />
+    <app-title title="Deep Sea" />
     <div class="flex py-72">
         <div class="inline-grid gap-1 sm:gap-1.5 lg:gap-2 grid-cols-10 mx-auto">
             <div v-for="item in 100"

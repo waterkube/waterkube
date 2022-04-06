@@ -1,6 +1,7 @@
 import { createApp, h } from 'vue';
-import { createInertiaApp, InertiaLink, InertiaHead } from '@inertiajs/inertia-vue3';
+import { createInertiaApp, InertiaLink } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
+import AppTitle from './common/AppTitle.vue';
 
 window._ = require('lodash');
 
@@ -12,14 +13,10 @@ createInertiaApp({
     setup({
         el, App, props, plugin
     }) {
-        props.titleCallback = title => (title
-            ? `${title} - ${props.initialPage.props.title}`
-            : props.initialPage.props.title);
-
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .component('InertiaLink', InertiaLink)
-            .component('InertiaHead', InertiaHead)
+            .component('AppTitle', AppTitle)
             .mount(el);
     }
 });
