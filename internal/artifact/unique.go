@@ -191,5 +191,134 @@ var ShallowUnique = map[string]*Unique{
 
 // DeepUnique list.
 var DeepUnique = map[string]*Unique{
-	// TODO
+	"Bicycle": {
+		Price: 3,
+	},
+	"Dagger": {
+		Price: 3,
+	},
+	"Sculpture": {
+		Price: 3,
+	},
+	"Wheel": {
+		Price: 3,
+	},
+	"Typewriter": {
+		Price: 3,
+	},
+	"Coins": {
+		Price: 3,
+	},
+	"Flintlock": {
+		Price: 3,
+	},
+	"Drum": {
+		Price: 3,
+	},
+	"Machine": {
+		Price: 3,
+	},
+	"Sword": {
+		Price: 3,
+	},
+	"Helmet": {
+		Price: 3,
+	},
+	"Cannon": {
+		Price: 3,
+	},
+	"Plate": {
+		Price: 3,
+	},
+	"Camera": {
+		Price: 3,
+	},
+	"Fossil": {
+		Price: 3,
+	},
+	"Bell": {
+		Price: 3,
+	},
+	"Amber": {
+		Price: 3,
+	},
+	"Breastplate": {
+		Price: 3,
+	},
+	"Ukulele": {
+		Price: 3,
+	},
+	"Telephone": {
+		Price: 3,
+	},
+	"Television": {
+		Price: 3,
+	},
+	"Laptop": {
+		Price: 3,
+	},
+	"Horn": {
+		Price: 3,
+	},
+	"Chair": {
+		Price: 3,
+	},
+	"Clock": {
+		Price: 3,
+	},
+	"Dodecahedron": {
+		Price: 3,
+	},
+	"Mirror": {
+		Price: 3,
+	},
+	"Sundial": {
+		Price: 3,
+	},
+	"Gauntlet": {
+		Price: 3,
+	},
+	"Dinosaur": {
+		Price: 4,
+	},
+	"Meteorite": {
+		Price: 4,
+	},
+	"Shield": {
+		Price: 4,
+	},
+	"Luger": {
+		Price: 4,
+	},
+	"Wine": {
+		Price: 4,
+	},
+	"Diamond": {
+		Price: 4,
+	},
+	"Crown": {
+		Price: 4,
+	},
+	"Diadem": {
+		Price: 4,
+	},
+	"Hieroglyphs": {
+		Price: 4,
+	},
+	"Vase": {
+		Price: 4,
+	},
+}
+
+// LegendaryUnique list.
+var LegendaryUnique = map[string]*Unique{
+	"Saucer": {
+		Price: 20,
+	},
+	"Artifact": {
+		Price: 20,
+	},
+	"Atlantis": {
+		Price: 20,
+	},
 }
