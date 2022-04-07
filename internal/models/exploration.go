@@ -9,8 +9,7 @@ const (
 
 // Exploration type.
 type Exploration struct {
-	Grid     string   `json:"grid" redis:"grid"`
-	GridType GridType `json:"grid_type" redis:"grid_type"`
+	Grid string `json:"grid" redis:"grid"`
 }
 
 // ExplorationRepository type.
