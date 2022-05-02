@@ -15,6 +15,9 @@ type PlayerRepository interface {
 // NewPlayer function.
 func NewPlayer() *Player {
 	return &Player{
-		Money: 0,
+		Money:          0,
+		BoatCount:      1,
+		DiverCount:     1,
+		SubmarineCount: 0,
 	}
 }

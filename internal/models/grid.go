@@ -28,8 +28,14 @@ const (
 	// Legendary artifact type.
 	Legendary GridArtifactType = "legendary"
 
+	// LegendaryCount number.
+	LegendaryCount = 1
+
 	// Combinable artifact type.
 	Combinable GridArtifactType = "combinable"
+
+	// CombinableCount number.
+	CombinableCount = 2
 
 	// Undiscovered status.
 	Undiscovered GridStatus = "undiscovered"
