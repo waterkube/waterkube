@@ -4,7 +4,8 @@
 
 @layer base {
     body {
-        background-image: url('../images/bg.png');
         @apply bg-slate-900 bg-top bg-no-repeat
+
+        background-image: url('../images/bg.png');
     }
 }
