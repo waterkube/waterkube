@@ -4,7 +4,45 @@
 
 @layer base {
     body {
+        @apply bg-slate-900 bg-top bg-no-repeat text-slate-300;
+
         background-image: url('../images/bg.png');
-        @apply bg-slate-900 bg-top bg-no-repeat
+    }
+
+    .nav-left {
+        background-image: url('../images/nav-left-bg.png');
+        height: 100px;
+    }
+
+    .nav-top {
+        background-image: url('../images/nav-top-bg.png');
+        width: 631px;
+    }
+
+    .nav-right {
+        background-image: url('../images/nav-right-bg.png');
+        height: 100px;
+    }
+
+    .sidebar {
+        background-image: url('../images/sidebar-border.png');
+    }
+}
+
+@layer components {
+    .grid-empty {
+        background-image: url('../images/grid-empty.png');
+    }
+
+    .grid-shallow {
+        background-image: url('../images/grid-shallow.png');
+    }
+
+    .grid-deep {
+        background-image: url('../images/grid-deep.png');
+    }
+
+    .btn {
+        @apply block h-10 w-10 flex items-center justify-center rounded-full bg-stone-900 border-2 border-amber-200 text-amber-300 hover:bg-stone-700;
     }
 }
