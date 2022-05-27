@@ -7,14 +7,19 @@
          :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}"></nav>
     <section class="sidebar fixed z-20 w-64 inset-y-0 bg-black bg-opacity-50 bg-right-top bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}"></section>
-    <nav class="nav-top fixed h-32 left-1/2 -translate-x-1/2 bg-bottom bg-no-repeat">
+    <nav class="nav-top fixed h-24 left-1/2 -translate-x-1/2 bg-bottom bg-no-repeat">
         <div class="flex justify-center pt-3">
             <button class="btn xl:hidden"
                     type="button"
                     @click="isLeftSidebarOpen = true; isRightSidebarOpen = false">
                 <shopping-bag-icon class="h-6 w-6" />
             </button>
-            <div class="w-64"></div>
+            <div class="h-10 w-60 flex items-center justify-center text-2xl text-lime-500">
+                <div class="text-amber-300 mr-1">
+                    $
+                </div>
+                100000
+            </div>
             <button class="btn xl:hidden"
                     type="button"
                     @click="isLeftSidebarOpen = false; isRightSidebarOpen = true">
@@ -32,6 +37,7 @@
 
 <script>
 import {
+    CurrencyDollarIcon,
     MenuIcon,
     ShoppingBagIcon
 } from '@heroicons/vue/outline';
@@ -40,6 +46,7 @@ import { ref } from 'vue';
 
 export default {
     components: {
+        CurrencyDollarIcon,
         MenuIcon,
         ShoppingBagIcon
     },
