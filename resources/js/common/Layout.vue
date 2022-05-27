@@ -37,7 +37,6 @@
 
 <script>
 import {
-    CurrencyDollarIcon,
     MenuIcon,
     ShoppingBagIcon
 } from '@heroicons/vue/outline';
@@ -46,7 +45,6 @@ import { ref } from 'vue';
 
 export default {
     components: {
-        CurrencyDollarIcon,
         MenuIcon,
         ShoppingBagIcon
     },
