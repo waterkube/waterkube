@@ -1,6 +1,6 @@
 <template>
     <app-title title="Deep Sea" />
-    <div class="flex pt-40">
+    <div class="flex pt-32">
         <div class="grid gap-1 grid-cols-12 mx-auto">
             <!-- eslint-disable max-len -->
             <div v-for="letter in letters"
