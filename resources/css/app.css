@@ -16,7 +16,7 @@
 
     .nav-top {
         background-image: url('../images/nav-top-bg.png');
-        width: 631px;
+        width: 372px;
     }
 
     .nav-right {
@@ -43,6 +43,6 @@
     }
 
     .btn {
-        @apply block h-10 w-10 flex items-center justify-center rounded-full bg-stone-900 border-2 border-amber-200 text-amber-300 hover:bg-stone-700;
+        @apply block h-9 w-9 flex items-center justify-center rounded-full bg-stone-900 border-2 border-amber-200 text-amber-300 hover:bg-stone-700;
     }
 }
