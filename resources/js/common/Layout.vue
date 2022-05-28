@@ -4,7 +4,12 @@
          class="bg-black bg-opacity-50 fixed inset-0 z-10 xl:hidden"
          @click="isLeftSidebarOpen = false; isRightSidebarOpen = false"></div>
     <nav class="nav-left fixed w-80 left-0 top-0 z-30 bg-right-top bg-no-repeat transform transition-transform xl:translate-x-0"
-         :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}"></nav>
+         :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}">
+        <div class="h-16 w-64 text-2xl flex items-center justify-center">
+            <shopping-bag-icon class="h-8 w-8 text-amber-300 mr-2" />
+            Inventory
+        </div>
+    </nav>
     <section class="sidebar fixed z-20 w-64 inset-y-0 bg-black bg-opacity-50 bg-right-top bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}"></section>
     <nav class="nav-top fixed h-24 left-1/2 -translate-x-1/2 bg-bottom bg-no-repeat">
@@ -37,7 +42,7 @@
             <button class="btn xl:hidden"
                     type="button"
                     @click="isLeftSidebarOpen = false; isRightSidebarOpen = true">
-                <menu-icon class="h-6 w-6" />
+                <library-icon class="h-6 w-6" />
             </button>
         </div>
         <div class="flex items-center justify-center text-xl text-lime-500">
@@ -48,7 +53,12 @@
         </div>
     </nav>
     <nav class="nav-right fixed w-80 right-0 top-0 z-30 bg-left-top bg-no-repeat transform transition-transform xl:translate-x-0"
-         :class="{'translate-x-0': isRightSidebarOpen, 'translate-x-full': !isRightSidebarOpen}"></nav>
+         :class="{'translate-x-0': isRightSidebarOpen, 'translate-x-full': !isRightSidebarOpen}">
+        <div class="h-16 w-64 ml-16 text-2xl flex items-center justify-center">
+            <library-icon class="h-8 w-8 text-amber-300 mr-2" />
+            Museum
+        </div>
+    </nav>
     <section class="sidebar fixed z-20 w-64 right-0 inset-y-0 bg-black bg-opacity-50 bg-left-top bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isRightSidebarOpen, 'translate-x-full': !isRightSidebarOpen}"></section>
     <!-- eslint-enable max-len -->
@@ -57,7 +67,7 @@
 
 <script>
 import {
-    MenuIcon,
+    LibraryIcon,
     ShoppingBagIcon
 } from '@heroicons/vue/outline';
 
@@ -65,7 +75,7 @@ import { ref } from 'vue';
 
 export default {
     components: {
-        MenuIcon,
+        LibraryIcon,
         ShoppingBagIcon
     },
 
