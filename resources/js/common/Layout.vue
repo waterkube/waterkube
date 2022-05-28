@@ -32,7 +32,7 @@
                 <span class="text-sm text-slate-400 mr-6">
                     /34
                 </span>
-                <span class="text-fuchsia-400 mr-2">
+                <span class="text-purple-400 mr-2">
                     3
                 </span>
                 <span class="text-sm text-slate-400">
@@ -45,7 +45,7 @@
                 <library-icon class="h-6 w-6" />
             </button>
         </div>
-        <div class="flex items-center justify-center text-xl text-lime-500">
+        <div class="flex items-center justify-center text-xl text-lime-400">
             <div class="text-amber-300 mr-1">
                 $
             </div>

@@ -8,8 +8,8 @@
                  class="pb-2 flex items-end justify-center text-xs text-cyan-400 sm:text-sm lg:text-base">
                 {{ letter }}
             </div>
-            <template v-for="(item, index) in 100"
-                      :key="item">
+            <template v-for="(grid, index) in grids"
+                      :key="index">
                 <div v-if="index !== 0 && index % 10 === 0"
                      class="pl-2 flex items-center justify-start text-xs text-cyan-400 sm:text-sm lg:text-base">
                     {{ index / 10 - 1 }}
@@ -18,8 +18,19 @@
                      class="pr-2 flex items-center justify-end text-xs text-cyan-400 sm:text-sm lg:text-base">
                     {{ index / 10 }}
                 </div>
-                <div class="bg-no-repeat bg-contain w-6 h-6 sm:w-12 sm:h-12 lg:w-16 lg:h-16"
-                     :class="randomGrid()"></div>
+                <div class="relative bg-no-repeat bg-contain w-6 h-6 sm:w-12 sm:h-12 lg:w-16 lg:h-16"
+                     :class="grid.type">
+                    <span v-if="grid.type === 'grid-shallow'"
+                          class="flex absolute h-3 w-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                    </span>
+                    <span v-if="grid.type === 'grid-deep'"
+                          class="flex absolute h-3 w-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+                    </span>
+                </div>
                 <div v-if="index === 99"
                      class="pl-2 flex items-center justify-start text-xs text-cyan-400 sm:text-sm lg:text-base">
                     {{ index % 10 }}
@@ -36,7 +47,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Layout from '../../common/Layout.vue';
 
 export default {
@@ -53,9 +64,21 @@ export default {
             return ['grid-empty', 'grid-shallow', 'grid-deep'][random];
         };
 
+        const grids = computed(() => {
+            const value = [];
+
+            for (let i = 0; i < 100; i++) {
+                value.push({
+                    type: randomGrid()
+                });
+            }
+
+            return value;
+        });
+
         return {
             letters,
-            randomGrid
+            grids
         };
     }
 };
