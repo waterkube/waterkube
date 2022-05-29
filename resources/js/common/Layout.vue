@@ -37,8 +37,8 @@
                     @click="isLeftSidebarOpen = true; isRightSidebarOpen = false">
                 <shopping-bag-icon class="h-6 w-6" />
             </button>
-            <div class="w-60 flex items-center justify-center">
-                <div class="grid grid-rows-2 mr-6">
+            <div class="w-60 grid grid-cols-3">
+                <div class="grid grid-rows-2">
                     <div class="flex items-center justify-center">
                         <div class="mr-2">
                             9
@@ -51,7 +51,7 @@
                         Boat
                     </div>
                 </div>
-                <div class="grid grid-rows-2 mr-6">
+                <div class="grid grid-rows-2">
                     <div class="flex items-center justify-center">
                         <div class="text-cyan-400 mr-2">
                             1
