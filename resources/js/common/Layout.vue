@@ -6,15 +6,15 @@
     <nav class="nav-left fixed w-80 left-0 top-0 z-30 bg-right-top bg-no-repeat transform transition-transform xl:translate-x-0"
          :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}">
         <div class="h-16 w-64 mb-12 text-2xl flex items-center justify-center">
-            <shopping-bag-icon class="h-8 w-8 text-amber-300 mr-2" />
             Inventory
+            <shopping-bag-icon class="h-8 w-8 text-amber-300 ml-2" />
         </div>
-        <div class="sidebar-content w-60 overflow-y-auto" scroll-region>
+        <div ref="leftSidebarContent" class="sidebar-content-left w-60 relative overflow-hidden">
             <div class="grid grid-cols-2 gap-4">
                 <div v-for="artifact in artifacts"
                      :key="artifact.name"
                      class="flex flex-col items-center justify-center">
-                    <img class="w-16" :src="`/images/${artifact.name.toLowerCase()}.png`">
+                    <img class="w-16 h-16" :src="`/images/${artifact.name.toLowerCase()}.png`">
                     {{ artifact.name }}
                     <div class="flex items-center text-sm">
                         <div class="text-amber-300 mr-1">
@@ -99,7 +99,7 @@
             <library-icon class="h-8 w-8 text-amber-300 mr-2" />
             Museum
         </div>
-        <div class="sidebar-content w-60 ml-16 overflow-y-auto" scroll-region>
+        <div ref="rightSidebarContent" class="sidebar-content-right w-60 ml-20 relative overflow-hidden">
             <div class="grid grid-cols-2 gap-4">
                 <div v-for="artifact in artifacts"
                      :key="artifact.name"
@@ -115,8 +115,16 @@
     </nav>
     <section class="sidebar fixed z-20 w-64 right-0 inset-y-0 bg-black bg-opacity-50 bg-left-top bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isRightSidebarOpen, 'translate-x-full': !isRightSidebarOpen}"></section>
-    <!-- eslint-enable max-len -->
     <slot></slot>
+    <div class="flex items-center justify-center mt-4 text-sm text-slate-600">
+        Fork me on
+        <a class="text-cyan-400 hover:text-cyan-500 ml-2"
+           href="https://github.com/waterkube/waterkube"
+           target="_blank">
+            GitHub
+        </a>
+    </div>
+    <!-- eslint-enable max-len -->
 </template>
 
 <script>
@@ -125,7 +133,8 @@ import {
     ShoppingBagIcon
 } from '@heroicons/vue/outline';
 
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import PerfectScrollbar from 'perfect-scrollbar';
 
 export default {
     components: {
@@ -142,11 +151,23 @@ export default {
 
     setup() {
         const isLeftSidebarOpen = ref(false);
+        const leftSidebarContent = ref();
+        const leftSidebarPs = ref(undefined);
+
         const isRightSidebarOpen = ref(false);
+        const rightSidebarContent = ref();
+        const rightSidebarPs = ref(undefined);
+
+        onMounted(() => {
+            leftSidebarPs.value = new PerfectScrollbar(leftSidebarContent.value);
+            rightSidebarPs.value = new PerfectScrollbar(rightSidebarContent.value);
+        });
 
         return {
             isLeftSidebarOpen,
-            isRightSidebarOpen
+            isRightSidebarOpen,
+            leftSidebarContent,
+            rightSidebarContent
         };
     }
 };
