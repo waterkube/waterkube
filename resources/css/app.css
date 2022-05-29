@@ -29,7 +29,7 @@
     }
 
     .sidebar-content {
-        height: calc(100vh - theme('spacing.28'));
+        height: calc(100vh - theme('spacing.32'));
     }
 }
 

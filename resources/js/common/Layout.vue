@@ -10,7 +10,7 @@
             Inventory
         </div>
         <div class="sidebar-content w-60 overflow-y-auto" scroll-region>
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 gap-4">
                 <div v-for="artifact in artifacts"
                      :key="artifact.name"
                      class="flex flex-col items-center justify-center">
@@ -100,7 +100,7 @@
             Museum
         </div>
         <div class="sidebar-content w-60 ml-16 overflow-y-auto" scroll-region>
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 gap-4">
                 <div v-for="artifact in artifacts"
                      :key="artifact.name"
                      class="flex flex-col items-center justify-center">
