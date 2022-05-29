@@ -20,8 +20,12 @@ func main() {
 						Usage: "Combine the artifacts",
 					},
 					{
+						Name:  "donate",
+						Usage: "Donate the artifact",
+					},
+					{
 						Name:  "sell",
-						Usage: "Sell an artifact",
+						Usage: "Sell the artifact",
 					},
 				},
 			},

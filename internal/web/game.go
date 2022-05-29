@@ -1,6 +1,10 @@
 package web
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/waterkube/waterkube/internal/artifact"
+)
 
 func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
@@ -15,7 +19,18 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := a.inertiaManager.Render(w, r, "game/Index", nil)
+	var artifacts []interface{}
+
+	for name, ar := range artifact.ShallowUnique {
+		artifacts = append(artifacts, map[string]interface{}{
+			"name":  name,
+			"price": ar.Price,
+		})
+	}
+
+	err := a.inertiaManager.Render(w, r, "game/Index", map[string]interface{}{
+		"artifacts": artifacts,
+	})
 	if err != nil {
 		a.serverError(w, err)
 	}
