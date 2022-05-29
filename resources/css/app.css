@@ -1,3 +1,34 @@
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+    background-color: transparent;
+}
+
+.ps__thumb-x {
+    background-color: theme('colors.stone.700');
+}
+
+.ps__thumb-y {
+    background-color: theme('colors.stone.700');
+}
+
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-x:focus > .ps__thumb-x,
+.ps__rail-x.ps--clicking .ps__thumb-x {
+    background-color: theme('colors.stone.700');
+}
+
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y.ps--clicking .ps__thumb-y {
+    background-color: theme('colors.stone.700');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -28,8 +59,19 @@
         background-image: url('../images/sidebar-border.png');
     }
 
-    .sidebar-content {
+    .sidebar-content-left,
+    .sidebar-content-right {
         height: calc(100vh - theme('spacing.32'));
+    }
+
+    .sidebar-content-right .ps__rail-y {
+        right: auto;
+        left: 0;
+    }
+
+    .sidebar-content-right .ps__thumb-y {
+        right: auto;
+        left: 2px;
     }
 }
 
