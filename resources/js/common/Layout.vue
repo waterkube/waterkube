@@ -37,44 +37,37 @@
                     @click="isLeftSidebarOpen = true; isRightSidebarOpen = false">
                 <shopping-bag-icon class="h-6 w-6" />
             </button>
-            <div class="w-60 grid grid-cols-3">
+            <div class="w-64 p-1 grid grid-cols-4">
                 <div class="grid grid-rows-2">
-                    <div class="flex items-center justify-center">
-                        <div class="mr-2">
-                            9
-                        </div>
-                        <div class="text-sm text-stone-400">
-                            /50
-                        </div>
+                    <div class="text-center text-amber-300 text-sm">
+                        $
                     </div>
-                    <div class="text-center text-stone-500 text-xs -mt-1">
+                    <div class="text-center text-lime-400">
+                        1000
+                    </div>
+                </div>
+                <div class="grid grid-rows-2">
+                    <div class="text-center text-stone-500 text-sm">
                         Boat
                     </div>
+                    <div class="text-center">
+                        9
+                    </div>
                 </div>
                 <div class="grid grid-rows-2">
-                    <div class="flex items-center justify-center">
-                        <div class="text-cyan-400 mr-2">
-                            1
-                        </div>
-                        <div class="text-sm text-stone-400">
-                            /34
-                        </div>
-                    </div>
-                    <div class="text-center text-stone-500 text-xs -mt-1">
+                    <div class="text-center text-stone-500 text-sm">
                         Diver
                     </div>
+                    <div class="text-center text-cyan-400">
+                        1
+                    </div>
                 </div>
                 <div class="grid grid-rows-2">
-                    <div class="flex items-center justify-center">
-                        <div class="text-purple-400 mr-2">
-                            3
-                        </div>
-                        <div class="text-sm text-stone-400">
-                            /11
-                        </div>
+                    <div class="text-center text-stone-500 text-sm">
+                        Subm.
                     </div>
-                    <div class="text-center text-stone-500 text-xs -mt-1">
-                        Submarine
+                    <div class="text-center text-purple-400">
+                        3
                     </div>
                 </div>
             </div>
@@ -84,13 +77,8 @@
                 <library-icon class="h-6 w-6" />
             </button>
         </div>
-        <div class="flex items-center justify-center text-lg -mt-2.5">
-            <div class="text-amber-300 mr-1">
-                $
-            </div>
-            <div class="text-lime-400">
-                100000
-            </div>
+        <div class="w-56 h-1.5 mt-5 bg-stone-700 bg-opacity-50 rounded mx-auto">
+            <div class="bg-cyan-400 rounded h-1.5" style="width: 11%"></div>
         </div>
     </nav>
     <nav class="nav-right fixed w-80 right-0 top-0 z-30 bg-left-top bg-no-repeat transform transition-transform xl:translate-x-0"
