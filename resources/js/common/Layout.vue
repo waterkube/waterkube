@@ -30,7 +30,7 @@
     </nav>
     <section class="sidebar fixed z-20 w-64 inset-y-0 bg-black bg-opacity-50 bg-right-top bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}"></section>
-    <nav class="nav-top fixed h-24 left-1/2 -translate-x-1/2 bg-bottom bg-no-repeat">
+    <nav class="nav-top z-10 fixed h-24 left-1/2 -translate-x-1/2 bg-bottom bg-no-repeat">
         <div class="flex justify-center pt-2">
             <button class="btn xl:hidden"
                     type="button"
