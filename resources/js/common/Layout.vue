@@ -14,7 +14,8 @@
                 <div v-for="artifact in artifacts"
                      :key="artifact.name"
                      class="flex flex-col items-center justify-center">
-                    <img class="w-16 h-16" :src="`/images/${artifact.name.toLowerCase()}.png`">
+                    <div :class="`artifact-${artifact.name.toLowerCase()}`"
+                         class="w-16 h-16 bg-no-repeat bg-center bg-contain"></div>
                     {{ artifact.name }}
                     <div class="flex items-center text-sm">
                         <div class="text-amber-300 mr-1">
@@ -84,7 +85,8 @@
                 <div v-for="artifact in artifacts"
                      :key="artifact.name"
                      class="flex flex-col items-center justify-center">
-                    <img class="w-16" :src="`/images/${artifact.name.toLowerCase()}.png`">
+                    <div :class="`artifact-${artifact.name.toLowerCase()}`"
+                         class="w-16 h-16 bg-no-repeat bg-center bg-contain"></div>
                     {{ artifact.name }}
                     <div class="text-sm text-lime-400">
                         +1 Boat

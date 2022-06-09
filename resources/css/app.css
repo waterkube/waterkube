@@ -1,33 +1,6 @@
-@import '~perfect-scrollbar/css/perfect-scrollbar.css';
-
-.ps .ps__rail-x:hover,
-.ps .ps__rail-y:hover,
-.ps .ps__rail-x:focus,
-.ps .ps__rail-y:focus,
-.ps .ps__rail-x.ps--clicking,
-.ps .ps__rail-y.ps--clicking {
-    background-color: transparent;
-}
-
-.ps__thumb-x {
-    background-color: theme('colors.stone.700');
-}
-
-.ps__thumb-y {
-    background-color: theme('colors.stone.700');
-}
-
-.ps__rail-x:hover > .ps__thumb-x,
-.ps__rail-x:focus > .ps__thumb-x,
-.ps__rail-x.ps--clicking .ps__thumb-x {
-    background-color: theme('colors.stone.700');
-}
-
-.ps__rail-y:hover > .ps__thumb-y,
-.ps__rail-y:focus > .ps__thumb-y,
-.ps__rail-y.ps--clicking .ps__thumb-y {
-    background-color: theme('colors.stone.700');
-}
+@import 'scrollbar.css';
+@import 'artifact.css';
+@import 'grid.css';
 
 @tailwind base;
 @tailwind components;
@@ -76,6 +49,12 @@
 }
 
 @layer components {
+    .btn {
+        @apply block h-9 w-9 flex items-center justify-center rounded-full bg-stone-900 border-2 border-amber-200 text-amber-300 hover:bg-stone-700;
+    }
+}
+
+@layer utilities {
     .dollar {
         background-image: url('../images/dollar.png');
     }
@@ -90,21 +69,5 @@
 
     .submarine {
         background-image: url('../images/submarine.png');
-    }
-
-    .grid-empty {
-        background-image: url('../images/grid-empty.png');
-    }
-
-    .grid-shallow {
-        background-image: url('../images/grid-shallow.png');
-    }
-
-    .grid-deep {
-        background-image: url('../images/grid-deep.png');
-    }
-
-    .btn {
-        @apply block h-9 w-9 flex items-center justify-center rounded-full bg-stone-900 border-2 border-amber-200 text-amber-300 hover:bg-stone-700;
     }
 }
