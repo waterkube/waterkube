@@ -1,0 +1,11 @@
+.grid-empty {
+    background-image: url('../images/grid-empty.png');
+}
+
+.grid-shallow {
+    background-image: url('../images/grid-shallow.png');
+}
+
+.grid-deep {
+    background-image: url('../images/grid-deep.png');
+}

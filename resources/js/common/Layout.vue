@@ -14,7 +14,8 @@
                 <div v-for="artifact in artifacts"
                      :key="artifact.name"
                      class="flex flex-col items-center justify-center">
-                    <img class="w-16 h-16" :src="`/images/${artifact.name.toLowerCase()}.png`">
+                    <div :class="`artifact-${artifact.name.toLowerCase()}`"
+                         class="w-16 h-16 bg-no-repeat bg-center bg-contain"></div>
                     {{ artifact.name }}
                     <div class="flex items-center text-sm">
                         <div class="text-amber-300 mr-1">
@@ -31,53 +32,45 @@
     <section class="sidebar fixed z-20 w-64 inset-y-0 bg-black bg-opacity-50 bg-right-top bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}"></section>
     <nav class="nav-top z-10 fixed h-24 left-1/2 -translate-x-1/2 bg-bottom bg-no-repeat">
-        <div class="flex justify-center pt-2">
-            <button class="btn xl:hidden"
+        <div class="flex justify-center pt-1">
+            <button class="btn mt-1 xl:hidden"
                     type="button"
                     @click="isLeftSidebarOpen = true; isRightSidebarOpen = false">
                 <shopping-bag-icon class="h-6 w-6" />
             </button>
-            <div class="w-64 p-1 grid grid-cols-4">
-                <div class="grid grid-rows-2">
-                    <div class="text-center text-amber-300 text-sm">
-                        $
-                    </div>
-                    <div class="text-center text-lime-400">
+            <div class="w-64 px-1 pb-1 grid grid-cols-4">
+                <div class="flex flex-col items-center">
+                    <div class="dollar w-12 h-12 bg-no-repeat bg-center bg-contain"></div>
+                    <div class="text-lime-400">
                         1000
                     </div>
                 </div>
-                <div class="grid grid-rows-2">
-                    <div class="text-center text-stone-500 text-sm">
-                        Boat
-                    </div>
-                    <div class="text-center">
+                <div class="flex flex-col items-center">
+                    <div class="boat w-12 h-12 bg-no-repeat bg-center bg-contain"></div>
+                    <div class="text-slate-300">
                         9
                     </div>
                 </div>
-                <div class="grid grid-rows-2">
-                    <div class="text-center text-stone-500 text-sm">
-                        Diver
-                    </div>
-                    <div class="text-center text-cyan-400">
+                <div class="flex flex-col items-center">
+                    <div class="diver w-12 h-12 bg-no-repeat bg-center bg-contain"></div>
+                    <div class="text-cyan-400">
                         1
                     </div>
                 </div>
-                <div class="grid grid-rows-2">
-                    <div class="text-center text-stone-500 text-sm">
-                        Subm.
-                    </div>
+                <div class="flex flex-col items-center">
+                    <div class="submarine w-12 h-12 bg-no-repeat bg-center bg-contain"></div>
                     <div class="text-center text-purple-400">
                         3
                     </div>
                 </div>
             </div>
-            <button class="btn xl:hidden"
+            <button class="btn mt-1 xl:hidden"
                     type="button"
                     @click="isLeftSidebarOpen = false; isRightSidebarOpen = true">
                 <library-icon class="h-6 w-6" />
             </button>
         </div>
-        <div class="w-56 h-1.5 mt-5 bg-stone-700 bg-opacity-50 rounded mx-auto">
+        <div class="w-56 h-1.5 mt-1 bg-stone-700 bg-opacity-50 rounded mx-auto">
             <div class="bg-cyan-400 rounded h-1.5" style="width: 11%"></div>
         </div>
     </nav>
@@ -92,7 +85,8 @@
                 <div v-for="artifact in artifacts"
                      :key="artifact.name"
                      class="flex flex-col items-center justify-center">
-                    <img class="w-16" :src="`/images/${artifact.name.toLowerCase()}.png`">
+                    <div :class="`artifact-${artifact.name.toLowerCase()}`"
+                         class="w-16 h-16 bg-no-repeat bg-center bg-contain"></div>
                     {{ artifact.name }}
                     <div class="text-sm text-lime-400">
                         +1 Boat
