@@ -76,6 +76,22 @@
 }
 
 @layer components {
+    .dollar {
+        background-image: url('../images/dollar.png');
+    }
+
+    .boat {
+        background-image: url('../images/boat.png');
+    }
+
+    .diver {
+        background-image: url('../images/diver.png');
+    }
+
+    .submarine {
+        background-image: url('../images/submarine.png');
+    }
+
     .grid-empty {
         background-image: url('../images/grid-empty.png');
     }
