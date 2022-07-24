@@ -39,8 +39,8 @@ const (
 type Grid struct {
 	Name         string           `json:"name" redis:"name"`
 	Type         GridType         `json:"type" redis:"type"`
-	Artifact     string           `json:"artifact" redis:"artifact"`
-	ArtifactType GridArtifactType `json:"artifact_type" redis:"artifact_type"`
+	Artifact     string           `json:"-" redis:"artifact"`
+	ArtifactType GridArtifactType `json:"-" redis:"artifact_type"`
 	Status       GridStatus       `json:"status" redis:"status"`
 }
 
