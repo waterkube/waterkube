@@ -53,10 +53,15 @@ import Layout from '../../common/Layout.vue';
 export default {
     layout: Layout,
 
-    setup() {
-        const letters = ref([
-            '', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', ''
-        ]);
+    props: {
+        cols: {
+            type: Array,
+            required: true
+        }
+    },
+
+    setup(props) {
+        const letters = ref(['', ...props.cols, '']);
 
         const randomGrid = () => {
             const random = Math.floor(Math.random() * 3);

@@ -13,14 +13,8 @@ const (
 	// Shallow type.
 	Shallow GridType = "shallow"
 
-	// ShallowCount number.
-	ShallowCount = 60
-
 	// Deep type.
 	Deep GridType = "deep"
-
-	// DeepCount number.
-	DeepCount = 40
 
 	// Unique artifact type.
 	Unique GridArtifactType = "unique"
@@ -28,14 +22,8 @@ const (
 	// Legendary artifact type.
 	Legendary GridArtifactType = "legendary"
 
-	// LegendaryCount number.
-	LegendaryCount = 1
-
 	// Combinable artifact type.
 	Combinable GridArtifactType = "combinable"
-
-	// CombinableCount number.
-	CombinableCount = 2
 
 	// Undiscovered status.
 	Undiscovered GridStatus = "undiscovered"
@@ -58,4 +46,11 @@ type Grid struct {
 
 // GridRepository type.
 type GridRepository interface {
+}
+
+// NewGrid function.
+func NewGrid() *Grid {
+	return &Grid{
+		Status: Undiscovered,
+	}
 }

@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"github.com/waterkube/waterkube/internal/game"
 	"net/http"
 	"os"
 	"os/signal"
@@ -24,6 +25,11 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 		cli.ErrorLog.Fatal(err)
 	}
 
+	gridRepository := &models.RedisGridRepository{
+		RedisPool:      redisPool,
+		RedisKeyPrefix: redisKeyPrefix,
+	}
+
 	webApp := &app{
 		debug:          debug,
 		url:            url,
@@ -31,6 +37,7 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 		errorLog:       cli.ErrorLog,
 		mixManager:     mixManager,
 		inertiaManager: inertiaManager,
+		gameManager:    game.New(gridRepository),
 		commandRepository: &models.RedisCommandRepository{
 			RedisPool:      redisPool,
 			RedisKeyPrefix: redisKeyPrefix,
@@ -39,10 +46,7 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 			RedisPool:      redisPool,
 			RedisKeyPrefix: redisKeyPrefix,
 		},
-		gridRepository: &models.RedisGridRepository{
-			RedisPool:      redisPool,
-			RedisKeyPrefix: redisKeyPrefix,
-		},
+		gridRepository: gridRepository,
 		playerRepository: &models.RedisPlayerRepository{
 			RedisPool:      redisPool,
 			RedisKeyPrefix: redisKeyPrefix,
