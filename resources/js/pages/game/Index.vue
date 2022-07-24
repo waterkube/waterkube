@@ -10,13 +10,13 @@
             </div>
             <template v-for="(grid, index) in grids"
                       :key="index">
-                <div v-if="index !== 0 && index % 10 === 0"
+                <div v-if="index !== 0 && index % cols.length === 0"
                      class="pl-2 flex items-center justify-start text-xs text-cyan-400 sm:text-sm lg:text-base">
-                    {{ index / 10 - 1 }}
+                    {{ index / cols.length - 1 }}
                 </div>
-                <div v-if="index % 10 === 0"
+                <div v-if="index % cols.length === 0"
                      class="pr-2 flex items-center justify-end text-xs text-cyan-400 sm:text-sm lg:text-base">
-                    {{ index / 10 }}
+                    {{ index / cols.length }}
                 </div>
                 <div class="relative bg-no-repeat bg-contain w-6 h-6 sm:w-12 sm:h-12 lg:w-16 lg:h-16"
                      :class="grid.type">
@@ -31,9 +31,9 @@
                         <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
                     </span>
                 </div>
-                <div v-if="index === 99"
+                <div v-if="index === cellCount - 1"
                      class="pl-2 flex items-center justify-start text-xs text-cyan-400 sm:text-sm lg:text-base">
-                    {{ index % 10 }}
+                    {{ index % cols.length }}
                 </div>
             </template>
             <div v-for="letter in letters"
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import Layout from '../../common/Layout.vue';
 
 export default {
@@ -57,11 +57,17 @@ export default {
         cols: {
             type: Array,
             required: true
+        },
+
+        rows: {
+            type: Array,
+            required: true
         }
     },
 
     setup(props) {
-        const letters = ref(['', ...props.cols, '']);
+        const { cols, rows } = toRefs(props);
+        const letters = ref(['', ...cols.value, '']);
 
         const randomGrid = () => {
             const random = Math.floor(Math.random() * 3);
@@ -69,10 +75,12 @@ export default {
             return ['grid-empty', 'grid-shallow', 'grid-deep'][random];
         };
 
+        const cellCount = computed(() => cols.value.length * rows.value.length);
+
         const grids = computed(() => {
             const value = [];
 
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < cellCount.value; i++) {
                 value.push({
                     type: randomGrid()
                 });
@@ -83,6 +91,7 @@ export default {
 
         return {
             letters,
+            cellCount,
             grids
         };
     }
