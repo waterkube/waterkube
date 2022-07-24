@@ -123,16 +123,16 @@ func randFromMap[K comparable, V any](m map[K]V) (K, V) {
 	index := rand.Intn(len(m))
 	i := 0
 
-	var key K
-	var value V
+	var k K
+	var v V
 
-	for key, value = range m {
+	for k, v = range m {
 		if index == i {
-			return key, value
+			return k, v
 		}
 
 		i++
 	}
 
-	return key, value
+	return k, v
 }
