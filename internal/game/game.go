@@ -62,11 +62,11 @@ func (g *Game) Create() {
 			combinable = nil
 		} else if combinableCount > 0 {
 			g.Grids[i].ArtifactType = models.Combinable
-			g.Grids[i].Artifact, combinable = randMapItem(artifact.ShallowCombinable)
+			g.Grids[i].Artifact, combinable = randFromMap(artifact.ShallowCombinable)
 			combinableCount--
 		} else {
 			g.Grids[i].ArtifactType = models.Unique
-			g.Grids[i].Artifact, _ = randMapItem(artifact.ShallowUnique)
+			g.Grids[i].Artifact, _ = randFromMap(artifact.ShallowUnique)
 		}
 	}
 
@@ -84,15 +84,15 @@ func (g *Game) Create() {
 			combinable = nil
 		} else if combinableCount > 0 {
 			g.Grids[i].ArtifactType = models.Combinable
-			g.Grids[i].Artifact, combinable = randMapItem(artifact.DeepCombinable)
+			g.Grids[i].Artifact, combinable = randFromMap(artifact.DeepCombinable)
 			combinableCount--
 		} else if legendaryCount > 0 {
 			g.Grids[i].ArtifactType = models.Legendary
-			g.Grids[i].Artifact, _ = randMapItem(artifact.LegendaryUnique)
+			g.Grids[i].Artifact, _ = randFromMap(artifact.LegendaryUnique)
 			legendaryCount--
 		} else {
 			g.Grids[i].ArtifactType = models.Unique
-			g.Grids[i].Artifact, _ = randMapItem(artifact.DeepUnique)
+			g.Grids[i].Artifact, _ = randFromMap(artifact.DeepUnique)
 		}
 	}
 
@@ -118,15 +118,15 @@ func (g *Game) Delete() {
 	// TODO
 }
 
-func randMapItem[K comparable, V any](items map[K]V) (K, V) {
+func randFromMap[K comparable, V any](m map[K]V) (K, V) {
 	rand.Seed(time.Now().UnixNano())
-	index := rand.Intn(len(items))
+	index := rand.Intn(len(m))
 	i := 0
 
 	var key K
 	var value V
 
-	for key, value = range items {
+	for key, value = range m {
 		if index == i {
 			return key, value
 		}
