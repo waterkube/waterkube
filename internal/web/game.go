@@ -1,10 +1,10 @@
 package web
 
 import (
-	"github.com/waterkube/waterkube/internal/game"
 	"net/http"
 
 	"github.com/waterkube/waterkube/internal/artifact"
+	"github.com/waterkube/waterkube/internal/game"
 )
 
 func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
@@ -31,6 +31,7 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 
 	err := a.inertiaManager.Render(w, r, "game/Index", map[string]interface{}{
 		"cols":      game.Cols,
+		"rows":      game.Rows,
 		"artifacts": artifacts,
 	})
 	if err != nil {

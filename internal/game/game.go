@@ -23,6 +23,9 @@ const (
 var (
 	// Cols slice.
 	Cols = []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
+
+	// Rows slice.
+	Rows = []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 )
 
 // Game type.
@@ -40,14 +43,14 @@ func New(gridRepository models.GridRepository) *Game {
 
 // Create function.
 func (g *Game) Create() {
-	g.Grids = make([]*models.Grid, 100)
+	g.Grids = make([]*models.Grid, len(Cols)*len(Rows))
 
-	for row := 0; row < 10; row++ {
+	for _, row := range Rows {
 		for i, col := range Cols {
 			grid := models.NewGrid()
 			grid.Name = col + strconv.Itoa(row)
 
-			g.Grids[row*10+i] = grid
+			g.Grids[row*len(Cols)+i] = grid
 		}
 	}
 }
