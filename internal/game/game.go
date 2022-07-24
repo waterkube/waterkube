@@ -1,8 +1,11 @@
 package game
 
 import (
+	"math/rand"
 	"strconv"
+	"time"
 
+	"github.com/waterkube/waterkube/internal/artifact"
 	"github.com/waterkube/waterkube/internal/models"
 )
 
@@ -10,14 +13,14 @@ const (
 	// ShallowCount number.
 	ShallowCount = 60
 
-	// DeepCount number.
-	DeepCount = 40
+	// ShallowCombinableCount number.
+	ShallowCombinableCount = 1
+
+	// DeepCombinableCount number.
+	DeepCombinableCount = 1
 
 	// LegendaryCount number.
 	LegendaryCount = 1
-
-	// CombinableCount number.
-	CombinableCount = 2
 )
 
 var (
@@ -43,14 +46,64 @@ func New(gridRepository models.GridRepository) *Game {
 
 // Create function.
 func (g *Game) Create() {
-	g.Grids = make([]*models.Grid, len(Cols)*len(Rows))
+	cellCount := len(Cols) * len(Rows)
+	g.Grids = make([]*models.Grid, cellCount)
+
+	var combinable *artifact.Combinable
+	combinableCount := ShallowCombinableCount
+
+	for i := 0; i < ShallowCount; i++ {
+		g.Grids[i] = models.NewGrid()
+		g.Grids[i].Type = models.Shallow
+
+		if combinable != nil {
+			g.Grids[i].ArtifactType = models.Combinable
+			g.Grids[i].Artifact = combinable.Pair
+			combinable = nil
+		} else if combinableCount > 0 {
+			g.Grids[i].ArtifactType = models.Combinable
+			g.Grids[i].Artifact, combinable = randMapItem(artifact.ShallowCombinable)
+			combinableCount--
+		} else {
+			g.Grids[i].ArtifactType = models.Unique
+			g.Grids[i].Artifact, _ = randMapItem(artifact.ShallowUnique)
+		}
+	}
+
+	combinable = nil
+	combinableCount = DeepCombinableCount
+	legendaryCount := LegendaryCount
+
+	for i := ShallowCount; i < cellCount; i++ {
+		g.Grids[i] = models.NewGrid()
+		g.Grids[i].Type = models.Deep
+
+		if combinable != nil {
+			g.Grids[i].ArtifactType = models.Combinable
+			g.Grids[i].Artifact = combinable.Pair
+			combinable = nil
+		} else if combinableCount > 0 {
+			g.Grids[i].ArtifactType = models.Combinable
+			g.Grids[i].Artifact, combinable = randMapItem(artifact.DeepCombinable)
+			combinableCount--
+		} else if legendaryCount > 0 {
+			g.Grids[i].ArtifactType = models.Legendary
+			g.Grids[i].Artifact, _ = randMapItem(artifact.LegendaryUnique)
+			legendaryCount--
+		} else {
+			g.Grids[i].ArtifactType = models.Unique
+			g.Grids[i].Artifact, _ = randMapItem(artifact.DeepUnique)
+		}
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(g.Grids), func(i, j int) {
+		g.Grids[i], g.Grids[j] = g.Grids[j], g.Grids[i]
+	})
 
 	for _, row := range Rows {
 		for i, col := range Cols {
-			grid := models.NewGrid()
-			grid.Name = col + strconv.Itoa(row)
-
-			g.Grids[row*len(Cols)+i] = grid
+			g.Grids[row*len(Cols)+i].Name = col + strconv.Itoa(row)
 		}
 	}
 }
@@ -63,4 +116,24 @@ func (g *Game) Load() {
 // Delete function.
 func (g *Game) Delete() {
 	// TODO
+}
+
+func randMapItem[K comparable, V any](items map[K]V) (K, V) {
+	rand.Seed(time.Now().UnixNano())
+
+	randIndex := rand.Intn(len(items))
+	currentIndex := 0
+
+	for name, item := range items {
+		if randIndex == currentIndex {
+			return name, item
+		}
+
+		currentIndex++
+	}
+
+	var key K
+	var value V
+
+	return key, value
 }
