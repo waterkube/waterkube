@@ -120,14 +120,14 @@ func (g *Game) Delete() {
 
 func randFromMap[K comparable, V any](m map[K]V) (K, V) {
 	rand.Seed(time.Now().UnixNano())
-	index := rand.Intn(len(m))
+	r := rand.Intn(len(m))
 	i := 0
 
 	var k K
 	var v V
 
 	for k, v = range m {
-		if index == i {
+		if r == i {
 			return k, v
 		}
 
