@@ -2,7 +2,6 @@ package web
 
 import (
 	"context"
-	"github.com/waterkube/waterkube/internal/game"
 	"net/http"
 	"os"
 	"os/signal"
@@ -13,6 +12,7 @@ import (
 	"github.com/petaki/inertia-go"
 	"github.com/petaki/support-go/cli"
 	"github.com/petaki/support-go/mix"
+	"github.com/waterkube/waterkube/internal/game"
 	"github.com/waterkube/waterkube/internal/models"
 	"github.com/waterkube/waterkube/resources/views"
 	"github.com/waterkube/waterkube/static"
