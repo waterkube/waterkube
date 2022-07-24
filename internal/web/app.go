@@ -1,6 +1,7 @@
 package web
 
 import (
+	"github.com/waterkube/waterkube/internal/game"
 	"github.com/waterkube/waterkube/internal/models"
 	"log"
 
@@ -15,6 +16,7 @@ type app struct {
 	infoLog               *log.Logger
 	mixManager            *mix.Mix
 	inertiaManager        *inertia.Inertia
+	gameManager           *game.Game
 	commandRepository     models.CommandRepository
 	explorationRepository models.ExplorationRepository
 	gridRepository        models.GridRepository
