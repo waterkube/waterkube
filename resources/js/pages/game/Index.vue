@@ -19,13 +19,13 @@
                     {{ index / cols.length }}
                 </div>
                 <div class="relative bg-no-repeat bg-contain w-6 h-6 sm:w-12 sm:h-12 lg:w-16 lg:h-16"
-                     :class="grid.type">
-                    <span v-if="grid.type === 'grid-shallow'"
+                     :class="gridClass(grid)">
+                    <span v-if="grid.type === 'shallow'"
                           class="flex absolute h-3 w-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
                     </span>
-                    <span v-if="grid.type === 'grid-deep'"
+                    <span v-if="grid.type === 'deep'"
                           class="flex absolute h-3 w-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
@@ -62,6 +62,11 @@ export default {
         rows: {
             type: Array,
             required: true
+        },
+
+        grids: {
+            type: Array,
+            required: true
         }
     },
 
@@ -69,30 +74,20 @@ export default {
         const { cols, rows } = toRefs(props);
         const letters = ref(['', ...cols.value, '']);
 
-        const randomGrid = () => {
-            const random = Math.floor(Math.random() * 3);
-
-            return ['grid-empty', 'grid-shallow', 'grid-deep'][random];
-        };
-
         const cellCount = computed(() => cols.value.length * rows.value.length);
 
-        const grids = computed(() => {
-            const value = [];
-
-            for (let i = 0; i < cellCount.value; i++) {
-                value.push({
-                    type: randomGrid()
-                });
+        const gridClass = grid => {
+            if (grid.status === 'undiscovered') {
+                return `grid-${grid.type}`;
             }
 
-            return value;
-        });
+            return 'grid-empty';
+        };
 
         return {
             letters,
             cellCount,
-            grids
+            gridClass
         };
     }
 };

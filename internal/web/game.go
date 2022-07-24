@@ -32,6 +32,7 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 	err := a.inertiaManager.Render(w, r, "game/Index", map[string]interface{}{
 		"cols":      game.Cols,
 		"rows":      game.Rows,
+		"grids":     a.gameManager.Grids,
 		"artifacts": artifacts,
 	})
 	if err != nil {
