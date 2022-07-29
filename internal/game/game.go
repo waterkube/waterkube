@@ -44,8 +44,8 @@ func New(gridRepository models.GridRepository) *Game {
 	}
 }
 
-// Create function.
-func (g *Game) Create() {
+// Generate function.
+func (g *Game) Generate() {
 	cellCount := len(Cols) * len(Rows)
 	g.Grids = make([]*models.Grid, cellCount)
 
@@ -106,6 +106,11 @@ func (g *Game) Create() {
 			g.Grids[row*len(Cols)+i].Name = col + strconv.Itoa(row)
 		}
 	}
+}
+
+// Create function.
+func (g *Game) Create() {
+	// TODO
 }
 
 // Load function.

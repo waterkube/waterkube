@@ -38,10 +38,6 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 		mixManager:     mixManager,
 		inertiaManager: inertiaManager,
 		gameManager:    game.New(gridRepository),
-		commandRepository: &models.RedisCommandRepository{
-			RedisPool:      redisPool,
-			RedisKeyPrefix: redisKeyPrefix,
-		},
 		explorationRepository: &models.RedisExplorationRepository{
 			RedisPool:      redisPool,
 			RedisKeyPrefix: redisKeyPrefix,
@@ -54,7 +50,7 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 	}
 
 	// TODO
-	webApp.gameManager.Create()
+	webApp.gameManager.Generate()
 
 	srv := &http.Server{
 		Addr:         addr,

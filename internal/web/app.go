@@ -17,7 +17,6 @@ type app struct {
 	mixManager            *mix.Mix
 	inertiaManager        *inertia.Inertia
 	gameManager           *game.Game
-	commandRepository     models.CommandRepository
 	explorationRepository models.ExplorationRepository
 	gridRepository        models.GridRepository
 	playerRepository      models.PlayerRepository
