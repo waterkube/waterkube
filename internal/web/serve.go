@@ -25,7 +25,17 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 		cli.ErrorLog.Fatal(err)
 	}
 
+	explorationRepository := &models.RedisExplorationRepository{
+		RedisPool:      redisPool,
+		RedisKeyPrefix: redisKeyPrefix,
+	}
+
 	gridRepository := &models.RedisGridRepository{
+		RedisPool:      redisPool,
+		RedisKeyPrefix: redisKeyPrefix,
+	}
+
+	playerRepository := &models.RedisPlayerRepository{
 		RedisPool:      redisPool,
 		RedisKeyPrefix: redisKeyPrefix,
 	}
@@ -37,16 +47,14 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 		errorLog:       cli.ErrorLog,
 		mixManager:     mixManager,
 		inertiaManager: inertiaManager,
-		gameManager:    game.New(gridRepository),
-		explorationRepository: &models.RedisExplorationRepository{
-			RedisPool:      redisPool,
-			RedisKeyPrefix: redisKeyPrefix,
-		},
-		gridRepository: gridRepository,
-		playerRepository: &models.RedisPlayerRepository{
-			RedisPool:      redisPool,
-			RedisKeyPrefix: redisKeyPrefix,
-		},
+		gameManager: game.New(
+			explorationRepository,
+			gridRepository,
+			playerRepository,
+		),
+		explorationRepository: explorationRepository,
+		gridRepository:        gridRepository,
+		playerRepository:      playerRepository,
 	}
 
 	// TODO

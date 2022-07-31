@@ -33,19 +33,30 @@ var (
 
 // Game type.
 type Game struct {
-	gridRepository models.GridRepository
-	Grids          []*models.Grid
+	explorationRepository models.ExplorationRepository
+	gridRepository        models.GridRepository
+	playerRepository      models.PlayerRepository
+	Player                *models.Player
+	Grids                 []*models.Grid
 }
 
 // New function.
-func New(gridRepository models.GridRepository) *Game {
+func New(
+	explorationRepository models.ExplorationRepository,
+	gridRepository models.GridRepository,
+	playerRepository models.PlayerRepository,
+) *Game {
 	return &Game{
-		gridRepository: gridRepository,
+		explorationRepository: explorationRepository,
+		gridRepository:        gridRepository,
+		playerRepository:      playerRepository,
 	}
 }
 
 // Generate function.
 func (g *Game) Generate() {
+	g.Player = models.NewPlayer()
+
 	cellCount := len(Cols) * len(Rows)
 	g.Grids = make([]*models.Grid, cellCount)
 
@@ -119,7 +130,56 @@ func (g *Game) Load() {
 }
 
 // Delete function.
-func (g *Game) Delete() {
+func (g *Game) Delete() error {
+	for _, row := range Rows {
+		for _, col := range Cols {
+			err := g.gridRepository.Delete(col + strconv.Itoa(row))
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	err := g.playerRepository.Delete()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ArtifactCombine function.
+func (g *Game) ArtifactCombine(nameA, nameB string) {
+	// TODO
+}
+
+// ArtifactDonate function.
+func (g *Game) ArtifactDonate(name string) {
+	// TODO
+}
+
+// ArtifactSell function.
+func (g *Game) ArtifactSell(name string) {
+	// TODO
+}
+
+// DiverExplore function.
+func (g *Game) DiverExplore(name string) {
+	// TODO
+}
+
+// DiverHire function.
+func (g *Game) DiverHire() {
+	// TODO
+}
+
+// SubmarineExplore function.
+func (g *Game) SubmarineExplore(name string) {
+	// TODO
+}
+
+// SubmarineBuy function.
+func (g *Game) SubmarineBuy() {
 	// TODO
 }
 
