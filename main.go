@@ -16,12 +16,14 @@ func main() {
 				Usage: "Map commands",
 				Commands: []*cli.Command{
 					{
-						Name:  "create",
-						Usage: "Create a map",
+						Name:       "create",
+						Usage:      "Create a map",
+						HandleFunc: cmd.MapCreate,
 					},
 					{
-						Name:  "delete",
-						Usage: "Delete the map",
+						Name:       "delete",
+						Usage:      "Delete the map",
+						HandleFunc: cmd.MapDelete,
 					},
 				},
 			},

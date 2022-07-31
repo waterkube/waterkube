@@ -20,6 +20,13 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err := a.gameManager.MapLoad()
+	if err != nil {
+		a.notFound(w)
+
+		return
+	}
+
 	var artifacts []interface{}
 
 	for name, ar := range artifact.ShallowUnique {
@@ -29,7 +36,7 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	err := a.inertiaManager.Render(w, r, "game/Index", map[string]interface{}{
+	err = a.inertiaManager.Render(w, r, "game/Index", map[string]interface{}{
 		"cols":      game.Cols,
 		"rows":      game.Rows,
 		"grids":     a.gameManager.Grids,
