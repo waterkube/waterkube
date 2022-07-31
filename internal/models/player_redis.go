@@ -14,8 +14,8 @@ type RedisPlayerRepository struct {
 	RedisKeyPrefix string
 }
 
-// Create function.
-func (rpr *RedisPlayerRepository) Create(player *Player) error {
+// CreateOrUpdate function.
+func (rpr *RedisPlayerRepository) CreateOrUpdate(player *Player) error {
 	conn := rpr.RedisPool.Get()
 	defer conn.Close()
 
@@ -51,31 +51,6 @@ func (rpr *RedisPlayerRepository) Find() (*Player, error) {
 	}
 
 	return &player, nil
-}
-
-// Update function.
-func (rpr *RedisPlayerRepository) Update(newPlayer *Player) error {
-	conn := rpr.RedisPool.Get()
-	defer conn.Close()
-
-	player, err := rpr.Find()
-	if err != nil {
-		return err
-	}
-
-	player.Money = newPlayer.Money
-	player.BoatCount = newPlayer.BoatCount
-	player.DiverCount = newPlayer.DiverCount
-	player.SubmarineCount = newPlayer.SubmarineCount
-
-	_, err = conn.Do(
-		"HMSET", redis.Args{}.Add(rpr.RedisKeyPrefix+playerKeyPrefix).AddFlat(player)...,
-	)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 // Delete function.
