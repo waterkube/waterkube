@@ -49,6 +49,9 @@ type Grid struct {
 
 // GridRepository type.
 type GridRepository interface {
+	CreateOrUpdate(*Grid) error
+	Find(string) (*Grid, error)
+	Delete(string) error
 }
 
 // NewGrid function.
