@@ -2,9 +2,9 @@ package game
 
 import "testing"
 
-func TestGenerate(t *testing.T) {
+func TestMapGenerate(t *testing.T) {
 	game := New(nil, nil, nil)
-	game.Generate()
+	game.MapGenerate()
 
 	if game.Player == nil {
 		t.Error("missing player")

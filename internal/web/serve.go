@@ -58,7 +58,7 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 	}
 
 	// TODO
-	webApp.gameManager.Generate()
+	webApp.gameManager.MapGenerate()
 
 	srv := &http.Server{
 		Addr:         addr,
