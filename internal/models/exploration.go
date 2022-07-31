@@ -14,4 +14,13 @@ type Exploration struct {
 
 // ExplorationRepository type.
 type ExplorationRepository interface {
+	Create(*Exploration) error
+	Find(*Grid) (*Exploration, error)
+}
+
+// NewExploration function.
+func NewExploration(grid *Grid) *Exploration {
+	return &Exploration{
+		Grid: grid.Name,
+	}
 }
