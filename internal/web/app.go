@@ -1,12 +1,12 @@
 package web
 
 import (
-	"github.com/waterkube/waterkube/internal/game"
-	"github.com/waterkube/waterkube/internal/models"
 	"log"
 
 	"github.com/petaki/inertia-go"
 	"github.com/petaki/support-go/mix"
+	"github.com/waterkube/waterkube/internal/game"
+	"github.com/waterkube/waterkube/internal/models"
 )
 
 type app struct {

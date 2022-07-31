@@ -10,6 +10,10 @@ type Player struct {
 
 // PlayerRepository type.
 type PlayerRepository interface {
+	Create(*Player) error
+	Find() (*Player, error)
+	Update(*Player) error
+	Delete() error
 }
 
 // NewPlayer function.
