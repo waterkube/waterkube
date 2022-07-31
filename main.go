@@ -12,6 +12,20 @@ func main() {
 		Version: "1.0.0",
 		Groups: []*cli.Group{
 			{
+				Name:  "map",
+				Usage: "Map commands",
+				Commands: []*cli.Command{
+					{
+						Name:  "create",
+						Usage: "Create a map",
+					},
+					{
+						Name:  "delete",
+						Usage: "Delete the map",
+					},
+				},
+			},
+			{
 				Name:  "artifact",
 				Usage: "Artifact commands",
 				Commands: []*cli.Command{

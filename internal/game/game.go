@@ -53,12 +53,10 @@ func New(
 	}
 }
 
-// Generate function.
-func (g *Game) Generate() {
+// MapGenerate function.
+func (g *Game) MapGenerate() {
 	g.Player = models.NewPlayer()
-
-	cellCount := len(Cols) * len(Rows)
-	g.Grids = make([]*models.Grid, cellCount)
+	g.Grids = g.newGrids()
 
 	var combinable *artifact.Combinable
 	combinableCount := ShallowCombinableCount
@@ -85,7 +83,7 @@ func (g *Game) Generate() {
 	combinableCount = DeepCombinableCount
 	legendaryCount := LegendaryCount
 
-	for i := ShallowCount; i < cellCount; i++ {
+	for i := ShallowCount; i < len(Cols)*len(Rows); i++ {
 		g.Grids[i] = models.NewGrid()
 		g.Grids[i].Type = models.Deep
 
@@ -119,18 +117,58 @@ func (g *Game) Generate() {
 	}
 }
 
-// Create function.
-func (g *Game) Create() {
-	// TODO
+// MapCreate function.
+func (g *Game) MapCreate() error {
+	g.MapGenerate()
+
+	err := g.playerRepository.CreateOrUpdate(g.Player)
+	if err != nil {
+		return err
+	}
+
+	for _, grid := range g.Grids {
+		err := g.gridRepository.CreateOrUpdate(grid)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
-// Load function.
-func (g *Game) Load() {
-	// TODO
+// MapLoad function.
+func (g *Game) MapLoad() error {
+	player, err := g.playerRepository.Find()
+	if err != nil {
+		return err
+	}
+
+	grids := g.newGrids()
+
+	for _, row := range Rows {
+		for i, col := range Cols {
+			grid, err := g.gridRepository.Find(col + strconv.Itoa(row))
+			if err != nil {
+				return err
+			}
+
+			grids[row*len(Cols)+i] = grid
+		}
+	}
+
+	g.Player = player
+	g.Grids = grids
+
+	return nil
 }
 
-// Delete function.
-func (g *Game) Delete() error {
+// MapDelete function.
+func (g *Game) MapDelete() error {
+	err := g.playerRepository.Delete()
+	if err != nil {
+		return err
+	}
+
 	for _, row := range Rows {
 		for _, col := range Cols {
 			err := g.gridRepository.Delete(col + strconv.Itoa(row))
@@ -140,10 +178,8 @@ func (g *Game) Delete() error {
 		}
 	}
 
-	err := g.playerRepository.Delete()
-	if err != nil {
-		return err
-	}
+	g.Player = nil
+	g.Grids = nil
 
 	return nil
 }
@@ -181,6 +217,10 @@ func (g *Game) SubmarineExplore(name string) {
 // SubmarineBuy function.
 func (g *Game) SubmarineBuy() {
 	// TODO
+}
+
+func (g *Game) newGrids() []*models.Grid {
+	return make([]*models.Grid, len(Cols)*len(Rows))
 }
 
 func randFromMap[K comparable, V any](m map[K]V) (K, V) {
