@@ -20,14 +20,17 @@ func MapCreate(group *cli.Group, command *cli.Command, arguments []string) int {
 
 	gameManager := newGameManager(*redisKeyPrefix, redisPool)
 
-	fmt.Println("🐚 Creating a new " + cli.Green("Map") + "...")
+	fmt.Println()
+	fmt.Println("  🐚 Creating a new " + cli.Green("Map") + "...")
+	fmt.Println()
 
 	err = gameManager.MapCreate()
 	if err != nil {
 		return command.PrintError(err)
 	}
 
-	fmt.Println("✅ Map is " + cli.Green("Ready"))
+	fmt.Println("  ✅ Map is " + cli.Green("Ready"))
+	fmt.Println()
 
 	return cli.Success
 }
@@ -46,14 +49,17 @@ func MapDelete(group *cli.Group, command *cli.Command, arguments []string) int {
 
 	gameManager := newGameManager(*redisKeyPrefix, redisPool)
 
-	fmt.Println("❌ Deleting the " + cli.Green("Map") + "...")
+	fmt.Println()
+	fmt.Println("  ❌ Deleting the " + cli.Green("Map") + "...")
+	fmt.Println()
 
 	err = gameManager.MapDelete()
 	if err != nil {
 		return command.PrintError(err)
 	}
 
-	fmt.Println("✅ Map is " + cli.Green("Empty"))
+	fmt.Println("  ✅ Map is " + cli.Green("Empty"))
+	fmt.Println()
 
 	return cli.Success
 }
