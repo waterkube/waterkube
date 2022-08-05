@@ -50,12 +50,14 @@ func main() {
 				Usage: "Diver commands",
 				Commands: []*cli.Command{
 					{
-						Name:  "explore",
-						Usage: "Explore the coordinate",
+						Name:       "explore",
+						Usage:      "Explore the coordinate",
+						HandleFunc: cmd.DiverExplore,
 					},
 					{
-						Name:  "hire",
-						Usage: "Hire a diver",
+						Name:       "hire",
+						Usage:      "Hire a diver",
+						HandleFunc: cmd.DiverHire,
 					},
 				},
 			},
@@ -64,12 +66,14 @@ func main() {
 				Usage: "Submarine commands",
 				Commands: []*cli.Command{
 					{
-						Name:  "explore",
-						Usage: "Explore the coordinate",
+						Name:       "explore",
+						Usage:      "Explore the coordinate",
+						HandleFunc: cmd.SubmarineExplore,
 					},
 					{
-						Name:  "buy",
-						Usage: "Buy a submarine",
+						Name:       "buy",
+						Usage:      "Buy a submarine",
+						HandleFunc: cmd.SubmarineBuy,
 					},
 				},
 			},
