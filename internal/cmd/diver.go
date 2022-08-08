@@ -20,9 +20,26 @@ func DiverExplore(group *cli.Group, command *cli.Command, arguments []string) in
 
 // DiverHire function.
 func DiverHire(group *cli.Group, command *cli.Command, arguments []string) int {
+	redisURL, redisKeyPrefix := createRedisFlags(command)
+
+	_, err := command.Parse(arguments)
+	if err != nil {
+		return command.PrintHelp(group)
+	}
+
+	redisPool := newRedisPool(*redisURL)
+	defer redisPool.Close()
+
+	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+
 	fmt.Println()
 	fmt.Println("  💼 Looking for an " + cli.Green("applicant") + "...")
 	fmt.Println()
+
+	err = gameManager.DiverHire()
+	if err != nil {
+		return command.PrintError(err)
+	}
 
 	fmt.Println("  ✅ Diver is " + cli.Green("ready"))
 	fmt.Println()
