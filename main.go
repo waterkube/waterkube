@@ -32,16 +32,19 @@ func main() {
 				Usage: "Artifact commands",
 				Commands: []*cli.Command{
 					{
-						Name:  "combine",
-						Usage: "Combine the artifacts",
+						Name:       "combine",
+						Usage:      "Combine the artifacts",
+						HandleFunc: cmd.ArtifactCombine,
 					},
 					{
-						Name:  "donate",
-						Usage: "Donate the artifact",
+						Name:       "donate",
+						Usage:      "Donate the artifact",
+						HandleFunc: cmd.ArtifactDonate,
 					},
 					{
-						Name:  "sell",
-						Usage: "Sell the artifact",
+						Name:       "sell",
+						Usage:      "Sell the artifact",
+						HandleFunc: cmd.ArtifactSell,
 					},
 				},
 			},

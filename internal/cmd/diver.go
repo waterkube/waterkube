@@ -24,7 +24,7 @@ func DiverHire(group *cli.Group, command *cli.Command, arguments []string) int {
 	fmt.Println("  💼 Looking for an " + cli.Green("applicant") + "...")
 	fmt.Println()
 
-	fmt.Println("  ✅ Diver was " + cli.Green("hired"))
+	fmt.Println("  ✅ Diver is " + cli.Green("ready"))
 	fmt.Println()
 
 	return cli.Success
