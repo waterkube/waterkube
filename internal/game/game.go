@@ -21,6 +21,12 @@ const (
 
 	// LegendaryCount number.
 	LegendaryCount = 1
+
+	// DiverPrice value.
+	DiverPrice = 5
+
+	// SubmarinePrice value.
+	SubmarinePrice = 10
 )
 
 var (
@@ -205,8 +211,25 @@ func (g *Game) DiverExplore(name string) {
 }
 
 // DiverHire function.
-func (g *Game) DiverHire() {
-	// TODO
+func (g *Game) DiverHire() error {
+	err := g.MapLoad()
+	if err != nil {
+		return err
+	}
+
+	if g.Player.Money < DiverPrice {
+		return ErrNoMoney
+	}
+
+	g.Player.Money -= DiverPrice
+	g.Player.DiverCount++
+
+	err = g.playerRepository.CreateOrUpdate(g.Player)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // SubmarineExplore function.
@@ -215,8 +238,25 @@ func (g *Game) SubmarineExplore(name string) {
 }
 
 // SubmarineBuy function.
-func (g *Game) SubmarineBuy() {
-	// TODO
+func (g *Game) SubmarineBuy() error {
+	err := g.MapLoad()
+	if err != nil {
+		return err
+	}
+
+	if g.Player.Money < SubmarinePrice {
+		return ErrNoMoney
+	}
+
+	g.Player.Money -= SubmarinePrice
+	g.Player.SubmarineCount++
+
+	err = g.playerRepository.CreateOrUpdate(g.Player)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (g *Game) newGrids() []*models.Grid {

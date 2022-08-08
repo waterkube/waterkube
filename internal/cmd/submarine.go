@@ -20,9 +20,26 @@ func SubmarineExplore(group *cli.Group, command *cli.Command, arguments []string
 
 // SubmarineBuy function.
 func SubmarineBuy(group *cli.Group, command *cli.Command, arguments []string) int {
+	redisURL, redisKeyPrefix := createRedisFlags(command)
+
+	_, err := command.Parse(arguments)
+	if err != nil {
+		return command.PrintHelp(group)
+	}
+
+	redisPool := newRedisPool(*redisURL)
+	defer redisPool.Close()
+
+	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+
 	fmt.Println()
 	fmt.Println("  📦 Ordering a " + cli.Green("submarine") + "...")
 	fmt.Println()
+
+	err = gameManager.SubmarineBuy()
+	if err != nil {
+		return command.PrintError(err)
+	}
 
 	fmt.Println("  ✅ Submarine is " + cli.Green("ready"))
 	fmt.Println()
