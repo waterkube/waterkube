@@ -98,14 +98,14 @@
     <section class="sidebar fixed z-20 w-64 right-0 inset-y-0 bg-black bg-opacity-50 bg-left-top bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isRightSidebarOpen, 'translate-x-full': !isRightSidebarOpen}"></section>
     <slot></slot>
-    <div class="flex items-center justify-center my-4 text-sm text-slate-600">
+    <footer class="flex items-center justify-center my-4 text-sm text-slate-600">
         Fork me on
         <a class="text-cyan-400 hover:text-cyan-500 ml-2"
            href="https://github.com/waterkube/waterkube"
            target="_blank">
             GitHub
         </a>
-    </div>
+    </footer>
     <!-- eslint-enable max-len -->
 </template>
 
