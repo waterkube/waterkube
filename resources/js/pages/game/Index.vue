@@ -43,7 +43,7 @@
                 <div class="flex flex-col items-center">
                     <div class="dollar w-12 h-12 bg-no-repeat bg-center bg-contain"></div>
                     <div class="text-lime-400">
-                        {{ money }}
+                        {{ player.money }}
                     </div>
                 </div>
                 <div class="flex flex-col items-center">
@@ -180,8 +180,8 @@ export default {
             required: true
         },
 
-        money: {
-            type: Number,
+        player: {
+            type: Object,
             required: true
         },
 

@@ -263,7 +263,7 @@ func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
 	explorations := g.Explorations()
 
 	for _, grid := range g.Grids {
-		if grid.Status == models.Undiscovered {
+		if grid.Status != models.Discovered {
 			continue
 		}
 
