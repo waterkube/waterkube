@@ -48,19 +48,19 @@
                 <div class="flex flex-col items-center">
                     <div class="boat w-12 h-12 bg-no-repeat bg-center bg-contain"></div>
                     <div class="text-slate-300">
-                        9
+                        {{ freeBoat }}
                     </div>
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="diver w-12 h-12 bg-no-repeat bg-center bg-contain"></div>
                     <div class="text-cyan-400">
-                        1
+                        {{ freeDiver }}
                     </div>
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="submarine w-12 h-12 bg-no-repeat bg-center bg-contain"></div>
                     <div class="text-center text-purple-400">
-                        3
+                        {{ freeSubmarine }}
                     </div>
                 </div>
             </div>
@@ -125,6 +125,21 @@ export default {
     },
 
     props: {
+        freeBoat: {
+            type: Number,
+            required: true
+        },
+
+        freeDiver: {
+            type: Number,
+            required: true
+        },
+
+        freeSubmarine: {
+            type: Number,
+            required: true
+        },
+
         artifacts: {
             type: Array,
             default: () => []

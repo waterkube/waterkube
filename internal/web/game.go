@@ -27,6 +27,8 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	freeBoat, freeDiver, freeSubmarine := a.gameManager.FreeUnits()
+
 	var artifacts []interface{}
 
 	for name, ar := range artifact.ShallowUnique {
@@ -37,10 +39,13 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = a.inertiaManager.Render(w, r, "game/Index", map[string]interface{}{
-		"cols":      game.Cols,
-		"rows":      game.Rows,
-		"grids":     a.gameManager.Grids,
-		"artifacts": artifacts,
+		"cols":          game.Cols,
+		"rows":          game.Rows,
+		"grids":         a.gameManager.Grids,
+		"freeBoat":      freeBoat,
+		"freeDiver":     freeDiver,
+		"freeSubmarine": freeSubmarine,
+		"artifacts":     artifacts,
 	})
 	if err != nil {
 		a.serverError(w, err)
