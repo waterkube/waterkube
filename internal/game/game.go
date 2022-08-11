@@ -211,7 +211,7 @@ func (g *Game) Explorations() []string {
 	var explorations []string
 
 	for _, grid := range g.Grids {
-		if grid.Status == models.Undiscovered {
+		if grid.Status != models.Discovered {
 			continue
 		}
 
@@ -272,6 +272,7 @@ func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
 		}
 
 		discoveredArtifacts = append(discoveredArtifacts, &artifact.Artifact{
+			Grid:  grid.Name,
 			Name:  grid.Artifact,
 			Price: g.artifactPrice(grid),
 		})
@@ -294,6 +295,7 @@ func (g *Game) DonatedArtifacts() []*artifact.Artifact {
 		}
 
 		donatedArtifacts = append(donatedArtifacts, &artifact.Artifact{
+			Grid: grid.Name,
 			Name: grid.Artifact,
 		})
 	}
