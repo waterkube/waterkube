@@ -31,6 +31,9 @@ const (
 	// Discovered status.
 	Discovered GridStatus = "discovered"
 
+	// Combined status.
+	Combined GridStatus = "combined"
+
 	// Donated status.
 	Donated GridStatus = "donated"
 
