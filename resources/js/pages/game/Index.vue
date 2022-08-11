@@ -13,7 +13,7 @@
         <div ref="leftSidebarContent" class="sidebar-content-left w-60 relative overflow-hidden">
             <div class="grid grid-cols-2 gap-4">
                 <div v-for="artifact in discoveredArtifacts"
-                     :key="artifact.name"
+                     :key="artifact.grid"
                      class="flex flex-col items-center justify-center">
                     <div :class="`artifact-${artifact.name.toLowerCase()}`"
                          class="w-16 h-16 bg-no-repeat bg-center bg-contain"></div>
@@ -84,7 +84,7 @@
         <div ref="rightSidebarContent" class="sidebar-content-right w-60 ml-20 relative overflow-hidden">
             <div class="grid grid-cols-2 gap-4">
                 <div v-for="artifact in donatedArtifacts"
-                     :key="artifact.name"
+                     :key="artifact.grid"
                      class="flex flex-col items-center justify-center">
                     <div :class="`artifact-${artifact.name.toLowerCase()}`"
                          class="w-16 h-16 bg-no-repeat bg-center bg-contain"></div>
