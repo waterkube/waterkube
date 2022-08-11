@@ -55,6 +55,7 @@ func main() {
 					{
 						Name:       "explore",
 						Usage:      "Explore the coordinate",
+						Arguments:  []string{"gridName"},
 						HandleFunc: cmd.DiverExplore,
 					},
 					{
@@ -71,6 +72,7 @@ func main() {
 					{
 						Name:       "explore",
 						Usage:      "Explore the coordinate",
+						Arguments:  []string{"gridName"},
 						HandleFunc: cmd.SubmarineExplore,
 					},
 					{

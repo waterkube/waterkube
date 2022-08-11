@@ -2,11 +2,14 @@ package game
 
 import (
 	"math/rand"
+	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/waterkube/waterkube/internal/artifact"
 	"github.com/waterkube/waterkube/internal/models"
+	"golang.org/x/exp/slices"
 )
 
 const (
@@ -190,6 +193,118 @@ func (g *Game) MapDelete() error {
 	return nil
 }
 
+// MapProgress function.
+func (g *Game) MapProgress() int {
+	completed := len(g.Grids)
+
+	for _, grid := range g.Grids {
+		if grid.Status == models.Undiscovered {
+			completed--
+		}
+	}
+
+	return int(float32(completed) / float32(len(g.Grids)) * 100)
+}
+
+// Explorations function.
+func (g *Game) Explorations() []string {
+	var explorations []string
+
+	for _, grid := range g.Grids {
+		if grid.Status == models.Undiscovered {
+			continue
+		}
+
+		exploration, err := g.explorationRepository.Find(grid)
+		if err != nil {
+			continue
+		}
+
+		if exploration == nil {
+			continue
+		}
+
+		explorations = append(explorations, grid.Name)
+	}
+
+	return explorations
+}
+
+// FreeUnits function.
+func (g *Game) FreeUnits() (int, int, int) {
+	busyBoat := 0
+	busyDiver := 0
+	busySubmarine := 0
+	explorations := g.Explorations()
+
+	for _, grid := range g.Grids {
+		if !slices.Contains(explorations, grid.Name) {
+			continue
+		}
+
+		busyBoat++
+
+		if grid.Type == models.Shallow {
+			busyDiver++
+		} else {
+			busySubmarine++
+		}
+	}
+
+	return g.Player.BoatCount - busyBoat,
+		g.Player.DiverCount - busyDiver,
+		g.Player.SubmarineCount - busySubmarine
+}
+
+// DiscoveredArtifacts function.
+func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
+	var discoveredArtifacts []*artifact.Artifact
+
+	explorations := g.Explorations()
+
+	for _, grid := range g.Grids {
+		if grid.Status != models.Discovered {
+			continue
+		}
+
+		if slices.Contains(explorations, grid.Name) {
+			continue
+		}
+
+		discoveredArtifacts = append(discoveredArtifacts, &artifact.Artifact{
+			Name:  grid.Artifact,
+			Price: g.artifactPrice(grid),
+		})
+	}
+
+	sort.SliceStable(discoveredArtifacts, func(i, j int) bool {
+		return discoveredArtifacts[i].Name < discoveredArtifacts[j].Name
+	})
+
+	return discoveredArtifacts
+}
+
+// DonatedArtifacts function.
+func (g *Game) DonatedArtifacts() []*artifact.Artifact {
+	var donatedArtifacts []*artifact.Artifact
+
+	for _, grid := range g.Grids {
+		if grid.Status != models.Donated {
+			continue
+		}
+
+		donatedArtifacts = append(donatedArtifacts, &artifact.Artifact{
+			Name: grid.Artifact,
+		})
+	}
+
+	sort.SliceStable(donatedArtifacts, func(i, j int) bool {
+		return donatedArtifacts[i].Name < donatedArtifacts[j].Name
+	})
+
+	return donatedArtifacts
+}
+
 // ArtifactCombine function.
 func (g *Game) ArtifactCombine(nameA, nameB string) {
 	// TODO
@@ -206,17 +321,51 @@ func (g *Game) ArtifactSell(name string) {
 }
 
 // DiverExplore function.
-func (g *Game) DiverExplore(name string) {
-	// TODO
-}
+func (g *Game) DiverExplore(gridName string) error {
+	if !g.isValidGridName(gridName) {
+		return ErrInvalidGridName
+	}
 
-// DiverHire function.
-func (g *Game) DiverHire() error {
-	err := g.MapLoad()
+	grid, err := g.gridRepository.Find(gridName)
 	if err != nil {
 		return err
 	}
 
+	if grid.Type != models.Shallow {
+		return ErrInvalidGridType
+	}
+
+	if grid.Status != models.Undiscovered {
+		return ErrInvalidGridStatus
+	}
+
+	freeBoat, freeDiver, _ := g.FreeUnits()
+
+	if freeBoat == 0 {
+		return ErrNoBoat
+	}
+
+	if freeDiver == 0 {
+		return ErrNoDiver
+	}
+
+	err = g.explorationRepository.Create(models.NewExploration(grid))
+	if err != nil {
+		return err
+	}
+
+	grid.Status = models.Discovered
+
+	err = g.gridRepository.CreateOrUpdate(grid)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DiverHire function.
+func (g *Game) DiverHire() error {
 	if g.Player.Money < DiverPrice {
 		return ErrNoMoney
 	}
@@ -224,7 +373,7 @@ func (g *Game) DiverHire() error {
 	g.Player.Money -= DiverPrice
 	g.Player.DiverCount++
 
-	err = g.playerRepository.CreateOrUpdate(g.Player)
+	err := g.playerRepository.CreateOrUpdate(g.Player)
 	if err != nil {
 		return err
 	}
@@ -233,25 +382,35 @@ func (g *Game) DiverHire() error {
 }
 
 // SubmarineExplore function.
-func (g *Game) SubmarineExplore(name string) {
-	// TODO
-}
+func (g *Game) SubmarineExplore(gridName string) error {
+	if !g.isValidGridName(gridName) {
+		return ErrInvalidGridName
+	}
 
-// SubmarineBuy function.
-func (g *Game) SubmarineBuy() error {
-	err := g.MapLoad()
+	grid, err := g.gridRepository.Find(gridName)
 	if err != nil {
 		return err
 	}
 
-	if g.Player.Money < SubmarinePrice {
-		return ErrNoMoney
+	if grid.Type != models.Deep {
+		return ErrInvalidGridType
 	}
 
-	g.Player.Money -= SubmarinePrice
-	g.Player.SubmarineCount++
+	if grid.Status != models.Undiscovered {
+		return ErrInvalidGridStatus
+	}
 
-	err = g.playerRepository.CreateOrUpdate(g.Player)
+	freeBoat, _, freeSubmarine := g.FreeUnits()
+
+	if freeBoat == 0 {
+		return ErrNoBoat
+	}
+
+	if freeSubmarine == 0 {
+		return ErrNoSubmarine
+	}
+
+	err = g.explorationRepository.Create(models.NewExploration(grid))
 	if err != nil {
 		return err
 	}
@@ -259,8 +418,68 @@ func (g *Game) SubmarineBuy() error {
 	return nil
 }
 
+// SubmarineBuy function.
+func (g *Game) SubmarineBuy() error {
+	if g.Player.Money < SubmarinePrice {
+		return ErrNoMoney
+	}
+
+	g.Player.Money -= SubmarinePrice
+	g.Player.SubmarineCount++
+
+	err := g.playerRepository.CreateOrUpdate(g.Player)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (g *Game) isValidGridName(gridName string) bool {
+	if len(gridName) != 2 {
+		return false
+	}
+
+	col := strings.ToUpper(gridName)[0:1]
+
+	if !slices.Contains(Cols, col) {
+		return false
+	}
+
+	row, err := strconv.Atoi(gridName[1:2])
+	if err != nil {
+		return false
+	}
+
+	if !slices.Contains(Rows, row) {
+		return false
+	}
+
+	return true
+}
+
 func (g *Game) newGrids() []*models.Grid {
 	return make([]*models.Grid, len(Cols)*len(Rows))
+}
+
+func (g *Game) artifactPrice(grid *models.Grid) int {
+	if grid.ArtifactType == models.Legendary {
+		return artifact.LegendaryUnique[grid.Artifact].Price
+	}
+
+	if grid.Type == models.Shallow {
+		if grid.ArtifactType == models.Unique {
+			return artifact.ShallowUnique[grid.Artifact].Price
+		}
+
+		return artifact.ShallowCombinable[grid.Artifact].Price
+	}
+
+	if grid.ArtifactType == models.Unique {
+		return artifact.DeepUnique[grid.Artifact].Price
+	}
+
+	return artifact.DeepCombinable[grid.Artifact].Price
 }
 
 func randFromMap[K comparable, V any](m map[K]V) (K, V) {

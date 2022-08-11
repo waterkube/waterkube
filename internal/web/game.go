@@ -3,7 +3,6 @@ package web
 import (
 	"net/http"
 
-	"github.com/waterkube/waterkube/internal/artifact"
 	"github.com/waterkube/waterkube/internal/game"
 )
 
@@ -27,20 +26,20 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var artifacts []interface{}
-
-	for name, ar := range artifact.ShallowUnique {
-		artifacts = append(artifacts, map[string]interface{}{
-			"name":  name,
-			"price": ar.Price,
-		})
-	}
+	freeBoat, freeDiver, freeSubmarine := a.gameManager.FreeUnits()
 
 	err = a.inertiaManager.Render(w, r, "game/Index", map[string]interface{}{
-		"cols":      game.Cols,
-		"rows":      game.Rows,
-		"grids":     a.gameManager.Grids,
-		"artifacts": artifacts,
+		"player":              a.gameManager.Player,
+		"freeBoat":            freeBoat,
+		"freeDiver":           freeDiver,
+		"freeSubmarine":       freeSubmarine,
+		"progress":            a.gameManager.MapProgress(),
+		"cols":                game.Cols,
+		"rows":                game.Rows,
+		"grids":               a.gameManager.Grids,
+		"explorations":        a.gameManager.Explorations(),
+		"discoveredArtifacts": a.gameManager.DiscoveredArtifacts(),
+		"donatedArtifacts":    a.gameManager.DonatedArtifacts(),
 	})
 	if err != nil {
 		a.serverError(w, err)

@@ -8,9 +8,31 @@ import (
 
 // SubmarineExplore function.
 func SubmarineExplore(group *cli.Group, command *cli.Command, arguments []string) int {
+	redisURL, redisKeyPrefix := createRedisFlags(command)
+
+	parsed, err := command.Parse(arguments)
+	if err != nil {
+		return command.PrintHelp(group)
+	}
+
+	redisPool := newRedisPool(*redisURL)
+	defer redisPool.Close()
+
+	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+
+	err = gameManager.MapLoad()
+	if err != nil {
+		return command.PrintError(err)
+	}
+
 	fmt.Println()
 	fmt.Println("  📡 Navigating to " + cli.Green("coordinate") + "...")
 	fmt.Println()
+
+	err = gameManager.SubmarineExplore(parsed[0])
+	if err != nil {
+		return command.PrintError(err)
+	}
 
 	fmt.Println("  ✅ Excavation has " + cli.Green("begun"))
 	fmt.Println()
@@ -31,6 +53,11 @@ func SubmarineBuy(group *cli.Group, command *cli.Command, arguments []string) in
 	defer redisPool.Close()
 
 	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+
+	err = gameManager.MapLoad()
+	if err != nil {
+		return command.PrintError(err)
+	}
 
 	fmt.Println()
 	fmt.Println("  📦 Ordering a " + cli.Green("submarine") + "...")

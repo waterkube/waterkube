@@ -24,7 +24,6 @@
         "eslint-plugin-vue": "^8.1",
         "glob": "^7.2",
         "laravel-mix": "^6.0",
-        "lodash": "^4.17",
         "perfect-scrollbar": "^1.5.5",
         "postcss": "^8.4",
         "resolve-url-loader": "^4.0",
