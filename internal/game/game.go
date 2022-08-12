@@ -316,76 +316,50 @@ func (g *Game) ArtifactCombine(artifactName1, artifactName2 string) {
 
 // ArtifactDonate function.
 func (g *Game) ArtifactDonate(artifactName string) error {
-	explorations := g.Explorations()
-
-	for _, grid := range g.Grids {
-		if grid.Status != models.Discovered {
-			continue
-		}
-
-		if slices.Contains(explorations, grid.Name) {
-			continue
-		}
-
-		if !strings.EqualFold(grid.Artifact, artifactName) {
-			continue
-		}
-
-		grid.Status = models.Donated
-
-		err := g.gridRepository.CreateOrUpdate(grid)
-		if err != nil {
-			return err
-		}
-
-		g.Player.BoatCount++
-
-		err = g.playerRepository.CreateOrUpdate(g.Player)
-		if err != nil {
-			return err
-		}
-
-		return nil
+	grid := g.artifactGrid(artifactName)
+	if grid == nil {
+		return ErrNoArtifact
 	}
 
-	return ErrNoArtifact
+	grid.Status = models.Donated
+
+	err := g.gridRepository.CreateOrUpdate(grid)
+	if err != nil {
+		return err
+	}
+
+	g.Player.BoatCount++
+
+	err = g.playerRepository.CreateOrUpdate(g.Player)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // ArtifactSell function.
 func (g *Game) ArtifactSell(artifactName string) error {
-	explorations := g.Explorations()
-
-	for _, grid := range g.Grids {
-		if grid.Status != models.Discovered {
-			continue
-		}
-
-		if slices.Contains(explorations, grid.Name) {
-			continue
-		}
-
-		if !strings.EqualFold(grid.Artifact, artifactName) {
-			continue
-		}
-
-		grid.Status = models.Sold
-
-		err := g.gridRepository.CreateOrUpdate(grid)
-		if err != nil {
-			return err
-		}
-
-		g.Player.Money += g.artifactPrice(grid)
-
-		err = g.playerRepository.CreateOrUpdate(g.Player)
-		if err != nil {
-			return err
-		}
-
-		return nil
+	grid := g.artifactGrid(artifactName)
+	if grid == nil {
+		return ErrNoArtifact
 	}
 
-	return ErrNoArtifact
+	grid.Status = models.Sold
+
+	err := g.gridRepository.CreateOrUpdate(grid)
+	if err != nil {
+		return err
+	}
+
+	g.Player.Money += g.artifactPrice(grid)
+
+	err = g.playerRepository.CreateOrUpdate(g.Player)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // DiverExplore function.
@@ -539,6 +513,28 @@ func (g *Game) isValidGridName(gridName string) bool {
 
 func (g *Game) newGrids() []*models.Grid {
 	return make([]*models.Grid, len(Cols)*len(Rows))
+}
+
+func (g *Game) artifactGrid(artifactName string) *models.Grid {
+	explorations := g.Explorations()
+
+	for _, grid := range g.Grids {
+		if grid.Status != models.Discovered {
+			continue
+		}
+
+		if slices.Contains(explorations, grid.Name) {
+			continue
+		}
+
+		if !strings.EqualFold(grid.Artifact, artifactName) {
+			continue
+		}
+
+		return grid
+	}
+
+	return nil
 }
 
 func (g *Game) artifactPrice(grid *models.Grid) int {
