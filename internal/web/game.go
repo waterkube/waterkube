@@ -37,7 +37,7 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 		"cols":                game.Cols,
 		"rows":                game.Rows,
 		"grids":               a.gameManager.Grids,
-		"explorations":        a.gameManager.Explorations(),
+		"explorations":        a.gameManager.Explorations,
 		"discoveredArtifacts": a.gameManager.DiscoveredArtifacts(),
 		"donatedArtifacts":    a.gameManager.DonatedArtifacts(),
 	})
