@@ -246,6 +246,7 @@ func (g *Game) FreeUnits() (int, int, int) {
 // DiscoveredArtifacts function.
 func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
 	var discoveredArtifacts []*artifact.Artifact
+	var artifactNames []string
 
 	for _, grid := range g.Grids {
 		if grid.Status != models.Discovered {
@@ -256,12 +257,18 @@ func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
 			continue
 		}
 
-		discoveredArtifacts = append(discoveredArtifacts, &artifact.Artifact{
-			Grid:  grid.Name,
-			Name:  grid.Artifact,
-			Type:  string(grid.ArtifactType),
-			Price: g.artifactPrice(grid),
-		})
+		if slices.Contains(artifactNames, grid.Artifact) {
+			discoveredArtifacts[slices.Index(artifactNames, grid.Artifact)].Quantity++
+		} else {
+			discoveredArtifacts = append(discoveredArtifacts, &artifact.Artifact{
+				Name:     grid.Artifact,
+				Type:     string(grid.ArtifactType),
+				Price:    g.artifactPrice(grid),
+				Quantity: 1,
+			})
+
+			artifactNames = append(artifactNames, grid.Artifact)
+		}
 	}
 
 	sort.SliceStable(discoveredArtifacts, func(i, j int) bool {
@@ -274,17 +281,24 @@ func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
 // DonatedArtifacts function.
 func (g *Game) DonatedArtifacts() []*artifact.Artifact {
 	var donatedArtifacts []*artifact.Artifact
+	var artifactNames []string
 
 	for _, grid := range g.Grids {
 		if grid.Status != models.Donated {
 			continue
 		}
 
-		donatedArtifacts = append(donatedArtifacts, &artifact.Artifact{
-			Grid: grid.Name,
-			Name: grid.Artifact,
-			Type: string(grid.ArtifactType),
-		})
+		if slices.Contains(artifactNames, grid.Artifact) {
+			donatedArtifacts[slices.Index(artifactNames, grid.Artifact)].Quantity++
+		} else {
+			donatedArtifacts = append(donatedArtifacts, &artifact.Artifact{
+				Name:     grid.Artifact,
+				Type:     string(grid.ArtifactType),
+				Quantity: 1,
+			})
+
+			artifactNames = append(artifactNames, grid.Artifact)
+		}
 	}
 
 	sort.SliceStable(donatedArtifacts, func(i, j int) bool {
