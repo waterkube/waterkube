@@ -15,6 +15,9 @@ var (
 	// ErrNoSubmarine error.
 	ErrNoSubmarine = errors.New("game: you have no submarine")
 
+	// ErrNoArtifact error.
+	ErrNoArtifact = errors.New("game: you have no artifact")
+
 	// ErrInvalidGridName error.
 	ErrInvalidGridName = errors.New("game: invalid grid name")
 

@@ -310,18 +310,82 @@ func (g *Game) DonatedArtifacts() []*artifact.Artifact {
 }
 
 // ArtifactCombine function.
-func (g *Game) ArtifactCombine(nameA, nameB string) {
+func (g *Game) ArtifactCombine(artifactName1, artifactName2 string) {
 	// TODO
 }
 
 // ArtifactDonate function.
-func (g *Game) ArtifactDonate(name string) {
-	// TODO
+func (g *Game) ArtifactDonate(artifactName string) error {
+	explorations := g.Explorations()
+
+	for _, grid := range g.Grids {
+		if grid.Status != models.Discovered {
+			continue
+		}
+
+		if slices.Contains(explorations, grid.Name) {
+			continue
+		}
+
+		if !strings.EqualFold(grid.Artifact, artifactName) {
+			continue
+		}
+
+		grid.Status = models.Donated
+
+		err := g.gridRepository.CreateOrUpdate(grid)
+		if err != nil {
+			return err
+		}
+
+		g.Player.BoatCount++
+
+		err = g.playerRepository.CreateOrUpdate(g.Player)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	return ErrNoArtifact
 }
 
 // ArtifactSell function.
-func (g *Game) ArtifactSell(name string) {
-	// TODO
+func (g *Game) ArtifactSell(artifactName string) error {
+	explorations := g.Explorations()
+
+	for _, grid := range g.Grids {
+		if grid.Status != models.Discovered {
+			continue
+		}
+
+		if slices.Contains(explorations, grid.Name) {
+			continue
+		}
+
+		if !strings.EqualFold(grid.Artifact, artifactName) {
+			continue
+		}
+
+		grid.Status = models.Sold
+
+		err := g.gridRepository.CreateOrUpdate(grid)
+		if err != nil {
+			return err
+		}
+
+		g.Player.Money += g.artifactPrice(grid)
+
+		err = g.playerRepository.CreateOrUpdate(g.Player)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	return ErrNoArtifact
 }
 
 // DiverExplore function.
@@ -415,6 +479,13 @@ func (g *Game) SubmarineExplore(gridName string) error {
 	}
 
 	err = g.explorationRepository.Create(models.NewExploration(grid))
+	if err != nil {
+		return err
+	}
+
+	grid.Status = models.Discovered
+
+	err = g.gridRepository.CreateOrUpdate(grid)
 	if err != nil {
 		return err
 	}
