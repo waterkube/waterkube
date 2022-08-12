@@ -309,100 +309,149 @@ func (g *Game) DonatedArtifacts() []*artifact.Artifact {
 }
 
 // ArtifactCombine function.
-func (g *Game) ArtifactCombine(artifactName1, artifactName2 string) {
-	// TODO
+func (g *Game) ArtifactCombine(artifactName1, artifactName2 string) (*models.Grid, error) {
+	grid1 := g.artifactGrid(artifactName1)
+	if grid1 == nil {
+		return nil, ErrNoArtifact
+	}
+
+	if grid1.ArtifactType != models.Combinable {
+		return nil, ErrInvalidGridArtifactType
+	}
+
+	grid2 := g.artifactGrid(artifactName2)
+	if grid2 == nil {
+		return nil, ErrNoArtifact
+	}
+
+	if grid2.ArtifactType != models.Combinable {
+		return nil, ErrInvalidGridArtifactType
+	}
+
+	if grid1.Type != grid2.Type {
+		return nil, ErrInvalidGridType
+	}
+
+	var combinable *artifact.Combinable
+
+	if grid1.Type == models.Shallow {
+		combinable = artifact.ShallowCombinable[grid1.Artifact]
+	} else {
+		combinable = artifact.DeepCombinable[grid1.Artifact]
+	}
+
+	if grid2.Artifact != combinable.Pair {
+		return nil, ErrInvalidArtifactPair
+	}
+
+	grid1.Artifact = combinable.Result
+	grid1.ArtifactType = models.Result
+
+	err := g.gridRepository.CreateOrUpdate(grid1)
+	if err != nil {
+		return nil, err
+	}
+
+	grid2.Status = models.Combined
+
+	err = g.gridRepository.CreateOrUpdate(grid2)
+	if err != nil {
+		return nil, err
+	}
+
+	return grid1, nil
 }
 
 // ArtifactDonate function.
-func (g *Game) ArtifactDonate(artifactName string) error {
+func (g *Game) ArtifactDonate(artifactName string) (*models.Grid, error) {
 	grid := g.artifactGrid(artifactName)
 	if grid == nil {
-		return ErrNoArtifact
+		return nil, ErrNoArtifact
 	}
 
 	grid.Status = models.Donated
 
 	err := g.gridRepository.CreateOrUpdate(grid)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	g.Player.BoatCount++
 
 	err = g.playerRepository.CreateOrUpdate(g.Player)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return grid, nil
 }
 
 // ArtifactSell function.
-func (g *Game) ArtifactSell(artifactName string) error {
+func (g *Game) ArtifactSell(artifactName string) (*models.Grid, error) {
 	grid := g.artifactGrid(artifactName)
 	if grid == nil {
-		return ErrNoArtifact
+		return nil, ErrNoArtifact
 	}
 
 	grid.Status = models.Sold
 
 	err := g.gridRepository.CreateOrUpdate(grid)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	g.Player.Money += g.artifactPrice(grid)
 
 	err = g.playerRepository.CreateOrUpdate(g.Player)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return grid, nil
 }
 
 // DiverExplore function.
-func (g *Game) DiverExplore(gridName string) error {
+func (g *Game) DiverExplore(gridName string) (*models.Grid, error) {
 	if !g.isValidGridName(gridName) {
-		return ErrInvalidGridName
+		return nil, ErrInvalidGridName
 	}
 
 	freeBoat, freeDiver, _ := g.FreeUnits()
 
 	if freeBoat == 0 {
-		return ErrNoBoat
+		return nil, ErrNoBoat
 	}
 
 	if freeDiver == 0 {
-		return ErrNoDiver
+		return nil, ErrNoDiver
 	}
 
 	grid := g.undiscoveredGrid(gridName)
 	if grid == nil {
-		return ErrInvalidGridName
+		return nil, ErrInvalidGridName
 	}
 
 	if grid.Type != models.Shallow {
-		return ErrInvalidGridType
+		return nil, ErrInvalidGridType
 	}
 
 	if grid.Status != models.Undiscovered {
-		return ErrInvalidGridStatus
+		return nil, ErrInvalidGridStatus
 	}
 
 	err := g.explorationRepository.Create(models.NewExploration(grid))
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	grid.Status = models.Discovered
 
 	err = g.gridRepository.CreateOrUpdate(grid)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return grid, nil
 }
 
 // DiverHire function.
@@ -423,47 +472,47 @@ func (g *Game) DiverHire() error {
 }
 
 // SubmarineExplore function.
-func (g *Game) SubmarineExplore(gridName string) error {
+func (g *Game) SubmarineExplore(gridName string) (*models.Grid, error) {
 	if !g.isValidGridName(gridName) {
-		return ErrInvalidGridName
+		return nil, ErrInvalidGridName
 	}
 
 	freeBoat, _, freeSubmarine := g.FreeUnits()
 
 	if freeBoat == 0 {
-		return ErrNoBoat
+		return nil, ErrNoBoat
 	}
 
 	if freeSubmarine == 0 {
-		return ErrNoSubmarine
+		return nil, ErrNoSubmarine
 	}
 
 	grid := g.undiscoveredGrid(gridName)
 	if grid == nil {
-		return ErrInvalidGridName
+		return nil, ErrInvalidGridName
 	}
 
 	if grid.Type != models.Deep {
-		return ErrInvalidGridType
+		return nil, ErrInvalidGridType
 	}
 
 	if grid.Status != models.Undiscovered {
-		return ErrInvalidGridStatus
+		return nil, ErrInvalidGridStatus
 	}
 
 	err := g.explorationRepository.Create(models.NewExploration(grid))
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	grid.Status = models.Discovered
 
 	err = g.gridRepository.CreateOrUpdate(grid)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return grid, nil
 }
 
 // SubmarineBuy function.
@@ -547,23 +596,31 @@ func (g *Game) artifactGrid(artifactName string) *models.Grid {
 }
 
 func (g *Game) artifactPrice(grid *models.Grid) int {
+	if grid.ArtifactType == models.Unique {
+		if grid.Type == models.Shallow {
+			return artifact.ShallowUnique[grid.Artifact].Price
+		}
+
+		return artifact.DeepUnique[grid.Artifact].Price
+	}
+
 	if grid.ArtifactType == models.Legendary {
 		return artifact.LegendaryUnique[grid.Artifact].Price
 	}
 
-	if grid.Type == models.Shallow {
-		if grid.ArtifactType == models.Unique {
-			return artifact.ShallowUnique[grid.Artifact].Price
+	if grid.ArtifactType == models.Combinable {
+		if grid.Type == models.Shallow {
+			return artifact.ShallowCombinable[grid.Artifact].Price
 		}
 
-		return artifact.ShallowCombinable[grid.Artifact].Price
+		return artifact.DeepCombinable[grid.Artifact].Price
 	}
 
-	if grid.ArtifactType == models.Unique {
-		return artifact.DeepUnique[grid.Artifact].Price
+	if grid.Type == models.Shallow {
+		return artifact.ShallowResult[grid.Artifact].Price
 	}
 
-	return artifact.DeepCombinable[grid.Artifact].Price
+	return artifact.DeepResult[grid.Artifact].Price
 }
 
 func randFromMap[K comparable, V any](m map[K]V) (K, V) {

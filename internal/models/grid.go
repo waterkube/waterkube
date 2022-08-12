@@ -25,6 +25,9 @@ const (
 	// Combinable artifact type.
 	Combinable GridArtifactType = "combinable"
 
+	// Result artifact type.
+	Result GridArtifactType = "result"
+
 	// Undiscovered status.
 	Undiscovered GridStatus = "undiscovered"
 

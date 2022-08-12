@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/petaki/support-go/cli"
 )
@@ -29,17 +28,17 @@ func SubmarineExplore(group *cli.Group, command *cli.Command, arguments []string
 			return command.PrintError(err)
 		}
 
-		err = gameManager.SubmarineExplore(gridName)
+		grid, err := gameManager.SubmarineExplore(gridName)
 		if err != nil {
 			return command.PrintError(err)
 		}
 
-		fmt.Println("  📡 Navigating to " + cli.Green(strings.ToUpper(gridName)) + "...")
+		fmt.Println("  📡 Navigating to the " + cli.Green(grid.Name) + "...")
+		fmt.Println()
+
+		fmt.Println("  ✅ Excavation has " + cli.Green("begun"))
 		fmt.Println()
 	}
-
-	fmt.Println("  ✅ Excavation has " + cli.Green("begun"))
-	fmt.Println()
 
 	return cli.Success
 }

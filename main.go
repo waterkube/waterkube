@@ -40,13 +40,13 @@ func main() {
 					{
 						Name:       "donate",
 						Usage:      "Donate the artifact",
-						Arguments:  []string{"artifactName"},
+						Arguments:  []string{"artifactName..."},
 						HandleFunc: cmd.ArtifactDonate,
 					},
 					{
 						Name:       "sell",
 						Usage:      "Sell the artifact",
-						Arguments:  []string{"artifactName"},
+						Arguments:  []string{"artifactName..."},
 						HandleFunc: cmd.ArtifactSell,
 					},
 				},
