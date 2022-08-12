@@ -13,9 +13,12 @@
         <div ref="leftSidebarContent" class="sidebar-content-left w-60 relative overflow-hidden">
             <div class="grid grid-cols-2 gap-4">
                 <div v-for="artifact in discoveredArtifacts"
-                     :key="artifact.grid"
+                     :key="artifact.name"
                      class="flex flex-col items-center justify-center relative">
-                    <div v-if="artifact.type === 'combinable'" class="combinable">
+                    <div v-if="artifact.quantity > 1" class="extra left-3">
+                        {{ artifact.quantity }}
+                    </div>
+                    <div v-if="artifact.type === 'combinable'" class="extra right-3">
                         <plus-icon class="h-4 w-4" />
                     </div>
                     <div :class="`artifact-${artifact.name.toLowerCase()}`"
@@ -87,8 +90,11 @@
         <div ref="rightSidebarContent" class="sidebar-content-right w-60 ml-20 relative overflow-hidden">
             <div class="grid grid-cols-2 gap-4">
                 <div v-for="artifact in donatedArtifacts"
-                     :key="artifact.grid"
-                     class="flex flex-col items-center justify-center">
+                     :key="artifact.name"
+                     class="flex flex-col items-center justify-center relative">
+                    <div v-if="artifact.quantity > 1" class="extra left-3">
+                        {{ artifact.quantity }}
+                    </div>
                     <div :class="`artifact-${artifact.name.toLowerCase()}`"
                          class="w-16 h-16 bg-no-repeat bg-center bg-contain"></div>
                     {{ artifact.name }}
