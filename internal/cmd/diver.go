@@ -29,7 +29,7 @@ func DiverExplore(group *cli.Group, command *cli.Command, arguments []string) in
 	fmt.Println("  🤿 Swimming to " + cli.Green("coordinate") + "...")
 	fmt.Println()
 
-	err = gameManager.DiverExplore(parsed[0])
+	err = gameManager.DiverExplore(parsed...)
 	if err != nil {
 		return command.PrintError(err)
 	}

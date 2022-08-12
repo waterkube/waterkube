@@ -389,44 +389,46 @@ func (g *Game) ArtifactSell(artifactName string) error {
 }
 
 // DiverExplore function.
-func (g *Game) DiverExplore(gridName string) error {
-	if !g.isValidGridName(gridName) {
-		return ErrInvalidGridName
-	}
+func (g *Game) DiverExplore(gridNames ...string) error {
+	for _, gridName := range gridNames {
+		if !g.isValidGridName(gridName) {
+			return ErrInvalidGridName
+		}
 
-	grid, err := g.gridRepository.Find(gridName)
-	if err != nil {
-		return err
-	}
+		grid, err := g.gridRepository.Find(gridName)
+		if err != nil {
+			return err
+		}
 
-	if grid.Type != models.Shallow {
-		return ErrInvalidGridType
-	}
+		if grid.Type != models.Shallow {
+			return ErrInvalidGridType
+		}
 
-	if grid.Status != models.Undiscovered {
-		return ErrInvalidGridStatus
-	}
+		if grid.Status != models.Undiscovered {
+			return ErrInvalidGridStatus
+		}
 
-	freeBoat, freeDiver, _ := g.FreeUnits()
+		freeBoat, freeDiver, _ := g.FreeUnits()
 
-	if freeBoat == 0 {
-		return ErrNoBoat
-	}
+		if freeBoat == 0 {
+			return ErrNoBoat
+		}
 
-	if freeDiver == 0 {
-		return ErrNoDiver
-	}
+		if freeDiver == 0 {
+			return ErrNoDiver
+		}
 
-	err = g.explorationRepository.Create(models.NewExploration(grid))
-	if err != nil {
-		return err
-	}
+		err = g.explorationRepository.Create(models.NewExploration(grid))
+		if err != nil {
+			return err
+		}
 
-	grid.Status = models.Discovered
+		grid.Status = models.Discovered
 
-	err = g.gridRepository.CreateOrUpdate(grid)
-	if err != nil {
-		return err
+		err = g.gridRepository.CreateOrUpdate(grid)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -450,44 +452,46 @@ func (g *Game) DiverHire() error {
 }
 
 // SubmarineExplore function.
-func (g *Game) SubmarineExplore(gridName string) error {
-	if !g.isValidGridName(gridName) {
-		return ErrInvalidGridName
-	}
+func (g *Game) SubmarineExplore(gridNames ...string) error {
+	for _, gridName := range gridNames {
+		if !g.isValidGridName(gridName) {
+			return ErrInvalidGridName
+		}
 
-	grid, err := g.gridRepository.Find(gridName)
-	if err != nil {
-		return err
-	}
+		grid, err := g.gridRepository.Find(gridName)
+		if err != nil {
+			return err
+		}
 
-	if grid.Type != models.Deep {
-		return ErrInvalidGridType
-	}
+		if grid.Type != models.Deep {
+			return ErrInvalidGridType
+		}
 
-	if grid.Status != models.Undiscovered {
-		return ErrInvalidGridStatus
-	}
+		if grid.Status != models.Undiscovered {
+			return ErrInvalidGridStatus
+		}
 
-	freeBoat, _, freeSubmarine := g.FreeUnits()
+		freeBoat, _, freeSubmarine := g.FreeUnits()
 
-	if freeBoat == 0 {
-		return ErrNoBoat
-	}
+		if freeBoat == 0 {
+			return ErrNoBoat
+		}
 
-	if freeSubmarine == 0 {
-		return ErrNoSubmarine
-	}
+		if freeSubmarine == 0 {
+			return ErrNoSubmarine
+		}
 
-	err = g.explorationRepository.Create(models.NewExploration(grid))
-	if err != nil {
-		return err
-	}
+		err = g.explorationRepository.Create(models.NewExploration(grid))
+		if err != nil {
+			return err
+		}
 
-	grid.Status = models.Discovered
+		grid.Status = models.Discovered
 
-	err = g.gridRepository.CreateOrUpdate(grid)
-	if err != nil {
-		return err
+		err = g.gridRepository.CreateOrUpdate(grid)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
