@@ -70,4 +70,8 @@
     .submarine {
         background-image: url('../images/submarine.png');
     }
+
+    .combinable {
+        @apply absolute top-0 right-3 block h-6 w-6 flex items-center justify-center rounded-full bg-stone-900 border-2 border-amber-200 text-amber-300;
+    }
 }

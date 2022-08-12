@@ -4,5 +4,6 @@ package artifact
 type Artifact struct {
 	Grid  string `json:"grid"`
 	Name  string `json:"name"`
+	Type  string `json:"type"`
 	Price int    `json:"price"`
 }
