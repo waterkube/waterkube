@@ -21,6 +21,13 @@ var ShallowCombinable = map[string]*Combinable{
 	},
 }
 
+// ShallowResult list.
+var ShallowResult = map[string]*Unique{
+	"Treasure": {
+		Price: 10,
+	},
+}
+
 // DeepCombinable list.
 var DeepCombinable = map[string]*Combinable{
 	"Code": {
@@ -42,5 +49,15 @@ var DeepCombinable = map[string]*Combinable{
 		Price:  5,
 		Pair:   "Crowbar",
 		Result: "Automobile",
+	},
+}
+
+// DeepResult list.
+var DeepResult = map[string]*Unique{
+	"Gold": {
+		Price: 20,
+	},
+	"Automobile": {
+		Price: 20,
 	},
 }

@@ -309,8 +309,57 @@ func (g *Game) DonatedArtifacts() []*artifact.Artifact {
 }
 
 // ArtifactCombine function.
-func (g *Game) ArtifactCombine(artifactName1, artifactName2 string) {
-	// TODO
+func (g *Game) ArtifactCombine(artifactName1, artifactName2 string) (*models.Grid, error) {
+	grid1 := g.artifactGrid(artifactName1)
+	if grid1 == nil {
+		return nil, ErrNoArtifact
+	}
+
+	if grid1.ArtifactType != models.Combinable {
+		return nil, ErrInvalidGridArtifactType
+	}
+
+	grid2 := g.artifactGrid(artifactName2)
+	if grid2 == nil {
+		return nil, ErrNoArtifact
+	}
+
+	if grid2.ArtifactType != models.Combinable {
+		return nil, ErrInvalidGridArtifactType
+	}
+
+	if grid1.Type != grid2.Type {
+		return nil, ErrInvalidGridType
+	}
+
+	var combinable *artifact.Combinable
+
+	if grid1.Type == models.Shallow {
+		combinable = artifact.ShallowCombinable[grid1.Artifact]
+	} else {
+		combinable = artifact.DeepCombinable[grid1.Artifact]
+	}
+
+	if grid2.Artifact != combinable.Pair {
+		return nil, ErrInvalidArtifactPair
+	}
+
+	grid1.Artifact = combinable.Result
+	grid1.ArtifactType = models.Result
+
+	err := g.gridRepository.CreateOrUpdate(grid1)
+	if err != nil {
+		return nil, err
+	}
+
+	grid2.Status = models.Combined
+
+	err = g.gridRepository.CreateOrUpdate(grid2)
+	if err != nil {
+		return nil, err
+	}
+
+	return grid1, nil
 }
 
 // ArtifactDonate function.
@@ -547,23 +596,31 @@ func (g *Game) artifactGrid(artifactName string) *models.Grid {
 }
 
 func (g *Game) artifactPrice(grid *models.Grid) int {
+	if grid.ArtifactType == models.Unique {
+		if grid.Type == models.Shallow {
+			return artifact.ShallowUnique[grid.Artifact].Price
+		}
+
+		return artifact.DeepUnique[grid.Artifact].Price
+	}
+
 	if grid.ArtifactType == models.Legendary {
 		return artifact.LegendaryUnique[grid.Artifact].Price
 	}
 
-	if grid.Type == models.Shallow {
-		if grid.ArtifactType == models.Unique {
-			return artifact.ShallowUnique[grid.Artifact].Price
+	if grid.ArtifactType == models.Combinable {
+		if grid.Type == models.Shallow {
+			return artifact.ShallowCombinable[grid.Artifact].Price
 		}
 
-		return artifact.ShallowCombinable[grid.Artifact].Price
+		return artifact.DeepCombinable[grid.Artifact].Price
 	}
 
-	if grid.ArtifactType == models.Unique {
-		return artifact.DeepUnique[grid.Artifact].Price
+	if grid.Type == models.Shallow {
+		return artifact.ShallowResult[grid.Artifact].Price
 	}
 
-	return artifact.DeepCombinable[grid.Artifact].Price
+	return artifact.DeepResult[grid.Artifact].Price
 }
 
 func randFromMap[K comparable, V any](m map[K]V) (K, V) {

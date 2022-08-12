@@ -8,8 +8,30 @@ import (
 
 // ArtifactCombine function.
 func ArtifactCombine(group *cli.Group, command *cli.Command, arguments []string) int {
+	redisURL, redisKeyPrefix := createRedisFlags(command)
+
+	parsed, err := command.Parse(arguments)
+	if err != nil {
+		return command.PrintHelp(group)
+	}
+
+	redisPool := newRedisPool(*redisURL)
+	defer redisPool.Close()
+
+	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+
+	err = gameManager.MapLoad()
+	if err != nil {
+		return command.PrintError(err)
+	}
+
+	grid, err := gameManager.ArtifactCombine(parsed[0], parsed[1])
+	if err != nil {
+		return command.PrintError(err)
+	}
+
 	fmt.Println()
-	fmt.Println("  🏺 Finding the required " + cli.Green("artifacts") + "...")
+	fmt.Println("  🏺 Crafting the " + cli.Green(grid.Artifact) + "...")
 	fmt.Println()
 
 	fmt.Println("  ✅ Artifacts " + cli.Green("combined"))
