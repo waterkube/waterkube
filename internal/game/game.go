@@ -364,6 +364,16 @@ func (g *Game) ArtifactSell(artifactName string) error {
 
 // DiverExplore function.
 func (g *Game) DiverExplore(gridNames ...string) error {
+	freeBoat, freeDiver, _ := g.FreeUnits()
+
+	if freeBoat < len(gridNames) {
+		return ErrNoBoat
+	}
+
+	if freeDiver < len(gridNames) {
+		return ErrNoDiver
+	}
+
 	for _, gridName := range gridNames {
 		if !g.isValidGridName(gridName) {
 			return ErrInvalidGridName
@@ -380,16 +390,6 @@ func (g *Game) DiverExplore(gridNames ...string) error {
 
 		if grid.Status != models.Undiscovered {
 			return ErrInvalidGridStatus
-		}
-
-		freeBoat, freeDiver, _ := g.FreeUnits()
-
-		if freeBoat == 0 {
-			return ErrNoBoat
-		}
-
-		if freeDiver == 0 {
-			return ErrNoDiver
 		}
 
 		err = g.explorationRepository.Create(models.NewExploration(grid))
@@ -427,6 +427,16 @@ func (g *Game) DiverHire() error {
 
 // SubmarineExplore function.
 func (g *Game) SubmarineExplore(gridNames ...string) error {
+	freeBoat, _, freeSubmarine := g.FreeUnits()
+
+	if freeBoat < len(gridNames) {
+		return ErrNoBoat
+	}
+
+	if freeSubmarine < len(gridNames) {
+		return ErrNoSubmarine
+	}
+
 	for _, gridName := range gridNames {
 		if !g.isValidGridName(gridName) {
 			return ErrInvalidGridName
@@ -443,16 +453,6 @@ func (g *Game) SubmarineExplore(gridNames ...string) error {
 
 		if grid.Status != models.Undiscovered {
 			return ErrInvalidGridStatus
-		}
-
-		freeBoat, _, freeSubmarine := g.FreeUnits()
-
-		if freeBoat == 0 {
-			return ErrNoBoat
-		}
-
-		if freeSubmarine == 0 {
-			return ErrNoSubmarine
 		}
 
 		err = g.explorationRepository.Create(models.NewExploration(grid))
