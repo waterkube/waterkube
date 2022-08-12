@@ -314,95 +314,95 @@ func (g *Game) ArtifactCombine(artifactName1, artifactName2 string) {
 }
 
 // ArtifactDonate function.
-func (g *Game) ArtifactDonate(artifactName string) error {
+func (g *Game) ArtifactDonate(artifactName string) (*models.Grid, error) {
 	grid := g.artifactGrid(artifactName)
 	if grid == nil {
-		return ErrNoArtifact
+		return nil, ErrNoArtifact
 	}
 
 	grid.Status = models.Donated
 
 	err := g.gridRepository.CreateOrUpdate(grid)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	g.Player.BoatCount++
 
 	err = g.playerRepository.CreateOrUpdate(g.Player)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return grid, nil
 }
 
 // ArtifactSell function.
-func (g *Game) ArtifactSell(artifactName string) error {
+func (g *Game) ArtifactSell(artifactName string) (*models.Grid, error) {
 	grid := g.artifactGrid(artifactName)
 	if grid == nil {
-		return ErrNoArtifact
+		return nil, ErrNoArtifact
 	}
 
 	grid.Status = models.Sold
 
 	err := g.gridRepository.CreateOrUpdate(grid)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	g.Player.Money += g.artifactPrice(grid)
 
 	err = g.playerRepository.CreateOrUpdate(g.Player)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return grid, nil
 }
 
 // DiverExplore function.
-func (g *Game) DiverExplore(gridName string) error {
+func (g *Game) DiverExplore(gridName string) (*models.Grid, error) {
 	if !g.isValidGridName(gridName) {
-		return ErrInvalidGridName
+		return nil, ErrInvalidGridName
 	}
 
 	freeBoat, freeDiver, _ := g.FreeUnits()
 
 	if freeBoat == 0 {
-		return ErrNoBoat
+		return nil, ErrNoBoat
 	}
 
 	if freeDiver == 0 {
-		return ErrNoDiver
+		return nil, ErrNoDiver
 	}
 
 	grid := g.undiscoveredGrid(gridName)
 	if grid == nil {
-		return ErrInvalidGridName
+		return nil, ErrInvalidGridName
 	}
 
 	if grid.Type != models.Shallow {
-		return ErrInvalidGridType
+		return nil, ErrInvalidGridType
 	}
 
 	if grid.Status != models.Undiscovered {
-		return ErrInvalidGridStatus
+		return nil, ErrInvalidGridStatus
 	}
 
 	err := g.explorationRepository.Create(models.NewExploration(grid))
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	grid.Status = models.Discovered
 
 	err = g.gridRepository.CreateOrUpdate(grid)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return grid, nil
 }
 
 // DiverHire function.
@@ -423,47 +423,47 @@ func (g *Game) DiverHire() error {
 }
 
 // SubmarineExplore function.
-func (g *Game) SubmarineExplore(gridName string) error {
+func (g *Game) SubmarineExplore(gridName string) (*models.Grid, error) {
 	if !g.isValidGridName(gridName) {
-		return ErrInvalidGridName
+		return nil, ErrInvalidGridName
 	}
 
 	freeBoat, _, freeSubmarine := g.FreeUnits()
 
 	if freeBoat == 0 {
-		return ErrNoBoat
+		return nil, ErrNoBoat
 	}
 
 	if freeSubmarine == 0 {
-		return ErrNoSubmarine
+		return nil, ErrNoSubmarine
 	}
 
 	grid := g.undiscoveredGrid(gridName)
 	if grid == nil {
-		return ErrInvalidGridName
+		return nil, ErrInvalidGridName
 	}
 
 	if grid.Type != models.Deep {
-		return ErrInvalidGridType
+		return nil, ErrInvalidGridType
 	}
 
 	if grid.Status != models.Undiscovered {
-		return ErrInvalidGridStatus
+		return nil, ErrInvalidGridStatus
 	}
 
 	err := g.explorationRepository.Create(models.NewExploration(grid))
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	grid.Status = models.Discovered
 
 	err = g.gridRepository.CreateOrUpdate(grid)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return grid, nil
 }
 
 // SubmarineBuy function.

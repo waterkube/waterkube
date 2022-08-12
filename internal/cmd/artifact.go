@@ -32,25 +32,25 @@ func ArtifactDonate(group *cli.Group, command *cli.Command, arguments []string) 
 
 	gameManager := newGameManager(*redisKeyPrefix, redisPool)
 
-	err = gameManager.MapLoad()
-	if err != nil {
-		return command.PrintError(err)
+	fmt.Println()
+
+	for _, artifactName := range parsed {
+		err = gameManager.MapLoad()
+		if err != nil {
+			return command.PrintError(err)
+		}
+
+		grid, err := gameManager.ArtifactDonate(artifactName)
+		if err != nil {
+			return command.PrintError(err)
+		}
+
+		fmt.Println("  🚢 Museum has received the " + cli.Green(grid.Artifact) + "...")
+		fmt.Println()
+
+		fmt.Println("  ✅ Artifact " + cli.Green("donated"))
+		fmt.Println()
 	}
-
-	fmt.Println()
-	fmt.Println("  📦 Sending the artifact to " + cli.Green("museum") + "...")
-	fmt.Println()
-
-	err = gameManager.ArtifactDonate(parsed[0])
-	if err != nil {
-		return command.PrintError(err)
-	}
-
-	fmt.Println("  🚢 New ship is " + cli.Green("on its way") + "...")
-	fmt.Println()
-
-	fmt.Println("  ✅ Artifact " + cli.Green("donated"))
-	fmt.Println()
 
 	return cli.Success
 }
@@ -69,25 +69,25 @@ func ArtifactSell(group *cli.Group, command *cli.Command, arguments []string) in
 
 	gameManager := newGameManager(*redisKeyPrefix, redisPool)
 
-	err = gameManager.MapLoad()
-	if err != nil {
-		return command.PrintError(err)
+	fmt.Println()
+
+	for _, artifactName := range parsed {
+		err = gameManager.MapLoad()
+		if err != nil {
+			return command.PrintError(err)
+		}
+
+		grid, err := gameManager.ArtifactSell(artifactName)
+		if err != nil {
+			return command.PrintError(err)
+		}
+
+		fmt.Println("  🤑 A customer is paying for the " + cli.Green(grid.Artifact) + "...")
+		fmt.Println()
+
+		fmt.Println("  ✅ Artifact " + cli.Green("sold"))
+		fmt.Println()
 	}
-
-	fmt.Println()
-	fmt.Println("  🤑 Payment " + cli.Green("in progress") + "...")
-	fmt.Println()
-
-	err = gameManager.ArtifactSell(parsed[0])
-	if err != nil {
-		return command.PrintError(err)
-	}
-
-	fmt.Println("  📦 Sending the artifact to " + cli.Green("customer") + "...")
-	fmt.Println()
-
-	fmt.Println("  ✅ Artifact " + cli.Green("sold"))
-	fmt.Println()
 
 	return cli.Success
 }
