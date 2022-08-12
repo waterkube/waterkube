@@ -29,7 +29,7 @@ func SubmarineExplore(group *cli.Group, command *cli.Command, arguments []string
 	fmt.Println("  📡 Navigating to " + cli.Green("coordinate") + "...")
 	fmt.Println()
 
-	err = gameManager.SubmarineExplore(parsed[0])
+	err = gameManager.SubmarineExplore(parsed...)
 	if err != nil {
 		return command.PrintError(err)
 	}
