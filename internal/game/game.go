@@ -469,6 +469,10 @@ func (g *Game) SubmarineBuy() error {
 	return nil
 }
 
+func (g *Game) newGrids() []*models.Grid {
+	return make([]*models.Grid, len(Cols)*len(Rows))
+}
+
 func (g *Game) isValidGridName(gridName string) bool {
 	if len(gridName) != 2 {
 		return false
@@ -490,10 +494,6 @@ func (g *Game) isValidGridName(gridName string) bool {
 	}
 
 	return true
-}
-
-func (g *Game) newGrids() []*models.Grid {
-	return make([]*models.Grid, len(Cols)*len(Rows))
 }
 
 func (g *Game) undiscoveredGrid(gridName string) *models.Grid {
