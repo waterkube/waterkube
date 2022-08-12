@@ -47,6 +47,7 @@ type Game struct {
 	playerRepository      models.PlayerRepository
 	Player                *models.Player
 	Grids                 []*models.Grid
+	Explorations          []string
 }
 
 // New function.
@@ -153,6 +154,7 @@ func (g *Game) MapLoad() error {
 	}
 
 	grids := g.newGrids()
+	var explorations []string
 
 	for _, row := range Rows {
 		for i, col := range Cols {
@@ -162,11 +164,21 @@ func (g *Game) MapLoad() error {
 			}
 
 			grids[row*len(Cols)+i] = grid
+
+			exploration, err := g.explorationRepository.Find(grid)
+			if err != nil {
+				continue
+			}
+
+			if exploration != nil {
+				explorations = append(explorations, grid.Name)
+			}
 		}
 	}
 
 	g.Player = player
 	g.Grids = grids
+	g.Explorations = explorations
 
 	return nil
 }
@@ -206,39 +218,14 @@ func (g *Game) MapProgress() int {
 	return int(float32(completed) / float32(len(g.Grids)) * 100)
 }
 
-// Explorations function.
-func (g *Game) Explorations() []string {
-	var explorations []string
-
-	for _, grid := range g.Grids {
-		if grid.Status != models.Discovered {
-			continue
-		}
-
-		exploration, err := g.explorationRepository.Find(grid)
-		if err != nil {
-			continue
-		}
-
-		if exploration == nil {
-			continue
-		}
-
-		explorations = append(explorations, grid.Name)
-	}
-
-	return explorations
-}
-
 // FreeUnits function.
 func (g *Game) FreeUnits() (int, int, int) {
 	busyBoat := 0
 	busyDiver := 0
 	busySubmarine := 0
-	explorations := g.Explorations()
 
 	for _, grid := range g.Grids {
-		if !slices.Contains(explorations, grid.Name) {
+		if !slices.Contains(g.Explorations, grid.Name) {
 			continue
 		}
 
@@ -260,14 +247,12 @@ func (g *Game) FreeUnits() (int, int, int) {
 func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
 	var discoveredArtifacts []*artifact.Artifact
 
-	explorations := g.Explorations()
-
 	for _, grid := range g.Grids {
 		if grid.Status != models.Discovered {
 			continue
 		}
 
-		if slices.Contains(explorations, grid.Name) {
+		if slices.Contains(g.Explorations, grid.Name) {
 			continue
 		}
 
@@ -363,46 +348,44 @@ func (g *Game) ArtifactSell(artifactName string) error {
 }
 
 // DiverExplore function.
-func (g *Game) DiverExplore(gridNames ...string) error {
+func (g *Game) DiverExplore(gridName string) error {
+	if !g.isValidGridName(gridName) {
+		return ErrInvalidGridName
+	}
+
 	freeBoat, freeDiver, _ := g.FreeUnits()
 
-	if freeBoat < len(gridNames) {
+	if freeBoat == 0 {
 		return ErrNoBoat
 	}
 
-	if freeDiver < len(gridNames) {
+	if freeDiver == 0 {
 		return ErrNoDiver
 	}
 
-	for _, gridName := range gridNames {
-		if !g.isValidGridName(gridName) {
-			return ErrInvalidGridName
-		}
+	grid := g.undiscoveredGrid(gridName)
+	if grid == nil {
+		return ErrInvalidGridName
+	}
 
-		grid, err := g.gridRepository.Find(gridName)
-		if err != nil {
-			return err
-		}
+	if grid.Type != models.Shallow {
+		return ErrInvalidGridType
+	}
 
-		if grid.Type != models.Shallow {
-			return ErrInvalidGridType
-		}
+	if grid.Status != models.Undiscovered {
+		return ErrInvalidGridStatus
+	}
 
-		if grid.Status != models.Undiscovered {
-			return ErrInvalidGridStatus
-		}
+	err := g.explorationRepository.Create(models.NewExploration(grid))
+	if err != nil {
+		return err
+	}
 
-		err = g.explorationRepository.Create(models.NewExploration(grid))
-		if err != nil {
-			return err
-		}
+	grid.Status = models.Discovered
 
-		grid.Status = models.Discovered
-
-		err = g.gridRepository.CreateOrUpdate(grid)
-		if err != nil {
-			return err
-		}
+	err = g.gridRepository.CreateOrUpdate(grid)
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -426,46 +409,44 @@ func (g *Game) DiverHire() error {
 }
 
 // SubmarineExplore function.
-func (g *Game) SubmarineExplore(gridNames ...string) error {
+func (g *Game) SubmarineExplore(gridName string) error {
+	if !g.isValidGridName(gridName) {
+		return ErrInvalidGridName
+	}
+
 	freeBoat, _, freeSubmarine := g.FreeUnits()
 
-	if freeBoat < len(gridNames) {
+	if freeBoat == 0 {
 		return ErrNoBoat
 	}
 
-	if freeSubmarine < len(gridNames) {
+	if freeSubmarine == 0 {
 		return ErrNoSubmarine
 	}
 
-	for _, gridName := range gridNames {
-		if !g.isValidGridName(gridName) {
-			return ErrInvalidGridName
-		}
+	grid := g.undiscoveredGrid(gridName)
+	if grid == nil {
+		return ErrInvalidGridName
+	}
 
-		grid, err := g.gridRepository.Find(gridName)
-		if err != nil {
-			return err
-		}
+	if grid.Type != models.Deep {
+		return ErrInvalidGridType
+	}
 
-		if grid.Type != models.Deep {
-			return ErrInvalidGridType
-		}
+	if grid.Status != models.Undiscovered {
+		return ErrInvalidGridStatus
+	}
 
-		if grid.Status != models.Undiscovered {
-			return ErrInvalidGridStatus
-		}
+	err := g.explorationRepository.Create(models.NewExploration(grid))
+	if err != nil {
+		return err
+	}
 
-		err = g.explorationRepository.Create(models.NewExploration(grid))
-		if err != nil {
-			return err
-		}
+	grid.Status = models.Discovered
 
-		grid.Status = models.Discovered
-
-		err = g.gridRepository.CreateOrUpdate(grid)
-		if err != nil {
-			return err
-		}
+	err = g.gridRepository.CreateOrUpdate(grid)
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -515,15 +496,29 @@ func (g *Game) newGrids() []*models.Grid {
 	return make([]*models.Grid, len(Cols)*len(Rows))
 }
 
-func (g *Game) artifactGrid(artifactName string) *models.Grid {
-	explorations := g.Explorations()
+func (g *Game) undiscoveredGrid(gridName string) *models.Grid {
+	for _, grid := range g.Grids {
+		if grid.Status != models.Undiscovered {
+			continue
+		}
 
+		if !strings.EqualFold(grid.Name, gridName) {
+			continue
+		}
+
+		return grid
+	}
+
+	return nil
+}
+
+func (g *Game) artifactGrid(artifactName string) *models.Grid {
 	for _, grid := range g.Grids {
 		if grid.Status != models.Discovered {
 			continue
 		}
 
-		if slices.Contains(explorations, grid.Name) {
+		if slices.Contains(g.Explorations, grid.Name) {
 			continue
 		}
 
