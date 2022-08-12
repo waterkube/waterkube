@@ -274,6 +274,7 @@ func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
 		discoveredArtifacts = append(discoveredArtifacts, &artifact.Artifact{
 			Grid:  grid.Name,
 			Name:  grid.Artifact,
+			Type:  string(grid.ArtifactType),
 			Price: g.artifactPrice(grid),
 		})
 	}
@@ -297,6 +298,7 @@ func (g *Game) DonatedArtifacts() []*artifact.Artifact {
 		donatedArtifacts = append(donatedArtifacts, &artifact.Artifact{
 			Grid: grid.Name,
 			Name: grid.Artifact,
+			Type: string(grid.ArtifactType),
 		})
 	}
 
