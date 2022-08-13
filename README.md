@@ -1,9 +1,9 @@
-# Waterkube
+![Waterkube](https://user-images.githubusercontent.com/1419087/184463376-41f2b02f-53ad-4fe2-9be3-dd94cdf2bc2a.png)
+
+## Badges
 
 [![Build Status](https://github.com/waterkube/waterkube/workflows/tests/badge.svg)](https://github.com/waterkube/waterkube/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](LICENSE.md)
-
-Underwater Archaeology game for Kubernetes.
 
 ## Reporting Issues
 
