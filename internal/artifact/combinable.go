@@ -10,12 +10,12 @@ type Combinable struct {
 // ShallowCombinable list.
 var ShallowCombinable = map[string]*Combinable{
 	"Key": {
-		Price:  3,
+		Price:  30,
 		Pair:   "Chest",
 		Result: "Treasure",
 	},
 	"Chest": {
-		Price:  3,
+		Price:  30,
 		Pair:   "Key",
 		Result: "Treasure",
 	},
@@ -24,29 +24,29 @@ var ShallowCombinable = map[string]*Combinable{
 // ShallowResult list.
 var ShallowResult = map[string]*Unique{
 	"Treasure": {
-		Price: 10,
+		Price: 100,
 	},
 }
 
 // DeepCombinable list.
 var DeepCombinable = map[string]*Combinable{
 	"Code": {
-		Price:  4,
+		Price:  40,
 		Pair:   "Safe",
 		Result: "Gold",
 	},
 	"Safe": {
-		Price:  4,
+		Price:  40,
 		Pair:   "Code",
 		Result: "Gold",
 	},
 	"Crowbar": {
-		Price:  5,
+		Price:  50,
 		Pair:   "Container",
 		Result: "Automobile",
 	},
 	"Container": {
-		Price:  5,
+		Price:  50,
 		Pair:   "Crowbar",
 		Result: "Automobile",
 	},
@@ -55,9 +55,9 @@ var DeepCombinable = map[string]*Combinable{
 // DeepResult list.
 var DeepResult = map[string]*Unique{
 	"Gold": {
-		Price: 20,
+		Price: 200,
 	},
 	"Automobile": {
-		Price: 20,
+		Price: 200,
 	},
 }

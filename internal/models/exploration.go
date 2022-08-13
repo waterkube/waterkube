@@ -4,7 +4,7 @@ import "time"
 
 const (
 	// ExplorationTime duration.
-	ExplorationTime = 10 * time.Second
+	ExplorationTime = 15 * time.Second
 )
 
 // Exploration type.
