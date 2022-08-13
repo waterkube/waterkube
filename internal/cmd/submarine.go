@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/waterkube/waterkube/internal/game"
 	"strconv"
 
 	"github.com/petaki/support-go/cli"
+	"github.com/waterkube/waterkube/internal/game"
 )
 
 // SubmarineExplore function.

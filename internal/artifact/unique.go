@@ -8,317 +8,317 @@ type Unique struct {
 // ShallowUnique list.
 var ShallowUnique = map[string]*Unique{
 	"Wrench": {
-		Price: 1,
+		Price: 10,
 	},
 	"Nails": {
-		Price: 1,
+		Price: 11,
 	},
 	"Scissor": {
-		Price: 1,
+		Price: 12,
 	},
 	"Hook": {
-		Price: 1,
+		Price: 13,
 	},
 	"Knife": {
-		Price: 1,
+		Price: 14,
 	},
 	"Cassette": {
-		Price: 1,
+		Price: 15,
 	},
 	"Pan": {
-		Price: 1,
+		Price: 16,
 	},
 	"Shoe": {
-		Price: 1,
+		Price: 17,
 	},
 	"Pipe": {
-		Price: 1,
+		Price: 18,
 	},
 	"Lighter": {
-		Price: 1,
+		Price: 19,
 	},
 	"Bottle": {
-		Price: 1,
+		Price: 10,
 	},
 	"Sunglasses": {
-		Price: 1,
+		Price: 11,
 	},
 	"Pliers": {
-		Price: 1,
+		Price: 12,
 	},
 	"Barrel": {
-		Price: 1,
+		Price: 13,
 	},
 	"Spoon": {
-		Price: 1,
+		Price: 14,
 	},
 	"Tire": {
-		Price: 1,
+		Price: 15,
 	},
 	"Glove": {
-		Price: 1,
+		Price: 16,
 	},
 	"Whistle": {
-		Price: 1,
+		Price: 17,
 	},
 	"Padlock": {
-		Price: 1,
+		Price: 18,
 	},
 	"Corkscrew": {
-		Price: 1,
+		Price: 19,
 	},
 	"Weight": {
-		Price: 1,
+		Price: 10,
 	},
 	"Hammer": {
-		Price: 1,
+		Price: 11,
 	},
 	"Screwdriver": {
-		Price: 1,
+		Price: 12,
 	},
 	"Bucket": {
-		Price: 1,
+		Price: 13,
 	},
 	"Lamp": {
-		Price: 1,
+		Price: 14,
 	},
 	"Can": {
-		Price: 1,
+		Price: 15,
 	},
 	"Tap": {
-		Price: 1,
+		Price: 16,
 	},
 	"Valve": {
-		Price: 1,
+		Price: 17,
 	},
 	"Boot": {
-		Price: 1,
+		Price: 18,
 	},
 	"Umbrella": {
-		Price: 1,
+		Price: 19,
 	},
 	"Pot": {
-		Price: 1,
+		Price: 10,
 	},
 	"Opener": {
-		Price: 1,
+		Price: 11,
 	},
 	"Pawn": {
-		Price: 1,
+		Price: 12,
 	},
 	"Oar": {
-		Price: 1,
+		Price: 13,
 	},
 	"Plunger": {
-		Price: 1,
+		Price: 14,
 	},
 	"Belt": {
-		Price: 1,
+		Price: 15,
 	},
 	"Dice": {
-		Price: 1,
+		Price: 16,
 	},
 	"Pen": {
-		Price: 1,
+		Price: 17,
 	},
 	"Cogwheel": {
-		Price: 1,
+		Price: 18,
 	},
 	"Chisel": {
-		Price: 1,
+		Price: 19,
 	},
 	"Calculator": {
-		Price: 1,
+		Price: 10,
 	},
 	"Chip": {
-		Price: 1,
+		Price: 11,
 	},
 	"Brush": {
-		Price: 1,
+		Price: 12,
 	},
 	"Magnifier": {
-		Price: 1,
+		Price: 13,
 	},
 	"Ace": {
-		Price: 1,
+		Price: 14,
 	},
 	"Urn": {
-		Price: 2,
+		Price: 20,
 	},
 	"Axe": {
-		Price: 2,
+		Price: 21,
 	},
 	"Watch": {
-		Price: 2,
+		Price: 22,
 	},
 	"Phone": {
-		Price: 2,
+		Price: 23,
 	},
 	"Medal": {
-		Price: 2,
+		Price: 24,
 	},
 	"Symbol": {
-		Price: 2,
+		Price: 25,
 	},
 	"Lantern": {
-		Price: 2,
+		Price: 26,
 	},
 	"Compass": {
-		Price: 2,
+		Price: 27,
 	},
 	"Ring": {
-		Price: 2,
+		Price: 28,
 	},
 	"Anvil": {
-		Price: 2,
+		Price: 29,
 	},
 	"Binocular": {
-		Price: 2,
+		Price: 20,
 	},
 	"Mug": {
-		Price: 2,
+		Price: 21,
 	},
 	"Anchor": {
-		Price: 2,
+		Price: 22,
 	},
 	"Wallet": {
-		Price: 2,
+		Price: 23,
 	},
 	"Teapot": {
-		Price: 2,
+		Price: 24,
 	},
 }
 
 // DeepUnique list.
 var DeepUnique = map[string]*Unique{
 	"Bicycle": {
-		Price: 3,
+		Price: 31,
 	},
 	"Dagger": {
-		Price: 3,
+		Price: 32,
 	},
 	"Sculpture": {
-		Price: 3,
+		Price: 33,
 	},
 	"Wheel": {
-		Price: 3,
+		Price: 34,
 	},
 	"Typewriter": {
-		Price: 3,
+		Price: 35,
 	},
 	"Coins": {
-		Price: 3,
+		Price: 36,
 	},
 	"Flintlock": {
-		Price: 3,
+		Price: 37,
 	},
 	"Drum": {
-		Price: 3,
+		Price: 38,
 	},
 	"Machine": {
-		Price: 3,
+		Price: 39,
 	},
 	"Sword": {
-		Price: 3,
+		Price: 30,
 	},
 	"Helmet": {
-		Price: 3,
+		Price: 31,
 	},
 	"Cannon": {
-		Price: 3,
+		Price: 32,
 	},
 	"Plate": {
-		Price: 3,
+		Price: 33,
 	},
 	"Camera": {
-		Price: 3,
+		Price: 34,
 	},
 	"Fossil": {
-		Price: 3,
+		Price: 35,
 	},
 	"Bell": {
-		Price: 3,
+		Price: 36,
 	},
 	"Amber": {
-		Price: 3,
+		Price: 37,
 	},
 	"Breastplate": {
-		Price: 3,
+		Price: 38,
 	},
 	"Ukulele": {
-		Price: 3,
+		Price: 39,
 	},
 	"Telephone": {
-		Price: 3,
+		Price: 30,
 	},
 	"Television": {
-		Price: 3,
+		Price: 31,
 	},
 	"Laptop": {
-		Price: 3,
+		Price: 32,
 	},
 	"Horn": {
-		Price: 3,
+		Price: 33,
 	},
 	"Chair": {
-		Price: 3,
+		Price: 34,
 	},
 	"Clock": {
-		Price: 3,
+		Price: 35,
 	},
 	"Dodecahedron": {
-		Price: 3,
+		Price: 36,
 	},
 	"Mirror": {
-		Price: 3,
+		Price: 37,
 	},
 	"Sundial": {
-		Price: 3,
+		Price: 38,
 	},
 	"Gauntlet": {
-		Price: 3,
+		Price: 39,
 	},
 	"Dinosaur": {
-		Price: 4,
+		Price: 40,
 	},
 	"Meteorite": {
-		Price: 4,
+		Price: 41,
 	},
 	"Shield": {
-		Price: 4,
+		Price: 42,
 	},
 	"Luger": {
-		Price: 4,
+		Price: 43,
 	},
 	"Wine": {
-		Price: 4,
+		Price: 44,
 	},
 	"Diamond": {
-		Price: 4,
+		Price: 45,
 	},
 	"Crown": {
-		Price: 4,
+		Price: 46,
 	},
 	"Diadem": {
-		Price: 4,
+		Price: 47,
 	},
 	"Hieroglyphs": {
-		Price: 4,
+		Price: 48,
 	},
 	"Vase": {
-		Price: 4,
+		Price: 49,
 	},
 }
 
 // LegendaryUnique list.
 var LegendaryUnique = map[string]*Unique{
 	"Saucer": {
-		Price: 20,
+		Price: 200,
 	},
 	"Artifact": {
-		Price: 20,
+		Price: 200,
 	},
 	"Atlantis": {
-		Price: 20,
+		Price: 200,
 	},
 }
