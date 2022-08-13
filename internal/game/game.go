@@ -26,10 +26,10 @@ const (
 	LegendaryCount = 1
 
 	// DiverPrice value.
-	DiverPrice = 5
+	DiverPrice = 500
 
 	// SubmarinePrice value.
-	SubmarinePrice = 10
+	SubmarinePrice = 1000
 )
 
 var (

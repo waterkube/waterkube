@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/waterkube/waterkube/internal/game"
+	"strconv"
 
 	"github.com/petaki/support-go/cli"
 )
@@ -62,14 +64,20 @@ func SubmarineBuy(group *cli.Group, command *cli.Command, arguments []string) in
 		return command.PrintError(err)
 	}
 
+	err = gameManager.SubmarineBuy()
+	if err != nil {
+		if err == game.ErrNoMoney {
+			fmt.Println("  🚫 You need " + cli.Yellow("$") + cli.Green(strconv.Itoa(game.SubmarinePrice)))
+
+			return cli.Failure
+		}
+
+		return command.PrintError(err)
+	}
+
 	fmt.Println()
 	fmt.Println("  📦 Ordering a " + cli.Green("submarine") + "...")
 	fmt.Println()
-
-	err = gameManager.SubmarineBuy()
-	if err != nil {
-		return command.PrintError(err)
-	}
 
 	fmt.Println("  ✅ Submarine is " + cli.Green("ready"))
 	fmt.Println()
