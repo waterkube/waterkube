@@ -2,8 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/petaki/support-go/cli"
+	"github.com/waterkube/waterkube/internal/game"
 )
 
 // DiverExplore function.
@@ -63,13 +65,20 @@ func DiverHire(group *cli.Group, command *cli.Command, arguments []string) int {
 	}
 
 	fmt.Println()
-	fmt.Println("  💼 Looking for an " + cli.Green("applicant") + "...")
-	fmt.Println()
 
 	err = gameManager.DiverHire()
 	if err != nil {
+		if err == game.ErrNoMoney {
+			fmt.Println("  🚫 You need " + cli.Yellow("$") + cli.Green(strconv.Itoa(game.DiverPrice)))
+
+			return cli.Failure
+		}
+
 		return command.PrintError(err)
 	}
+
+	fmt.Println("  💼 Looking for an " + cli.Green("applicant") + "...")
+	fmt.Println()
 
 	fmt.Println("  ✅ Diver is " + cli.Green("ready"))
 	fmt.Println()
