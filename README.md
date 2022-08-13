@@ -1,4 +1,4 @@
-![Waterkube](https://user-images.githubusercontent.com/1419087/184463376-41f2b02f-53ad-4fe2-9be3-dd94cdf2bc2a.png)
+![Waterkube](https://user-images.githubusercontent.com/1419087/184472346-3e7e35e6-6eb9-408d-8127-a6d74dd0bcd8.png)
 
 ## Badges
 
