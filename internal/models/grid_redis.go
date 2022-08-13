@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/gomodule/redigo/redis"
 	"strings"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 const (
