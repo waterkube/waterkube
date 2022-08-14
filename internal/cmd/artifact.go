@@ -104,7 +104,7 @@ func ArtifactSell(group *cli.Group, command *cli.Command, arguments []string) in
 			return command.PrintError(err)
 		}
 
-		fmt.Println("  🤑 A customer is paying for the " + cli.Green(grid.Artifact) + "...")
+		fmt.Println("  🤑 A collector is paying for the " + cli.Green(grid.Artifact) + "...")
 		fmt.Println()
 
 		fmt.Println("  ✅ Artifact " + cli.Green("sold"))
