@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: waterkube-map-create
+  labels:
+    app: waterkube
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      containers:
+        - name: waterkube-map-create
+          image: ghcr.io/waterkube/waterkube
+          env:
+            - name: REDIS_URL
+              value: 'redis://waterkube:6379/0'
+          command:
+            - /app/waterkube
+            - map
+            - create
+      restartPolicy: Never

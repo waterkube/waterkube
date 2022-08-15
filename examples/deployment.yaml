@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: waterkube
+spec:
+  selector:
+    app: waterkube
+  ports:
+    - name: app
+      protocol: TCP
+      port: 4000
+    - name: redis
+      protocol: TCP
+      port: 6379
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: waterkube
+  labels:
+    app: waterkube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: waterkube
+  template:
+    metadata:
+      labels:
+        app: waterkube
+    spec:
+      containers:
+        - name: waterkube-redis
+          image: redis:alpine
+          ports:
+            - containerPort: 6379
+        - name: waterkube
+          image: ghcr.io/waterkube/waterkube
+          ports:
+            - containerPort: 4000
