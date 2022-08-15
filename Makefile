@@ -1,7 +1,7 @@
 VERSION := $(if $(RELEASE_VERSION),$(RELEASE_VERSION),"master")
 
 all: pre_clean ui darwin darwin_arm64 linux linux_arm64 windows post_clean
-docker: unzip_linux unzip_linux_arm64
+docker: pre_clean ui docker_linux docker_linux_arm64
 
 pre_clean:
 	rm -rf dist
@@ -26,16 +26,16 @@ linux:
 	cd dist && zip waterkube_$(VERSION)_linux_amd64.zip .env waterkube
 	rm -f dist/waterkube
 
-unzip_linux:
-	cd dist && unzip waterkube_$(VERSION)_linux_amd64.zip -d waterkube_$(VERSION)_linux_amd64
+docker_linux:
+	GOOS=linux GOARCH=amd64 go build -o dist/amd64/waterkube .
 
 linux_arm64:
 	GOOS=linux GOARCH=arm64 go build -o dist/waterkube .
 	cd dist && zip waterkube_$(VERSION)_linux_arm64.zip .env waterkube
 	rm -f dist/waterkube
 
-unzip_linux_arm64:
-	cd dist && unzip waterkube_$(VERSION)_linux_arm64.zip -d waterkube_$(VERSION)_linux_arm64
+docker_linux_arm64:
+	GOOS=linux GOARCH=arm64 go build -o dist/arm64/waterkube .
 
 windows:
 	GOOS=windows GOARCH=amd64 go build -o dist/waterkube.exe .
