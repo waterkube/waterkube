@@ -21,6 +21,9 @@
                     <div v-if="artifact.type === 'combinable'" class="extra right-3">
                         <plus-icon class="h-4 w-4" />
                     </div>
+                    <div v-else-if="artifact.type === 'legendary'" class="extra right-3">
+                        <star-icon class="h-4 w-4" />
+                    </div>
                     <div :class="`artifact-${artifact.name.toLowerCase()}`"
                          class="w-16 h-16 bg-no-repeat bg-center bg-contain"></div>
                     {{ artifact.name }}
@@ -95,6 +98,12 @@
                     <div v-if="artifact.quantity > 1" class="extra left-3">
                         {{ artifact.quantity }}
                     </div>
+                    <div v-if="artifact.type === 'combinable'" class="extra right-3">
+                        <plus-icon class="h-4 w-4" />
+                    </div>
+                    <div v-else-if="artifact.type === 'legendary'" class="extra right-3">
+                        <star-icon class="h-4 w-4" />
+                    </div>
                     <div :class="`artifact-${artifact.name.toLowerCase()}`"
                          class="w-16 h-16 bg-no-repeat bg-center bg-contain"></div>
                     {{ artifact.name }}
@@ -107,7 +116,7 @@
     </nav>
     <section class="sidebar fixed z-20 w-64 right-0 inset-y-0 bg-black bg-opacity-50 bg-left-top bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isRightSidebarOpen, 'translate-x-full': !isRightSidebarOpen}"></section>
-    <div class="flex pt-32">
+    <div v-if="progress < 100" class="flex pt-32">
         <div class="grid gap-1 grid-cols-12 mx-auto">
             <div v-for="letter in letters"
                  :key="letter"
@@ -151,6 +160,10 @@
             </div>
         </div>
     </div>
+    <div v-else class="container mx-auto pt-32 relative">
+        <div class="animate-pulse bg-no-repeat bg-contain bg-center trophy-glow"></div>
+        <div class="absolute inset-x-0 top-32 bg-no-repeat bg-contain bg-center trophy"></div>
+    </div>
     <!-- eslint-enable max-len -->
     <footer class="flex items-center justify-center my-4 text-sm text-slate-600">
         Fork me on
@@ -171,7 +184,13 @@ import {
     onUnmounted
 } from 'vue';
 
-import { LibraryIcon, PlusIcon, ShoppingBagIcon } from '@heroicons/vue/outline';
+import {
+    LibraryIcon,
+    PlusIcon,
+    ShoppingBagIcon,
+    StarIcon
+} from '@heroicons/vue/outline';
+
 import { Inertia } from '@inertiajs/inertia';
 import { Head } from '@inertiajs/inertia-vue3';
 import PerfectScrollbar from 'perfect-scrollbar';
@@ -181,6 +200,7 @@ export default {
         LibraryIcon,
         PlusIcon,
         ShoppingBagIcon,
+        StarIcon,
         Head
     },
 

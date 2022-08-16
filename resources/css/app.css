@@ -71,6 +71,16 @@
         background-image: url('../images/submarine.png');
     }
 
+    .trophy {
+        background-image: url('../images/trophy.png');
+        height: 640px;
+    }
+
+    .trophy-glow {
+        background-image: url('../images/trophy-glow.png');
+        height: 640px;
+    }
+
     .extra {
         @apply absolute top-0 block h-6 w-6 flex items-center justify-center rounded-full bg-stone-900 border-2 border-amber-200 text-amber-300;
     }
