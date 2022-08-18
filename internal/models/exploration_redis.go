@@ -29,7 +29,7 @@ func (rer *RedisExplorationRepository) Create(exploration *Exploration) error {
 	key := rer.RedisKeyPrefix + explorationKeyPrefix + strings.ToLower(exploration.Grid)
 
 	err = conn.Send(
-		"HMSET", redis.Args{}.Add(key).AddFlat(exploration)...,
+		"HSET", redis.Args{}.Add(key).AddFlat(exploration)...,
 	)
 	if err != nil {
 		return err

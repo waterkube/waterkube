@@ -22,7 +22,7 @@ func (rgr *RedisGridRepository) CreateOrUpdate(grid *Grid) error {
 	defer conn.Close()
 
 	_, err := conn.Do(
-		"HMSET", redis.Args{}.Add(rgr.RedisKeyPrefix+gridKeyPrefix+strings.ToLower(grid.Name)).AddFlat(grid)...,
+		"HSET", redis.Args{}.Add(rgr.RedisKeyPrefix+gridKeyPrefix+strings.ToLower(grid.Name)).AddFlat(grid)...,
 	)
 	if err != nil {
 		return err

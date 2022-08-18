@@ -20,7 +20,7 @@ func (rpr *RedisPlayerRepository) CreateOrUpdate(player *Player) error {
 	defer conn.Close()
 
 	_, err := conn.Do(
-		"HMSET", redis.Args{}.Add(rpr.RedisKeyPrefix+playerKeyPrefix).AddFlat(player)...,
+		"HSET", redis.Args{}.Add(rpr.RedisKeyPrefix+playerKeyPrefix).AddFlat(player)...,
 	)
 	if err != nil {
 		return err
