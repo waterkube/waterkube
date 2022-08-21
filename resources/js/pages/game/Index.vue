@@ -161,8 +161,18 @@
         </div>
     </div>
     <div v-else class="container mx-auto pt-32 relative">
-        <div class="animate-pulse bg-no-repeat bg-contain bg-center trophy-glow"></div>
+        <div class="animate-pulse bg-no-repeat bg-contain bg-center trophy-beam"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-ray"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-glow"></div>
         <div class="absolute inset-x-0 top-32 bg-no-repeat bg-contain bg-center trophy"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-light"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-gleam-01"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-gleam-02"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-gleam-03"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-gleam-04"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-gleam-05"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-gleam-06"></div>
+        <div class="absolute inset-x-0 top-32 animate-pulse bg-no-repeat bg-contain bg-center trophy-gleam-07"></div>
     </div>
     <!-- eslint-enable max-len -->
     <footer class="flex items-center justify-center my-4 text-sm text-slate-600">
