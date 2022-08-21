@@ -71,13 +71,73 @@
         background-image: url('../images/submarine.png');
     }
 
-    .trophy {
-        background-image: url('../images/trophy.png');
+    .trophy-beam {
+        background-image: url('../images/01-trophy-beam.png');
+        height: 640px;
+    }
+
+    .trophy-ray {
+        animation-delay: 200ms;
+        background-image: url('../images/02-trophy-ray.png');
         height: 640px;
     }
 
     .trophy-glow {
-        background-image: url('../images/trophy-glow.png');
+        animation-delay: 400ms;
+        background-image: url('../images/03-trophy-glow.png');
+        height: 640px;
+    }
+
+    .trophy {
+        background-image: url('../images/04-trophy.png');
+        height: 640px;
+    }
+
+    .trophy-light {
+        animation-delay: 600ms;
+        background-image: url('../images/05-trophy-light.png');
+        height: 640px;
+    }
+
+    .trophy-gleam-01 {
+        animation-delay: 800ms;
+        background-image: url('../images/06-trophy-gleam-01.png');
+        height: 640px;
+    }
+
+    .trophy-gleam-02 {
+        animation-delay: 1200ms;
+        background-image: url('../images/07-trophy-gleam-02.png');
+        height: 640px;
+    }
+
+    .trophy-gleam-03 {
+        animation-delay: 1400ms;
+        background-image: url('../images/08-trophy-gleam-03.png');
+        height: 640px;
+    }
+
+    .trophy-gleam-04 {
+        animation-delay: 1600ms;
+        background-image: url('../images/09-trophy-gleam-04.png');
+        height: 640px;
+    }
+
+    .trophy-gleam-05 {
+        animation-delay: 1800ms;
+        background-image: url('../images/10-trophy-gleam-05.png');
+        height: 640px;
+    }
+
+    .trophy-gleam-06 {
+        animation-delay: 2000ms;
+        background-image: url('../images/11-trophy-gleam-06.png');
+        height: 640px;
+    }
+
+    .trophy-gleam-07 {
+        animation-delay: 2200ms;
+        background-image: url('../images/12-trophy-gleam-07.png');
         height: 640px;
     }
 
