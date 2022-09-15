@@ -9,6 +9,8 @@
 
 Visit [waterkube.dev](https://waterkube.dev) to learn more.
 
+More details about the Artwork in [@monstergron](https://github.com/monstergron)'s [ArtStation profile](https://www.artstation.com/artwork/eJLBa3).
+
 ## Reporting Issues
 
 If you are facing a problem with this package or found any bug, please open an issue on [GitHub](https://github.com/waterkube/waterkube/issues).
