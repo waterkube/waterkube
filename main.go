@@ -9,7 +9,7 @@ import (
 func main() {
 	(&cli.App{
 		Name:    "Waterkube",
-		Version: "1.0.0",
+		Version: "master",
 		Groups: []*cli.Group{
 			{
 				Name:  "map",
