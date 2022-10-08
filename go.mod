@@ -8,5 +8,5 @@ require (
 	github.com/justinas/alice v1.2.0
 	github.com/petaki/inertia-go v1.4.0
 	github.com/petaki/support-go v1.6.0
-	golang.org/x/exp v0.0.0-20220916125017-b168a2c6b86b
+	golang.org/x/exp v0.0.0-20221006183845-316c7553db56
 )
