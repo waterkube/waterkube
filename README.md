@@ -7,7 +7,7 @@
 
 ## Links
 
-Visit [waterkube.dev](https://waterkube.dev) to learn more.
+Visit [waterkube.github.io](https://waterkube.github.io) to learn more.
 
 More details about the Artwork in [@monstergron](https://github.com/monstergron)'s [ArtStation profile](https://www.artstation.com/artwork/eJLBa3).
 
