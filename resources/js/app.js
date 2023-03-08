@@ -1,8 +1,5 @@
 import { createApp, h } from 'vue';
-import { createInertiaApp, InertiaLink } from '@inertiajs/inertia-vue3';
-import { InertiaProgress } from '@inertiajs/progress';
-
-InertiaProgress.init();
+import { createInertiaApp, Head, Link } from '@inertiajs/vue3';
 
 createInertiaApp({
     // eslint-disable-next-line import/no-dynamic-require
@@ -12,7 +9,8 @@ createInertiaApp({
     }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
-            .component('InertiaLink', InertiaLink)
+            .component('InertiaHead', Head)
+            .component('InertiaLink', Link)
             .mount(el);
     }
 });
