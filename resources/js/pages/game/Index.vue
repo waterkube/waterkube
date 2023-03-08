@@ -1,5 +1,5 @@
 <template>
-    <Head :title="`Deep Sea - ${title}`" />
+    <inertia-head :title="`Deep Sea - ${title}`" />
     <div v-show="isLeftSidebarOpen || isRightSidebarOpen"
          class="bg-black bg-opacity-50 fixed inset-0 z-10 xl:hidden"
          @click="isLeftSidebarOpen = false; isRightSidebarOpen = false"></div>
@@ -77,7 +77,7 @@
             <button class="btn mt-1 xl:hidden"
                     type="button"
                     @click="isLeftSidebarOpen = false; isRightSidebarOpen = true">
-                <library-icon class="h-6 w-6" />
+                <building-library-icon class="h-6 w-6" />
             </button>
         </div>
         <div class="w-56 h-1.5 mt-1 bg-stone-700 bg-opacity-50 rounded mx-auto">
@@ -87,7 +87,7 @@
     <nav class="nav-right fixed w-80 right-0 top-0 z-30 bg-left-top bg-no-repeat transform transition-transform xl:translate-x-0"
          :class="{'translate-x-0': isRightSidebarOpen, 'translate-x-full': !isRightSidebarOpen}">
         <div class="h-16 w-64 ml-16 mb-12 text-2xl flex items-center justify-center">
-            <library-icon class="h-8 w-8 text-amber-300 mr-2" />
+            <building-library-icon class="h-8 w-8 text-amber-300 mr-2" />
             Museum
         </div>
         <div ref="rightSidebarContent" class="sidebar-content-right w-60 ml-20 relative overflow-hidden">
@@ -195,23 +195,21 @@ import {
 } from 'vue';
 
 import {
-    LibraryIcon,
+    BuildingLibraryIcon,
     PlusIcon,
     ShoppingBagIcon,
     StarIcon
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 
-import { Inertia } from '@inertiajs/inertia';
-import { Head } from '@inertiajs/inertia-vue3';
+import { router } from '@inertiajs/vue3';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 export default {
     components: {
-        LibraryIcon,
+        BuildingLibraryIcon,
         PlusIcon,
         ShoppingBagIcon,
-        StarIcon,
-        Head
+        StarIcon
     },
 
     props: {
@@ -304,7 +302,7 @@ export default {
         onMounted(() => {
             leftSidebarPs.value = new PerfectScrollbar(leftSidebarContent.value);
             rightSidebarPs.value = new PerfectScrollbar(rightSidebarContent.value);
-            reloadInterval.value = setInterval(() => Inertia.reload(), reloadTimer);
+            reloadInterval.value = setInterval(() => router.reload(), reloadTimer);
         });
 
         onUnmounted(() => {
