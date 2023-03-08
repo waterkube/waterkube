@@ -42,6 +42,7 @@ var (
 
 // Game type.
 type Game struct {
+	random                *rand.Rand
 	explorationRepository models.ExplorationRepository
 	gridRepository        models.GridRepository
 	playerRepository      models.PlayerRepository
@@ -57,6 +58,7 @@ func New(
 	playerRepository models.PlayerRepository,
 ) *Game {
 	return &Game{
+		random:                rand.New(rand.NewSource(time.Now().UnixNano())),
 		explorationRepository: explorationRepository,
 		gridRepository:        gridRepository,
 		playerRepository:      playerRepository,
@@ -81,11 +83,11 @@ func (g *Game) MapGenerate() {
 			combinable = nil
 		} else if combinableCount > 0 {
 			g.Grids[i].ArtifactType = models.Combinable
-			g.Grids[i].Artifact, combinable = randFromMap(artifact.ShallowCombinable)
+			g.Grids[i].Artifact, combinable = randFromMap(g.random, artifact.ShallowCombinable)
 			combinableCount--
 		} else {
 			g.Grids[i].ArtifactType = models.Unique
-			g.Grids[i].Artifact, _ = randFromMap(artifact.ShallowUnique)
+			g.Grids[i].Artifact, _ = randFromMap(g.random, artifact.ShallowUnique)
 		}
 	}
 
@@ -103,20 +105,20 @@ func (g *Game) MapGenerate() {
 			combinable = nil
 		} else if combinableCount > 0 {
 			g.Grids[i].ArtifactType = models.Combinable
-			g.Grids[i].Artifact, combinable = randFromMap(artifact.DeepCombinable)
+			g.Grids[i].Artifact, combinable = randFromMap(g.random, artifact.DeepCombinable)
 			combinableCount--
 		} else if legendaryCount > 0 {
 			g.Grids[i].ArtifactType = models.Legendary
-			g.Grids[i].Artifact, _ = randFromMap(artifact.LegendaryUnique)
+			g.Grids[i].Artifact, _ = randFromMap(g.random, artifact.LegendaryUnique)
 			legendaryCount--
 		} else {
 			g.Grids[i].ArtifactType = models.Unique
-			g.Grids[i].Artifact, _ = randFromMap(artifact.DeepUnique)
+			g.Grids[i].Artifact, _ = randFromMap(g.random, artifact.DeepUnique)
 		}
 	}
 
-	rand.Seed(time.Now().UnixNano())
-	rand.Shuffle(len(g.Grids), func(i, j int) {
+	g.random.Seed(time.Now().UnixNano())
+	g.random.Shuffle(len(g.Grids), func(i, j int) {
 		g.Grids[i], g.Grids[j] = g.Grids[j], g.Grids[i]
 	})
 
@@ -623,9 +625,9 @@ func (g *Game) artifactPrice(grid *models.Grid) int {
 	return artifact.DeepResult[grid.Artifact].Price
 }
 
-func randFromMap[K comparable, V any](m map[K]V) (K, V) {
-	rand.Seed(time.Now().UnixNano())
-	r := rand.Intn(len(m))
+func randFromMap[K comparable, V any](random *rand.Rand, m map[K]V) (K, V) {
+	random.Seed(time.Now().UnixNano())
+	r := random.Intn(len(m))
 	i := 0
 
 	var k K
