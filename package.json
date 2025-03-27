@@ -11,23 +11,24 @@
         "lint": "yarn eslint --ext .js,.vue ./resources/js"
     },
     "devDependencies": {
-        "@babel/eslint-parser": "^7.19",
-        "@heroicons/vue": "^2.0",
-        "@inertiajs/vue3": "^1.0",
-        "@vue/compiler-sfc": "^3.2",
-        "autoprefixer": "^10.4",
-        "eslint": "^8.34",
+        "@babel/eslint-parser": "^7.27",
+        "@heroicons/vue": "^2.2",
+        "@inertiajs/vue3": "^2.0",
+        "@tailwindcss/postcss": "^4.0",
+        "@vue/compiler-sfc": "^3.5",
+        "eslint": "^9.23",
         "eslint-config-airbnb-base": "^15.0",
-        "eslint-plugin-import": "^2.27",
-        "eslint-plugin-vue": "^9.9",
-        "glob": "^7.2",
+        "eslint-plugin-import": "^2.31",
+        "eslint-plugin-vue": "^10.0",
+        "glob": "^11.0",
+        "globals": "^16.0",
         "laravel-mix": "^6.0",
         "perfect-scrollbar": "^1.5",
-        "postcss": "^8.4",
+        "postcss": "^8.5",
         "resolve-url-loader": "^5.0",
-        "tailwindcss": "^3.2",
-        "vue": "^3.2",
-        "vue-eslint-parser": "^9.1",
-        "vue-loader": "^17.0"
+        "tailwindcss": "^4.0",
+        "vue": "^3.5",
+        "vue-eslint-parser": "^10.1",
+        "vue-loader": "^17.4"
     }
 }

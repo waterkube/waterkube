@@ -17,9 +17,14 @@ glob.sync('resources/images/**/!(favicon.ico)').map(
 );
 
 mix.options({ processCssUrls: false })
+    .webpackConfig({
+        watchOptions: {
+            ignored: /node_modules|dist|static|mix-manifest.json/
+        }
+    })
     .js('resources/js/app.js', 'static/js')
     .postCss('resources/css/app.css', 'css', [
-        require('tailwindcss')
+        require('@tailwindcss/postcss')
     ])
     .copy('resources/images/favicon.ico', 'static/favicon.ico')
     .vue()
