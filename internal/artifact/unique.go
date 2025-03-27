@@ -13,7 +13,7 @@ var ShallowUnique = map[string]*Unique{
 	"Nails": {
 		Price: 11,
 	},
-	"Scissor": {
+	"Scissors": {
 		Price: 12,
 	},
 	"Hook": {
@@ -172,7 +172,7 @@ var ShallowUnique = map[string]*Unique{
 	"Anvil": {
 		Price: 29,
 	},
-	"Binocular": {
+	"Binoculars": {
 		Price: 20,
 	},
 	"Mug": {

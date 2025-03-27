@@ -46,8 +46,8 @@
     background-image: url('../images/bicycle.png');
 }
 
-.artifact-binocular {
-    background-image: url('../images/binocular.png');
+.artifact-binoculars {
+    background-image: url('../images/binoculars.png');
 }
 
 .artifact-boot {
@@ -330,8 +330,8 @@
     background-image: url('../images/saucer.png');
 }
 
-.artifact-scissor {
-    background-image: url('../images/scissor.png');
+.artifact-scissors {
+    background-image: url('../images/scissors.png');
 }
 
 .artifact-screwdriver {
