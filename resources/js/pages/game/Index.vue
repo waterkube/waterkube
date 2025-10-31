@@ -4,7 +4,7 @@
          class="bg-black/50 fixed inset-0 z-10 xl:hidden"
          @click="isLeftSidebarOpen = false; isRightSidebarOpen = false"></div>
     <!-- eslint-disable max-len -->
-    <nav class="nav-left fixed w-80 left-0 top-0 z-30 bg-right-top bg-no-repeat transform transition-transform xl:translate-x-0"
+    <nav class="nav-left fixed w-80 left-0 top-0 z-30 bg-top-right bg-no-repeat transform transition-transform xl:translate-x-0"
          :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}">
         <div class="h-16 w-64 mb-12 text-2xl flex items-center justify-center">
             Inventory
@@ -39,7 +39,7 @@
             </div>
         </div>
     </nav>
-    <section class="sidebar fixed z-20 w-64 inset-y-0 bg-black/50 bg-right-top bg-repeat-y transform transition-transform xl:translate-x-0"
+    <section class="sidebar fixed z-20 w-64 inset-y-0 bg-black/50 bg-top-right bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isLeftSidebarOpen, '-translate-x-full': !isLeftSidebarOpen}"></section>
     <nav class="nav-top z-10 fixed h-24 left-1/2 -translate-x-1/2 bg-bottom bg-no-repeat">
         <div class="flex justify-center pt-1">
@@ -84,7 +84,7 @@
             <div class="bg-cyan-400 rounded-sm h-1.5" :style="{width: `${progress}%`}"></div>
         </div>
     </nav>
-    <nav class="nav-right fixed w-80 right-0 top-0 z-30 bg-left-top bg-no-repeat transform transition-transform xl:translate-x-0"
+    <nav class="nav-right fixed w-80 right-0 top-0 z-30 bg-top-left bg-no-repeat transform transition-transform xl:translate-x-0"
          :class="{'translate-x-0': isRightSidebarOpen, 'translate-x-full': !isRightSidebarOpen}">
         <div class="h-16 w-64 ml-16 mb-12 text-2xl flex items-center justify-center">
             <building-library-icon class="h-8 w-8 text-amber-300 mr-2" />
@@ -114,7 +114,7 @@
             </div>
         </div>
     </nav>
-    <section class="sidebar fixed z-20 w-64 right-0 inset-y-0 bg-black/50 bg-left-top bg-repeat-y transform transition-transform xl:translate-x-0"
+    <section class="sidebar fixed z-20 w-64 right-0 inset-y-0 bg-black/50 bg-top-left bg-repeat-y transform transition-transform xl:translate-x-0"
              :class="{'translate-x-0': isRightSidebarOpen, 'translate-x-full': !isRightSidebarOpen}"></section>
     <div v-if="progress < 100" class="flex pt-32">
         <div class="grid gap-1 grid-cols-12 mx-auto">
