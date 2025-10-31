@@ -1,11 +1,14 @@
 import { defineConfig } from 'eslint/config';
+import pluginVue from 'eslint-plugin-vue';
 import globals from 'globals';
-import parser from 'vue-eslint-parser';
+import vueParser from 'vue-eslint-parser';
+import parser from '@babel/eslint-parser';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import js from '@eslint/js';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { FlatCompat } from '@eslint/eslintrc';
-import pluginVue from 'eslint-plugin-vue';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,33 +28,25 @@ export default defineConfig([
             globals: {
                 ...globals.browser,
                 ...globals.commonjs,
-                ...globals.jquery,
-                ...globals.node,
-                _: 'readonly'
+                ...globals.node
             },
 
-            parser,
-            ecmaVersion: 6,
+            parser: vueParser,
             sourceType: 'module',
 
             parserOptions: {
-                parser: '@babel/eslint-parser',
+                parser,
                 requireConfigFile: false
             }
         },
 
-        settings: {
-            'import/core-modules': ['webpack']
-        },
-
         rules: {
             'arrow-parens': ['error', 'as-needed'],
+            'class-methods-use-this': 'off',
             'comma-dangle': ['error', 'never'],
             'global-require': 'off',
             'function-paren-newline': ['error', 'consistent'],
-            'import/extensions': ['error', 'never', {
-                vue: 'always'
-            }],
+            'import/extensions': ['error', 'never'],
             'import/no-unresolved': 'off',
             'import/no-extraneous-dependencies': ['error', {
                 devDependencies: true

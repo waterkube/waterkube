@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/petaki/inertia-go"
-	"github.com/petaki/support-go/mix"
+	"github.com/petaki/support-go/vite"
 	"github.com/waterkube/waterkube/internal/game"
 	"github.com/waterkube/waterkube/internal/models"
 )
@@ -14,7 +14,7 @@ type app struct {
 	url                   string
 	errorLog              *log.Logger
 	infoLog               *log.Logger
-	mixManager            *mix.Mix
+	viteManager           *vite.Vite
 	inertiaManager        *inertia.Inertia
 	gameManager           *game.Game
 	explorationRepository models.ExplorationRepository
