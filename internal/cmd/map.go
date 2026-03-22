@@ -4,21 +4,21 @@ import (
 	"fmt"
 
 	"github.com/petaki/support-go/cli"
+	"github.com/waterkube/waterkube/internal/config"
+	"github.com/waterkube/waterkube/internal/service"
 )
 
 // MapCreate function.
 func MapCreate(group *cli.Group, command *cli.Command, arguments []string) int {
-	redisURL, redisKeyPrefix := createRedisFlags(command)
-
-	_, err := command.Parse(arguments)
+	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
 		return command.PrintHelp(group)
 	}
 
-	redisPool := newRedisPool(*redisURL)
+	redisPool := service.RedisPool(appConfig)
 	defer redisPool.Close()
 
-	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+	gameManager := service.GameManager(appConfig, redisPool)
 
 	fmt.Println()
 	fmt.Println("  🐚 Creating a new " + cli.Green("map") + "...")
@@ -37,17 +37,15 @@ func MapCreate(group *cli.Group, command *cli.Command, arguments []string) int {
 
 // MapDelete function.
 func MapDelete(group *cli.Group, command *cli.Command, arguments []string) int {
-	redisURL, redisKeyPrefix := createRedisFlags(command)
-
-	_, err := command.Parse(arguments)
+	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
 		return command.PrintHelp(group)
 	}
 
-	redisPool := newRedisPool(*redisURL)
+	redisPool := service.RedisPool(appConfig)
 	defer redisPool.Close()
 
-	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+	gameManager := service.GameManager(appConfig, redisPool)
 
 	fmt.Println()
 	fmt.Println("  ❌ Deleting the " + cli.Green("map") + "...")

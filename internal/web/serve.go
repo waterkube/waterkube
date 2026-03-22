@@ -12,53 +12,30 @@ import (
 	"github.com/petaki/inertia-go"
 	"github.com/petaki/support-go/cli"
 	"github.com/petaki/support-go/vite"
-	"github.com/waterkube/waterkube/internal/game"
-	"github.com/waterkube/waterkube/internal/models"
+	"github.com/waterkube/waterkube/internal/config"
+	"github.com/waterkube/waterkube/internal/service"
 	"github.com/waterkube/waterkube/resources/views"
 	"github.com/waterkube/waterkube/static"
 )
 
 // Serve function.
-func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) {
-	viteManager, inertiaManager, err := newViteAndInertiaManager(debug, url)
+func Serve(appConfig *config.Config, redisPool *redis.Pool) {
+	viteManager, inertiaManager, err := newViteAndInertiaManager(appConfig)
 	if err != nil {
 		cli.ErrorLog.Fatal(err)
 	}
 
-	explorationRepository := &models.RedisExplorationRepository{
-		RedisPool:      redisPool,
-		RedisKeyPrefix: redisKeyPrefix,
-	}
-
-	gridRepository := &models.RedisGridRepository{
-		RedisPool:      redisPool,
-		RedisKeyPrefix: redisKeyPrefix,
-	}
-
-	playerRepository := &models.RedisPlayerRepository{
-		RedisPool:      redisPool,
-		RedisKeyPrefix: redisKeyPrefix,
-	}
-
 	webApp := &app{
-		debug:          debug,
-		url:            url,
+		appConfig:      appConfig,
 		infoLog:        cli.InfoLog,
 		errorLog:       cli.ErrorLog,
 		viteManager:    viteManager,
 		inertiaManager: inertiaManager,
-		gameManager: game.New(
-			explorationRepository,
-			gridRepository,
-			playerRepository,
-		),
-		explorationRepository: explorationRepository,
-		gridRepository:        gridRepository,
-		playerRepository:      playerRepository,
+		gameManager:    service.GameManager(appConfig, redisPool),
 	}
 
 	srv := &http.Server{
-		Addr:         addr,
+		Addr:         appConfig.Addr,
 		ErrorLog:     webApp.errorLog,
 		Handler:      webApp.routes(),
 		IdleTimeout:  time.Minute,
@@ -69,7 +46,7 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
-	webApp.infoLog.Printf("Starting server on "+cli.Green("%s"), addr)
+	webApp.infoLog.Printf("Starting server on "+cli.Green("%s"), appConfig.Addr)
 
 	go func() {
 		err = srv.ListenAndServe()
@@ -93,12 +70,12 @@ func Serve(debug bool, addr, url, redisKeyPrefix string, redisPool *redis.Pool) 
 	webApp.infoLog.Print("Server exited properly")
 }
 
-func newViteAndInertiaManager(debug bool, url string) (*vite.Vite, *inertia.Inertia, error) {
+func newViteAndInertiaManager(appConfig *config.Config) (*vite.Vite, *inertia.Inertia, error) {
 	var viteManager *vite.Vite
 	var version string
 	var err error
 
-	if debug {
+	if appConfig.Debug {
 		viteManager = vite.New("static", "build")
 	} else {
 		viteManager = vite.NewWithFS("static", "build", static.Files)
@@ -109,7 +86,7 @@ func newViteAndInertiaManager(debug bool, url string) (*vite.Vite, *inertia.Iner
 		return nil, nil, err
 	}
 
-	inertiaManager := inertia.NewWithFS(url, "app.gohtml", version, views.Templates)
+	inertiaManager := inertia.NewWithFS(appConfig.URL, "app.gohtml", version, views.Templates)
 	inertiaManager.Share("title", "Waterkube")
 	inertiaManager.ShareFunc("isRunningHot", viteManager.IsRunningHot)
 	inertiaManager.ShareFunc("asset", viteManager.Asset)
