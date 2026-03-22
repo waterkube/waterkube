@@ -5,22 +5,23 @@ import (
 	"strconv"
 
 	"github.com/petaki/support-go/cli"
+	"github.com/waterkube/waterkube/internal/config"
 	"github.com/waterkube/waterkube/internal/game"
+	"github.com/waterkube/waterkube/internal/service"
 )
 
 // SubmarineExplore function.
 func SubmarineExplore(group *cli.Group, command *cli.Command, arguments []string) int {
-	redisURL, redisKeyPrefix := createRedisFlags(command)
-
-	parsed, err := command.Parse(arguments)
+	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
 		return command.PrintHelp(group)
 	}
 
-	redisPool := newRedisPool(*redisURL)
+	parsed := command.FlagSet().Args()
+	redisPool := service.RedisPool(appConfig)
 	defer redisPool.Close()
 
-	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+	gameManager := service.GameManager(appConfig, redisPool)
 
 	fmt.Println()
 
@@ -47,17 +48,15 @@ func SubmarineExplore(group *cli.Group, command *cli.Command, arguments []string
 
 // SubmarineBuy function.
 func SubmarineBuy(group *cli.Group, command *cli.Command, arguments []string) int {
-	redisURL, redisKeyPrefix := createRedisFlags(command)
-
-	_, err := command.Parse(arguments)
+	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
 		return command.PrintHelp(group)
 	}
 
-	redisPool := newRedisPool(*redisURL)
+	redisPool := service.RedisPool(appConfig)
 	defer redisPool.Close()
 
-	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+	gameManager := service.GameManager(appConfig, redisPool)
 
 	err = gameManager.MapLoad()
 	if err != nil {

@@ -1,3 +1,4 @@
+import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { createInertiaApp, Head, Link } from '@inertiajs/vue3';
 
@@ -8,8 +9,8 @@ import.meta.glob([
 ]);
 
 createInertiaApp({
-    resolve: name => {
-        const pages = import.meta.glob('./pages/**/*.vue', { eager: true });
+    resolve: (name: string) => {
+        const pages = import.meta.glob<{ default: DefineComponent }>('./pages/**/*.vue', { eager: true });
 
         return pages[`./pages/${name}.vue`];
     },

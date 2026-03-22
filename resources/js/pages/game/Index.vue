@@ -185,14 +185,8 @@
     </footer>
 </template>
 
-<script>
-import {
-    ref,
-    toRefs,
-    computed,
-    onMounted,
-    onUnmounted
-} from 'vue';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
 
 import {
     BuildingLibraryIcon,
@@ -201,124 +195,56 @@ import {
     StarIcon
 } from '@heroicons/vue/24/outline';
 
-import { router } from '@inertiajs/vue3';
 import PerfectScrollbar from 'perfect-scrollbar';
+import type { Player, Grid, Artifact } from '../../types';
+import useLiveReload from '../../use/useLiveReload';
 
-export default {
-    components: {
-        BuildingLibraryIcon,
-        PlusIcon,
-        ShoppingBagIcon,
-        StarIcon
-    },
+const props = defineProps<{
+    title: string
+    player: Player
+    freeBoat: number
+    freeDiver: number
+    freeSubmarine: number
+    progress: number
+    cols: string[]
+    rows: number[]
+    grids: Grid[]
+    explorations: string[]
+    discoveredArtifacts: Artifact[]
+    donatedArtifacts: Artifact[]
+}>();
 
-    props: {
-        title: {
-            type: String,
-            required: true
-        },
+useLiveReload();
 
-        player: {
-            type: Object,
-            required: true
-        },
+const isLeftSidebarOpen = ref(false);
+const leftSidebarContent = ref<HTMLElement>();
+const isRightSidebarOpen = ref(false);
+const rightSidebarContent = ref<HTMLElement>();
+const letters = ref(['', ...props.cols, '']);
 
-        freeBoat: {
-            type: Number,
-            required: true
-        },
+const cellCount = computed(() => props.cols.length * props.rows.length);
 
-        freeDiver: {
-            type: Number,
-            required: true
-        },
+const hasExploration = (grid: Grid) => props.explorations
+    && props.explorations.indexOf(grid.name) !== -1;
 
-        freeSubmarine: {
-            type: Number,
-            required: true
-        },
-
-        progress: {
-            type: Number,
-            required: true
-        },
-
-        cols: {
-            type: Array,
-            required: true
-        },
-
-        rows: {
-            type: Array,
-            required: true
-        },
-
-        grids: {
-            type: Array,
-            default: () => []
-        },
-
-        explorations: {
-            type: Array,
-            default: () => []
-        },
-
-        discoveredArtifacts: {
-            type: Array,
-            default: () => []
-        },
-
-        donatedArtifacts: {
-            type: Array,
-            default: () => []
-        }
-    },
-
-    setup(props) {
-        const { cols, rows, explorations } = toRefs(props);
-        const isLeftSidebarOpen = ref(false);
-        const leftSidebarContent = ref();
-        const leftSidebarPs = ref(undefined);
-        const isRightSidebarOpen = ref(false);
-        const rightSidebarContent = ref();
-        const rightSidebarPs = ref(undefined);
-        const letters = ref(['', ...cols.value, '']);
-        const reloadInterval = ref(undefined);
-        const reloadTimer = 2500;
-
-        const cellCount = computed(() => cols.value.length * rows.value.length);
-
-        const hasExploration = grid => explorations.value
-            && explorations.value.indexOf(grid.name) !== -1;
-
-        const gridClass = grid => {
-            if (grid.status === 'undiscovered' || hasExploration(grid)) {
-                return `grid-${grid.type}`;
-            }
-
-            return 'grid-empty';
-        };
-
-        onMounted(() => {
-            leftSidebarPs.value = new PerfectScrollbar(leftSidebarContent.value);
-            rightSidebarPs.value = new PerfectScrollbar(rightSidebarContent.value);
-            reloadInterval.value = setInterval(() => router.reload(), reloadTimer);
-        });
-
-        onUnmounted(() => {
-            clearInterval(reloadInterval.value);
-        });
-
-        return {
-            isLeftSidebarOpen,
-            isRightSidebarOpen,
-            leftSidebarContent,
-            rightSidebarContent,
-            letters,
-            cellCount,
-            hasExploration,
-            gridClass
-        };
+const gridClass = (grid: Grid) => {
+    if (grid.status === 'undiscovered' || hasExploration(grid)) {
+        return `grid-${grid.type}`;
     }
+
+    return 'grid-empty';
 };
+
+const leftSidebarPs = ref<PerfectScrollbar>();
+const rightSidebarPs = ref<PerfectScrollbar>();
+
+onMounted(() => {
+    if (leftSidebarContent.value) {
+        leftSidebarPs.value = new PerfectScrollbar(leftSidebarContent.value);
+    }
+
+    if (rightSidebarContent.value) {
+        rightSidebarPs.value = new PerfectScrollbar(rightSidebarContent.value);
+    }
+});
 </script>

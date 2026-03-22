@@ -4,21 +4,22 @@ import (
 	"fmt"
 
 	"github.com/petaki/support-go/cli"
+	"github.com/waterkube/waterkube/internal/config"
+	"github.com/waterkube/waterkube/internal/service"
 )
 
 // ArtifactCombine function.
 func ArtifactCombine(group *cli.Group, command *cli.Command, arguments []string) int {
-	redisURL, redisKeyPrefix := createRedisFlags(command)
-
-	parsed, err := command.Parse(arguments)
+	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
 		return command.PrintHelp(group)
 	}
 
-	redisPool := newRedisPool(*redisURL)
+	parsed := command.FlagSet().Args()
+	redisPool := service.RedisPool(appConfig)
 	defer redisPool.Close()
 
-	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+	gameManager := service.GameManager(appConfig, redisPool)
 
 	err = gameManager.MapLoad()
 	if err != nil {
@@ -42,17 +43,16 @@ func ArtifactCombine(group *cli.Group, command *cli.Command, arguments []string)
 
 // ArtifactDonate function.
 func ArtifactDonate(group *cli.Group, command *cli.Command, arguments []string) int {
-	redisURL, redisKeyPrefix := createRedisFlags(command)
-
-	parsed, err := command.Parse(arguments)
+	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
 		return command.PrintHelp(group)
 	}
 
-	redisPool := newRedisPool(*redisURL)
+	parsed := command.FlagSet().Args()
+	redisPool := service.RedisPool(appConfig)
 	defer redisPool.Close()
 
-	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+	gameManager := service.GameManager(appConfig, redisPool)
 
 	fmt.Println()
 
@@ -79,17 +79,16 @@ func ArtifactDonate(group *cli.Group, command *cli.Command, arguments []string) 
 
 // ArtifactSell function.
 func ArtifactSell(group *cli.Group, command *cli.Command, arguments []string) int {
-	redisURL, redisKeyPrefix := createRedisFlags(command)
-
-	parsed, err := command.Parse(arguments)
+	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
 		return command.PrintHelp(group)
 	}
 
-	redisPool := newRedisPool(*redisURL)
+	parsed := command.FlagSet().Args()
+	redisPool := service.RedisPool(appConfig)
 	defer redisPool.Close()
 
-	gameManager := newGameManager(*redisKeyPrefix, redisPool)
+	gameManager := service.GameManager(appConfig, redisPool)
 
 	fmt.Println()
 
