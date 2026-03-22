@@ -73,7 +73,7 @@ func (g *Game) MapGenerate() {
 	var combinable *artifact.Combinable
 	combinableCount := ShallowCombinableCount
 
-	for i := 0; i < ShallowCount; i++ {
+	for i := range ShallowCount {
 		g.Grids[i] = models.NewGrid()
 		g.Grids[i].Type = models.Shallow
 
