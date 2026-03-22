@@ -28,7 +28,7 @@ func (a *app) gameIndex(w http.ResponseWriter, r *http.Request) {
 
 	freeBoat, freeDiver, freeSubmarine := a.gameManager.FreeUnits()
 
-	err = a.inertiaManager.Render(w, r, "game/Index", map[string]interface{}{
+	err = a.inertiaManager.Render(w, r, "game/Index", map[string]any{
 		"player":              a.gameManager.Player,
 		"freeBoat":            freeBoat,
 		"freeDiver":           freeDiver,
