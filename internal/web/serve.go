@@ -72,21 +72,19 @@ func Serve(appConfig *config.Config, redisPool *redis.Pool) {
 
 func newViteAndInertiaManager(appConfig *config.Config) (*vite.Vite, *inertia.Inertia, error) {
 	var viteManager *vite.Vite
-	var version string
-	var err error
 
 	if appConfig.Debug {
 		viteManager = vite.New("static", "build")
 	} else {
-		viteManager = vite.NewWithFS("static", "build", static.Files)
+		viteManager = vite.New("static", "build", static.Files)
 	}
 
-	version, err = viteManager.ManifestHash()
+	version, err := viteManager.ManifestHash()
 	if err != nil {
 		return nil, nil, err
 	}
 
-	inertiaManager := inertia.NewWithFS(appConfig.URL, "app.gohtml", version, views.Templates)
+	inertiaManager := inertia.New(appConfig.URL, "app.gohtml", version, views.Templates)
 	inertiaManager.Share("title", "Waterkube")
 	inertiaManager.ShareFunc("isRunningHot", viteManager.IsRunningHot)
 	inertiaManager.ShareFunc("asset", viteManager.Asset)

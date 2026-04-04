@@ -1,5 +1,3 @@
-import type { DefineComponent } from 'vue';
-import { createApp, h } from 'vue';
 import { createInertiaApp, Head, Link } from '@inertiajs/vue3';
 
 import '../css/app.css';
@@ -9,18 +7,10 @@ import.meta.glob([
 ]);
 
 createInertiaApp({
-    resolve: (name: string) => {
-        const pages = import.meta.glob<{ default: DefineComponent }>('./pages/**/*.vue', { eager: true });
-
-        return pages[`./pages/${name}.vue`];
-    },
-    setup({
-        el, App, props, plugin
-    }) {
-        createApp({ render: () => h(App, props) })
-            .use(plugin)
+    pages: './pages',
+    withApp(app) {
+        app
             .component('InertiaHead', Head)
-            .component('InertiaLink', Link)
-            .mount(el);
+            .component('InertiaLink', Link);
     }
 });
