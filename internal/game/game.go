@@ -1,6 +1,7 @@
 package game
 
 import (
+	"errors"
 	"math/rand"
 	"sort"
 	"strconv"
@@ -156,7 +157,7 @@ func (g *Game) MapLoad() error {
 	}
 
 	grids := g.newGrids()
-	var explorations []string
+	explorations := []string{}
 
 	for _, row := range Rows {
 		for i, col := range Cols {
@@ -167,14 +168,16 @@ func (g *Game) MapLoad() error {
 
 			grids[row*len(Cols)+i] = grid
 
-			exploration, err := g.explorationRepository.Find(grid)
+			_, err = g.explorationRepository.Find(grid)
 			if err != nil {
-				continue
+				if errors.Is(err, models.ErrNoRecord) {
+					continue
+				}
+
+				return err
 			}
 
-			if exploration != nil {
-				explorations = append(explorations, grid.Name)
-			}
+			explorations = append(explorations, grid.Name)
 		}
 	}
 
@@ -247,7 +250,7 @@ func (g *Game) FreeUnits() (int, int, int) {
 
 // DiscoveredArtifacts function.
 func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
-	var discoveredArtifacts []*artifact.Artifact
+	discoveredArtifacts := []*artifact.Artifact{}
 	var artifactNames []string
 
 	for _, grid := range g.Grids {
@@ -282,7 +285,7 @@ func (g *Game) DiscoveredArtifacts() []*artifact.Artifact {
 
 // DonatedArtifacts function.
 func (g *Game) DonatedArtifacts() []*artifact.Artifact {
-	var donatedArtifacts []*artifact.Artifact
+	donatedArtifacts := []*artifact.Artifact{}
 	var artifactNames []string
 
 	for _, grid := range g.Grids {

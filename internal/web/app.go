@@ -3,10 +3,10 @@ package web
 import (
 	"log"
 
+	"github.com/gomodule/redigo/redis"
 	"github.com/petaki/inertia-go"
 	"github.com/petaki/support-go/vite"
 	"github.com/waterkube/waterkube/internal/config"
-	"github.com/waterkube/waterkube/internal/game"
 )
 
 type app struct {
@@ -15,5 +15,5 @@ type app struct {
 	infoLog        *log.Logger
 	viteManager    *vite.Vite
 	inertiaManager *inertia.Inertia
-	gameManager    *game.Game
+	redisPool      *redis.Pool
 }

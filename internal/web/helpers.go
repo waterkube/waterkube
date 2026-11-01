@@ -13,6 +13,7 @@ func (a *app) serverError(w http.ResponseWriter, err error) {
 
 	if a.appConfig.Debug {
 		http.Error(w, trace, http.StatusInternalServerError)
+
 		return
 	}
 

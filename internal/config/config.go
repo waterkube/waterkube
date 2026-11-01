@@ -1,8 +1,6 @@
 package config
 
 import (
-	"os"
-
 	"github.com/petaki/support-go/cli"
 )
 
@@ -17,11 +15,11 @@ type Config struct {
 
 // NewConfig function.
 func NewConfig(command *cli.Command, arguments []string) (*Config, error) {
-	debug := command.FlagSet().Bool("debug", false, "Application Debug Mode")
-	addr := command.FlagSet().String("addr", os.Getenv("APP_ADDR"), "Application Address")
-	url := command.FlagSet().String("url", os.Getenv("APP_URL"), "Application URL")
-	redisURL := command.FlagSet().String("redis-url", os.Getenv("REDIS_URL"), "Redis URL")
-	redisKeyPrefix := command.FlagSet().String("redis-key-prefix", os.Getenv("REDIS_KEY_PREFIX"), "Redis Key Prefix")
+	debug := command.Bool("debug", "APP_DEBUG", false, "Application Debug Mode")
+	addr := command.String("addr", "APP_ADDR", ":4000", "Application Address")
+	url := command.String("url", "APP_URL", "", "Application URL")
+	redisURL := command.Secret("redis-url", "REDIS_URL", "Redis URL")
+	redisKeyPrefix := command.String("redis-key-prefix", "REDIS_KEY_PREFIX", "", "Redis Key Prefix")
 
 	_, err := command.Parse(arguments)
 	if err != nil {

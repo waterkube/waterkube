@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 
@@ -14,7 +15,7 @@ import (
 func SubmarineExplore(group *cli.Group, command *cli.Command, arguments []string) int {
 	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
-		return command.PrintHelp(group)
+		return command.PrintErrorWithHelp(group, err)
 	}
 
 	parsed := command.FlagSet().Args()
@@ -50,7 +51,7 @@ func SubmarineExplore(group *cli.Group, command *cli.Command, arguments []string
 func SubmarineBuy(group *cli.Group, command *cli.Command, arguments []string) int {
 	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
-		return command.PrintHelp(group)
+		return command.PrintErrorWithHelp(group, err)
 	}
 
 	redisPool := service.RedisPool(appConfig)
@@ -65,7 +66,7 @@ func SubmarineBuy(group *cli.Group, command *cli.Command, arguments []string) in
 
 	err = gameManager.SubmarineBuy()
 	if err != nil {
-		if err == game.ErrNoMoney {
+		if errors.Is(err, game.ErrNoMoney) {
 			fmt.Println("  🚫 You need " + cli.Yellow("$") + cli.Green(strconv.Itoa(game.SubmarinePrice)))
 
 			return cli.Failure
