@@ -1,6 +1,8 @@
 export interface Player {
     money: number
-    inventory: number
+    boat_count: number
+    diver_count: number
+    submarine_count: number
 }
 
 export interface Grid {

@@ -12,7 +12,7 @@ import (
 func ArtifactCombine(group *cli.Group, command *cli.Command, arguments []string) int {
 	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
-		return command.PrintHelp(group)
+		return command.PrintErrorWithHelp(group, err)
 	}
 
 	parsed := command.FlagSet().Args()
@@ -45,7 +45,7 @@ func ArtifactCombine(group *cli.Group, command *cli.Command, arguments []string)
 func ArtifactDonate(group *cli.Group, command *cli.Command, arguments []string) int {
 	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
-		return command.PrintHelp(group)
+		return command.PrintErrorWithHelp(group, err)
 	}
 
 	parsed := command.FlagSet().Args()
@@ -81,7 +81,7 @@ func ArtifactDonate(group *cli.Group, command *cli.Command, arguments []string) 
 func ArtifactSell(group *cli.Group, command *cli.Command, arguments []string) int {
 	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
-		return command.PrintHelp(group)
+		return command.PrintErrorWithHelp(group, err)
 	}
 
 	parsed := command.FlagSet().Args()

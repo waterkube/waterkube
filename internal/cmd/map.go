@@ -12,7 +12,7 @@ import (
 func MapCreate(group *cli.Group, command *cli.Command, arguments []string) int {
 	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
-		return command.PrintHelp(group)
+		return command.PrintErrorWithHelp(group, err)
 	}
 
 	redisPool := service.RedisPool(appConfig)
@@ -39,7 +39,7 @@ func MapCreate(group *cli.Group, command *cli.Command, arguments []string) int {
 func MapDelete(group *cli.Group, command *cli.Command, arguments []string) int {
 	appConfig, err := config.NewConfig(command, arguments)
 	if err != nil {
-		return command.PrintHelp(group)
+		return command.PrintErrorWithHelp(group, err)
 	}
 
 	redisPool := service.RedisPool(appConfig)

@@ -10,9 +10,9 @@ func TestMapGenerate(t *testing.T) {
 		t.Error("missing player")
 	}
 
-	for _, grid := range game.Grids {
+	for i, grid := range game.Grids {
 		if grid == nil {
-			t.Errorf("missing grid: %s", grid.Name)
+			t.Errorf("missing grid: %d", i)
 		}
 	}
 }
